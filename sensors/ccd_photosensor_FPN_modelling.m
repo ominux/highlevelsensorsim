@@ -30,10 +30,6 @@ function ccd = ccd_photosensor_FPN_modelling(ccd)
     end
 
 
-    if (ccd.flag.PRNU == 1)
-        ccd.FPN.pixelLight = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel');
-    end
-
     
 %%%%##### Section: Column FPN model - CMOS only!
 	if (strcmp('CMOS',ccd.SensorType) == 1)

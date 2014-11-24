@@ -20,4 +20,9 @@
 % ======================================================================
 function sensor_signal_out = ccd_photosensor_photonshotnoise(sensor_signal_in)
 
+%%% Since this is a shot noise, it must be random every time we apply it, unlike the Fixed Pattern Noise (PRNU or DSNU).
+                    rand('state', sum(100*clock));
+                    randn('state', sum(100*clock));
+
+%%% Apply the Poisson noise to the signal.
 sensor_signal_out  = poissrnd(sensor_signal_in); %%% signal must be in PHOTONS - and it must be round numbers.

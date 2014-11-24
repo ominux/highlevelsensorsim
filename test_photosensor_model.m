@@ -59,7 +59,7 @@ lambda = 550*10^(-9); % optical wavelength [m]
 	ccd.k1			= 10.909*10^(-15); %% a constant;
 
 	ccd.A_SN		= 5*10^(-6); %% Sense node gain, A_SN [V/e]
-	ccd.Eg_0		= 1.1557; %% bandgap energy for 0 K. [For Silicon, eV]
+	ccd.Eg_0		= 1.1557; %% bandgap energy for 0 degrees of K. [For Silicon, eV]
 	ccd.alpha		= 7.021*10^(-4); %% material parameter, [eV/K].
 	ccd.beta		= 1108; %% material parameter, [K].
     
@@ -87,7 +87,7 @@ lambda = 550*10^(-9); % optical wavelength [m]
 
 
 %%%% <----- ### Start:: ADC Subsection
- 	ccd.N_bits		= 16; %% noise is more apparent on high Bits
+ 	ccd.N_bits		= 12; %% noise is more apparent on high Bits
 
     ccd.S_ADC_OFFSET	= 0; %%% Offset of the ADC, in DN
 
@@ -108,6 +108,7 @@ ccd.flag.PRNU			= 1;
  	ccd.noise.FPN.model	= 'Janesick-Gaussian';
  	ccd.PRNU_factor		= 0.01;  %% PRNU factor in percent [typically about 1\% for CCD and up to 5% for CMOS];
 
+    
 %% Dark noises
 ccd.flag.darkcurrent		= 1;
 	ccd.T			= 300; %% operating temperature, [K]
@@ -120,12 +121,13 @@ ccd.flag.darkcurrent_Dshot	= 1;
 
 ccd.flag.darkcurrent_DarkFPN_pixel = 1;
 if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
-	ccd.noise.FPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
+
+    ccd.noise.FPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
+
+ 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
 %  	ccd.noise.FPN.model	= 'AR-ElGamal';
 %  	ccd.noise.FPN.ar_elgamal= [1 0.5];
-
- 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
 % 	ccd.noise.FPN.model	= 'Wald';
 % 	ccd.noise.FPN.wald_parameter = 2; %% small parameters (w<1) produces estremely narrow distribution, large parameters (w>10) produces distribution with large tail.
@@ -163,12 +165,12 @@ ccd.flag.sensenoderesetnoise	= 1; %%%<----
 %%%## Subsection: Sensor noises and signal visualisators
 ccd.flag.plots.irradiance	= 1;
 ccd.flag.plots.electrons	= 1;
-ccd.flag.plots.volts		= 1;
-ccd.flag.plots.DN		= 1;
+ccd.flag.plots.volts		= 0;
+ccd.flag.plots.DN		= 0;
 %%%## Subsection: Sensor noises and signal visualisators
 
 ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
-
+ccd.flag.darkframe = 0;
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
 
 

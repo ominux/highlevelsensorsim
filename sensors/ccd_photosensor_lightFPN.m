@@ -1,6 +1,5 @@
 %> @file ccd_photosensor_lightFPN.m
 %> @brief This routine performs initial conversion of the light from the irradiance and photons to electrons.
-%> @todo: make the Photon Shot Noise selectable and turn it on/off
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011
 %>
@@ -21,8 +20,16 @@
 % ======================================================================
 function ccd = ccd_photosensor_lightFPN(ccd)
 
-%%%%%%%%%% Section: Fixed Pattern NOISE
-ccd = ccd_photosensor_FPN_modelling(ccd); %% call the function to calculate the AR(1) FPN model
+[sensor_signal_rows, sensor_signal_columns] = size(ccd.Signal_CCD_electrons);
 
-ccd.Signal_CCD_electrons = ccd.Signal_CCD_electrons.*(1 + (ccd.FPN.pixelLight)*(ccd.PRNU_factor)); %% add pixel FPN dark noise.
-%%%%%%%%%% END: Section: Fixed Pattern  NOISE
+
+%%% the random generator will be fixed on seed 362436069
+                    rand( 'state', 362436069); %%% Fix the state of the rand  random generator
+                    randn('state', 362436069); %%% Fix the state of the randn random generator
+% % % % %                     rand('state', sum(100*clock));
+% % % % %                     randn('state', sum(100*clock));
+
+ccd.FPN.pixelLight = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel'); %% getting the matrix for the PRNU
+
+
+ccd.Signal_CCD_electrons = ccd.Signal_CCD_electrons.*(1 + (ccd.FPN.pixelLight)*(ccd.PRNU_factor)); %% apply the PRNU noise to the light signal of the photosensor.

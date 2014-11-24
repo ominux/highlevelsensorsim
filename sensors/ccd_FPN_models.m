@@ -92,10 +92,9 @@ switch ccd.noise.FPN.model
 	case 'LogNormal' %% runnig El Gamal white noise Autoregressive noise model.
 	    if strcmp(noisetype, 'pixel')
 		noiseout = stat_randraw('lognorm',[ccd.noise.FPN.lognorm_parameter(1), ccd.noise.FPN.lognorm_parameter(2)],[sensor_signal_rows, sensor_signal_columns]);;
+        end
 
-
-	    end
-	    if strcmp(noisetype, 'column')
+        if strcmp(noisetype, 'column')
 		x = stat_randraw('lognorm',[ccd.noise.FPN.lognorm_parameter(1), ccd.noise.FPN.lognorm_parameter(2)],[1, sensor_signal_columns]);
 		noiseout = repmat(x,sensor_signal_rows,1); %% making PRNU as a ROW-repeated noise, just like light FPN
 	    end

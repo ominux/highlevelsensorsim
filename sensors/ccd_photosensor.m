@@ -27,75 +27,58 @@ c = 2.99792458*10^8; %% speed of light, in [m/s].
 
 %%%%%%%%#### Section: complete darkness
 if (ccd.flag.darkframe == 1)
-	ccd.Signal_CCD_electrons = zeros(size(Uin));
-else 
+
+    
+    ccd.Signal_CCD_electrons = zeros(size(Uin));
 %%%%%%%%#### END Section: complete darkness
 
+else %% if we don't measure the dark frame
+
+           
+    %%%%% Calculating the area of the pixel (in [m^2]).
+    if (strcmp('CMOS',ccd.SensorType) == 1)
+        PA = ccd.FillFactor*ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area [m^2].
+    else
+        PA = ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area, [m^2].
+    end
+    %%%%% END:: Calculating the area of the pixel (in [m^2]).
+
+
+
+
+    %%%% Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
+    ccd.Uin_irradiance =  PA * abs(Uin).^2;  %% Converting to radiant flux per pixel in [W].
+
+    P_photon = (h*c)/lambda;   %% Power of a single photon, in [Joule = Watt*s]
+    ccd.Signal_CCD_photons = round(ccd.Uin_irradiance * ccd.t_I / P_photon); %% the result is the average number of photons (rounded).
+    %%%% END:: Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
+
+
+
+
+    %%%%%%%%%%%######       Section: Photon Shot Noise
+    if (ccd.flag.photonshotnoise == 1)
+        ccd.Signal_CCD_photons = ccd_photosensor_photonshotnoise(ccd.Signal_CCD_photons);     %%% adding the Photon Shot noise to the Signal_CCD_photons.
+    end
+    %%%%%%%%%%%######### END Section: Photon Shot Noise
+
+
+
+    %%%%%%% Converting the signal from Photons to Electrons:
+    QE = (ccd.QE_I)*(ccd.QuantumYield);  %% Quantum Efficiency = Quantum Efficiency Interaction X Quantum Yield Gain.
     
-    
-    
-%%%%% Calculating the area of the pixel (in [m^2]).
-if (strcmp('CMOS',ccd.SensorType) == 1)
-	PA = ccd.FillFactor*ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area [m^2].
-else
-	PA = ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area, [m^2].
-end %% if (strcmp('CMOS',ccd.SensorType) == 1)
-%%%%% END:: Calculating the area of the pixel (in [m^2]).
+    ccd.Signal_CCD_electrons = ccd.Signal_CCD_photons*QE; %% output signal of the CCD in electrons [e]
 
 
 
-
-%%%% Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
-ccd.Uin_irradiance =  PA * abs(Uin).^2;  %% Converting to radiant flux per pixel in [W].
-
-P_photon = (h*c)/lambda;   %% Power of a single photon, in [Joule = Watt*s]
-ccd.Signal_CCD_photons = round(ccd.Uin_irradiance*ccd.t_I/P_photon); %% the result is the average number of photons (rounded).
-%%%% END:: Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
-
-
-
-
-
-
-%%%%%%%%%%%######       Section: Photon Shot Noise
-if (ccd.flag.photonshotnoise == 1)
-    ccd.Signal_CCD_photons = ccd_photosensor_photonshotnoise(ccd.Signal_CCD_photons);     %%% adding the Photon Shot noise to the Signal_CCD_photons.
-end
-%%%%%%%%%%%######### END Section: Photon Shot Noise
-
-
-
-
-%%%%%%% Converting the signal from Photons to Electrons:
-	QE = (ccd.QE_I)*(ccd.QuantumYield);  %% Quantum Efficiency = Quantum Efficiency Interaction X Quantum Yield Gain.
-	ccd.Signal_CCD_electrons = ccd.Signal_CCD_photons*QE; %% output signal of the CCD in electrons [e]
-
-    
-    
     %%%%%%%%%%%#####      Section: Photo Response Non-Uniformity
     if (ccd.flag.PRNU == 1)
-        ccd = ccd_photosensor_lightFPN(ccd); %%introducing the PRNU that is QE non-uniformity
+       ccd = ccd_photosensor_lightFPN(ccd); %%introducing the PRNU that is QE non-uniformity
     end
     %%%%%%%%%%%####### END Section: Photo Response Non-Uniformity
 
-    
+      
 end %%%if (ccd.flag.darkframe == 1)
-
-
-
-
-
-
-%%%%%%%%%%%######### Full-well checkup (if there more electrons than depth of the pixel - saturate the pixel)
-idx = (ccd.Signal_CCD_electrons>=ccd.FW_e); %%% find all of pixels that are saturated (there are more electrons that full-well of the pixel)
-ccd.Signal_CCD_electrons(idx) = ccd.FW_e;  %% saturate the pixel if there are more electrons than full-well.
-
-idx = (ccd.Signal_CCD_electrons<0); %%% find all of pixels that are less than zero
-ccd.Signal_CCD_electrons(idx) = 0; %%% truncate pixels that are less than zero to zero. (there no negative electrons).
-%%%%%%%%%%%######### END Full-well checkup
-
-
-ccd.Signal_CCD_electrons = floor(ccd.Signal_CCD_electrons);  %% round the number of electrons.
 
 
 
@@ -111,13 +94,26 @@ end
 %%%%%%%%####### END Section: adding dark current noise
 
 
+  
+%%%%%%%%%%%######### Full-well checkup (if there more electrons than depth of the pixel - saturate the pixel)
+    idx = (ccd.Signal_CCD_electrons>=ccd.FW_e); %%% find all of pixels that are saturated (there are more electrons that full-well of the pixel)
+    ccd.Signal_CCD_electrons(idx) = ccd.FW_e;  %% saturate the pixel if there are more electrons than full-well.
 
+    idx = (ccd.Signal_CCD_electrons<0); %%% find all of pixels that are less than zero
+    ccd.Signal_CCD_electrons(idx) = 0; %%% truncate pixels that are less than zero to zero. (there no negative electrons).
+
+    ccd.Signal_CCD_electrons = floor(ccd.Signal_CCD_electrons);  %% round the number of electrons.        
+%%%%%%%%%%%######### END Full-well checkup
+
+    
 
 
 
 %%%%%%%%####### Section: Node sensing - charge-to-voltage conversion
 ccd = ccd_sense_node_chargetovoltage(ccd); %%% Charge-to-Voltage conversion by Sense Node
+
 ccd = ccd_source_follower(ccd); %%% Signal's Voltage amplification by Source Follower
+
 ccd = ccd_cds(ccd); %%% Signal's amplification and denoising by Correlated Double Sampling
 %%%%%%%%####### END Section: Node sensing - charge-to-voltage conversion
 
