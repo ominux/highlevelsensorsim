@@ -28,8 +28,9 @@ if (ccd.flag.darkframe == 1)
 	ccd.Signal_CCD_electrons = zeros(size(Uout));
 %%%%%%%%#### END Section: complete darkness
 else 
+    
 %%%% Calculation of intensity of the light field.
-Uout_irradiance = real(abs(Uout).^2);
+Uout_irradiance =  abs(Uout).^2;
 %%%%%%%%#### Section: Illumination and propagation
 
 P_photon = (h*c)/lambda;   %% Power of a single photon, in [Joule = Watt*s]

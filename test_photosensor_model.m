@@ -33,17 +33,10 @@ addpath('sensors', 'propagation');
 %%%%%%%%#### Section: selectable parameters
 
 %%%%%%%%#### Subsection: Irradiance parameters
-D				= 10^(-3);   % diameter of the observation aperture [m]
-N 				= 1024;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
-%  grid_sense_observation 		= 800; %observation-plane grid spacing density - this is for increasing/descreasing the size of the square field with light %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
-grid_sense_observation 		= 850;
-Delta_zet 			= 1;     % propagation distance [m] %% do not changes the size of the spot.
-lambda		= 550*10^(-9); % optical wavelength [m]
-Irradiance_attenuation 		= 10^(-1); %% attenuate the irradiance of the surface;
+N      = 512;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
+lambda = 550*10^(-9); % optical wavelength [m]
 %%%%%%%%#### END Subsection: Irradiance parameters
 
-ccd.flag.darkframe 		= 0; %%%%%%%%%%% DARK NOISE EXPERIMENTS ONLY
-ccd.flag.PRNUmeaserements	= 0; %%%%%%%%%%% PRNU NOISE EXPERIMENTS ONLY
 
 %%%%%%%%## Subsection: General photosensor settings
 %  	ccd.SensorType		= 'CCD';
@@ -69,6 +62,7 @@ ccd.flag.PRNUmeaserements	= 0; %%%%%%%%%%% PRNU NOISE EXPERIMENTS ONLY
 	ccd.Eg_0		= 1.1557; %% bandgap energy for 0 K. [For Silicon, eV]
 	ccd.alpha		= 7.021*10^(-4); %% material parameter, [eV/K].
 	ccd.beta		= 1108; %% material parameter, [K].
+    
 	ccd.FW_e		= 2*10^4; %% full well of the pixel (how many electrons can be stored in one pixel), [e]
 
 
@@ -131,10 +125,10 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 %  	ccd.noise.FPN.model	= 'AR-ElGamal';
 %  	ccd.noise.FPN.ar_elgamal= [1 0.5];
 
-%  	ccd.noise.FPN.model	= 'Janesick-Gaussian';
+ 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
-	ccd.noise.FPN.model	= 'Wald';
-	ccd.noise.FPN.wald_parameter = 2; %% small parameters (w<1) produces estremely narrow distribution, large parameters (w>10) produces distribution with large tail.
+% 	ccd.noise.FPN.model	= 'Wald';
+% 	ccd.noise.FPN.wald_parameter = 2; %% small parameters (w<1) produces estremely narrow distribution, large parameters (w>10) produces distribution with large tail.
 
 %  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
 %  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
@@ -175,40 +169,39 @@ ccd.flag.plots.DN		= 1;
 
 ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
 
+ccd.flag.darkframe 		= 0; %%%%%%%%%%% DARK NOISE EXPERIMENTS ONLY
+ccd.flag.PRNUmeaserements	= 0; %%%%%%%%%%% PRNU NOISE EXPERIMENTS ONLY
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
 
 
 if (ccd.flag.darkframe == 0)
-%%%%%%%%#### Section: Illumination and propagation
-k = 2*pi/lambda; % optical wavenumber [rad/m]
-arg = D/(lambda*Delta_zet);
-delta1 = 1/(10*arg); % source-plane grid spacing [m]
-delta2 = D/grid_sense_observation; % observation-plane grid spacing [m]
+%%%%%%%%#### Section: Illumination
+Irradiance_coeff = 0.1; %% Attenuation coefficient for the Irradiance map [Watt/m^2]
+Uout = Irradiance_coeff *ones(N);
 
-[x1 y1] = meshgrid((-N/2 : N/2-1) * delta1); % source-plane coordinates
-[theta1 r1] = cart2pol(x1, y1);
-
-A = Irradiance_attenuation*lambda * Delta_zet;    % sets field amplitude to 1 in obs plane
-pt = A * exp(-i*k/(2*Delta_zet) * r1.^2) * arg^2 .* sinc(arg*x1) .* sinc(arg*y1) .* exp(-(arg/4*r1).^2); %% sin-Gaussian point source.
-
-[Uout x2 y2] = prop_fresnel_angular_spectrum(pt, lambda, delta1, delta2, Delta_zet); %% Listing 6.9 Example of propagating a sinc-Gaussian model point source in M ATLAB using the angular-spectrum method. Uout is the pure light field from the Lambertian source.
+Uout = Uout.*prop_absorbing_window_supergaussian(N, 6, 0.4);
 %%%%%%%%#### END Section: Illumination and propagation
 
 
 	%%%%%%%%%%%% Visualisation subsection.
 	if (ccd.flag.plots.irradiance == 1)
-	Uout_irradiance=real(abs(Uout).^2);
+	Uout_irradiance = abs(Uout).^2;
+    
 	figure, imagesc(Uout_irradiance), title('Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]'); %% Irradiance map of the light field.
 
-%  	figure, plot(Uout_irradiance(N/2,1:N)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]'), axis([0 1000 0 1.01]);  %% the profile of the Irradiance
-	figure, plot(Uout_irradiance(N/2,1:N)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance
-	end
+	figure, plot(Uout_irradiance(round(N/2),1:N)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance
+
+    end
 	%%%%%%%%%%%% Visualisation subsection.
 
 else
 Uout = zeros(N);
 
-end   %%%%%  if (ccd.flag.darkframe == 1)
+end%% if (ccd.flag.darkframe == 1)
+
+
+% break %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%####### Starting to sense the ligh field with photosensor
