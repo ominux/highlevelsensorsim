@@ -169,33 +169,39 @@ ccd.flag.plots.DN		= 1;
 
 ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
 
-ccd.flag.darkframe 		= 0; %%%%%%%%%%% DARK NOISE EXPERIMENTS ONLY
-ccd.flag.PRNUmeaserements	= 0; %%%%%%%%%%% PRNU NOISE EXPERIMENTS ONLY
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
 
 
-if (ccd.flag.darkframe == 0)
-%%%%%%%%#### Section: Illumination
-Irradiance_coeff = 0.1; %% Attenuation coefficient for the Irradiance map [Watt/m^2]
-Uout = Irradiance_coeff *ones(N);
 
-Uout = Uout.*prop_absorbing_window_supergaussian(N, 6, 0.4);
+
+
+
+
+
+
+
+if (ccd.flag.darkframe == 0)
+
+%%%%%%%%#### Section: Illumination
+amplitude_coeff = 0.1;
+
+Uin = amplitude_coeff*ones(N).*prop_absorbing_window_supergaussian(N, 6, 0.4); %% input (source) optical field, possibly a complex matrix.
 %%%%%%%%#### END Section: Illumination and propagation
 
 
 	%%%%%%%%%%%% Visualisation subsection.
 	if (ccd.flag.plots.irradiance == 1)
-	Uout_irradiance = abs(Uout).^2;
+	Uin_irradiance = abs(Uin).^2; %% computing the Irradiance [W/m^2] of the input optical field Uin.
     
-	figure, imagesc(Uout_irradiance), title('Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]'); %% Irradiance map of the light field.
+	figure, imagesc(Uin_irradiance), title('Irradiance map of the light field [W/m^2].'); %% Irradiance map of the optical field.
+	figure, plot(Uin_irradiance(round(N/2),1:N)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance map
 
-	figure, plot(Uout_irradiance(round(N/2),1:N)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance
-
-    end
+    end %% if (ccd.flag.plots.irradiance
 	%%%%%%%%%%%% Visualisation subsection.
 
 else
-Uout = zeros(N);
+
+    Uin = zeros(N);
 
 end%% if (ccd.flag.darkframe == 1)
 
@@ -205,7 +211,7 @@ end%% if (ccd.flag.darkframe == 1)
 
 
 %%%%%%%%####### Starting to sense the ligh field with photosensor
-ccd = ccd_photosensor(Uout,lambda, ccd); %% here the Photon-to-electron conversion occurred.
+ccd = ccd_photosensor(Uin,lambda, ccd); %% here the Photon-to-electron conversion occurred.
 %%%%%%%%####### END: sense the ligh field with photosensor
 
 %%%%%%%%%%%% Visualisation subsection.

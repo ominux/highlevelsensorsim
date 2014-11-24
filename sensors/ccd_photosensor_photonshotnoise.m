@@ -21,4 +21,3 @@
 function signal = ccd_photosensor_photonshotnoise(sensor_signal)
 
 signal = poissrnd(sensor_signal); %%% signal must be in PHOTONS - and it must be round numbers.
-%% shot noise is proportional to SQUARE ROOT of the signal.

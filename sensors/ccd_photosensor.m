@@ -1,6 +1,5 @@
 %> @file ccd_photosensor.m
 %> @brief This routine performs initial conversion of the light from the irradiance and photons to electrons.
-%> @todo: make the Photon Shot Noise selectable and turn it on/off
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011
 %> @section ccdphotosensor Convesrion from photons to electrons.
@@ -16,63 +15,74 @@
 %>
 %> @retval ccd 		= structure with new variable @b Signal_CCD_electrons signal of the photosensor in electrons [matrix NxM], [e].
 % ======================================================================
-function ccd = ccd_photosensor(Uout,lambda,ccd);
+function ccd = ccd_photosensor(Uin,lambda,ccd);
+
 
 %%%%%%% Section: Fundamental constants
 h = 6.62606896*10^(-34); %%% Plank's constant, in [Joule*s]
 c = 2.99792458*10^8; %% speed of light, in [m/s].
 %%%%%%% END Section: Fundamental constants
 
-if (ccd.flag.darkframe == 1)
+
+
 %%%%%%%%#### Section: complete darkness
-	ccd.Signal_CCD_electrons = zeros(size(Uout));
-%%%%%%%%#### END Section: complete darkness
+if (ccd.flag.darkframe == 1)
+	ccd.Signal_CCD_electrons = zeros(size(Uin));
 else 
+%%%%%%%%#### END Section: complete darkness
+
     
-%%%% Calculation of intensity of the light field.
-Uout_irradiance =  abs(Uout).^2;
-%%%%%%%%#### Section: Illumination and propagation
+    
+    
+%%%%% Calculating the area of the pixel (in [m^2]).
+if (strcmp('CMOS',ccd.SensorType) == 1)
+	PA = ccd.FillFactor*ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area [m^2].
+else
+	PA = ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area, [m^2].
+end %% if (strcmp('CMOS',ccd.SensorType) == 1)
+%%%%% END:: Calculating the area of the pixel (in [m^2]).
+
+
+
+
+%%%% Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
+ccd.Uin_irradiance =  PA * abs(Uin).^2;  %% Converting to radiant flux per pixel in [W].
 
 P_photon = (h*c)/lambda;   %% Power of a single photon, in [Joule = Watt*s]
-ccd.Uout_irradiance = round(Uout_irradiance./P_photon); %% Converting radiant flux (radiant energy per second, [Watt]) into irradiance in photons, in [photons/(m^2 * sec)]. irradiance in photons, in [photons/(m^2 * sec)]
+ccd.Signal_CCD_photons = round(ccd.Uin_irradiance*ccd.t_I/P_photon); %% the result is the average number of photons (rounded).
+%%%% END:: Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
 
 
-if (strcmp('CMOS',ccd.SensorType) == 1)
-	PA = ccd.FillFactor*ccd.pixel_size(1)*ccd.pixel_size(2); %% pixel area, [m2]
-else
-	PA = ccd.pixel_size(1)*ccd.pixel_size(2); %% pixel area, [m2]
-end %% if (strcmp('CMOS',ccd.SensorType) == 1)
-
-%%%%%%% Section: Actually performing the conversion from the photons to electrons
-ccd.Signal_CCD_photons = round(ccd.Uout_irradiance*PA*ccd.t_I); %% Now the signal is converted directly to PHOTONS, and the number is ROUNDED since there are no 3.2 photons.
 
 
-  	%%%%%%%%#####      Subsection: FOR MEASURING PRNU
-	if (ccd.flag.PRNUmeaserements == 1)  %%% this part makes gradient lightsource for PRNU measurements
-		r = size(Uout,1);
-		z = 0:(1/(r-1)):1;
-		prnu_mask = repmat(z,(r),1); %%% make a matrix from the one string by repeating of the elements.
-		ccd.Signal_CCD_photons = (ccd.Signal_CCD_photons).*prnu_mask;
-	end
-  	%%%%%%%%####### End Subsection: FOR MEASURING PRNU
 
 
 %%%%%%%%%%%######       Section: Photon Shot Noise
 if (ccd.flag.photonshotnoise == 1)
-	ccd.Signal_CCD_photons = ccd_photosensor_photonshotnoise(ccd.Signal_CCD_photons); %%% Now adding Photon Shot noise: it cannot be turned off or on since this is inevitable noise due to quantum nature of light.
+    ccd.Signal_CCD_photons = ccd_photosensor_photonshotnoise(ccd.Signal_CCD_photons);     %%% adding the Photon Shot noise to the Signal_CCD_photons.
 end
 %%%%%%%%%%%######### END Section: Photon Shot Noise
 
+
+
+
+%%%%%%% Converting the signal from Photons to Electrons:
 	QE = (ccd.QE_I)*(ccd.QuantumYield);  %% Quantum Efficiency = Quantum Efficiency Interaction X Quantum Yield Gain.
 	ccd.Signal_CCD_electrons = ccd.Signal_CCD_photons*QE; %% output signal of the CCD in electrons [e]
 
-%%%%%%%%%%%#####      Section: Photo Response Non-Uniformity
-if (ccd.flag.PRNU == 1)
-	ccd = ccd_photosensor_lightFPN(ccd); %%introducing the PRNU that is QE non-uniformity
-end
-%%%%%%%%%%%####### END Section: Photo Response Non-Uniformity
-%%%%%%% END Section: Actually performing the conversion from the photons to electrons
+    
+    
+    %%%%%%%%%%%#####      Section: Photo Response Non-Uniformity
+    if (ccd.flag.PRNU == 1)
+        ccd = ccd_photosensor_lightFPN(ccd); %%introducing the PRNU that is QE non-uniformity
+    end
+    %%%%%%%%%%%####### END Section: Photo Response Non-Uniformity
+
+    
 end %%%if (ccd.flag.darkframe == 1)
+
+
+
 
 
 
@@ -88,11 +98,21 @@ ccd.Signal_CCD_electrons(idx) = 0; %%% truncate pixels that are less than zero t
 ccd.Signal_CCD_electrons = floor(ccd.Signal_CCD_electrons);  %% round the number of electrons.
 
 
+
+
+
+
+
+
 %%%%%%%%####### Section: adding dark current noise
 if (ccd.flag.darkcurrent == 1)
  ccd = ccd_photosensor_darkcurrentnoise(ccd);
 end
 %%%%%%%%####### END Section: adding dark current noise
+
+
+
+
 
 
 %%%%%%%%####### Section: Node sensing - charge-to-voltage conversion

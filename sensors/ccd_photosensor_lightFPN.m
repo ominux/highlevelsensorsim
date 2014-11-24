@@ -23,5 +23,6 @@ function ccd = ccd_photosensor_lightFPN(ccd)
 
 %%%%%%%%%% Section: Fixed Pattern NOISE
 ccd = ccd_photosensor_FPN_modelling(ccd); %% call the function to calculate the AR(1) FPN model
+
 ccd.Signal_CCD_electrons = ccd.Signal_CCD_electrons.*(1 + (ccd.FPN.pixelLight)*(ccd.PRNU_factor)); %% add pixel FPN dark noise.
 %%%%%%%%%% END: Section: Fixed Pattern  NOISE
