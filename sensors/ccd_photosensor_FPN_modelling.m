@@ -19,21 +19,23 @@ function ccd = ccd_photosensor_FPN_modelling(ccd)
 [sensor_signal_rows, sensor_signal_columns] = size(ccd.Signal_CCD_electrons);
 
 
+%%%%##### adding Column FPN model - CMOS only!
 	if (strcmp('CMOS',ccd.SensorType) == 1)
-		%%%%##### Section: Column FPN model - CMOS only!
 		ccd.FPN.column = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'column');
-		%%%%##### END Section: Column FPN model - CMOS only!
-	end %%% if (strcmp('CMOS',ccd.SensorType) == 1)
+	end 
+    
+    
+    if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
+        ccd.FPN.pixelDark = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel');
+    end
 
 
-if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
-	ccd.FPN.pixelDark = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel');
-end
+    if (ccd.flag.PRNU == 1)
+        ccd.FPN.pixelLight = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel');
+    end
 
-if (ccd.flag.PRNU == 1)
-	ccd.FPN.pixelLight = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel');
-end
-
-	%%%%##### Section: Column FPN model - CMOS only!
-	ccd.FPN.column = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'column');
-	%%%%##### END Section: Column FPN model - CMOS only!
+    
+%%%%##### Section: Column FPN model - CMOS only!
+	if (strcmp('CMOS',ccd.SensorType) == 1)
+    	ccd.FPN.column = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'column');
+    end

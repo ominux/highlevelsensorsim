@@ -18,6 +18,6 @@
 %>
 %> @retval signal 	= signal of the photosensor in photons  with added Poisson noise (photon shot noise) [matrix NxM], [photons].
 % ======================================================================
-function signal = ccd_photosensor_photonshotnoise(sensor_signal)
+function sensor_signal_out = ccd_photosensor_photonshotnoise(sensor_signal_in)
 
-signal = poissrnd(sensor_signal); %%% signal must be in PHOTONS - and it must be round numbers.
+sensor_signal_out  = poissrnd(sensor_signal_in); %%% signal must be in PHOTONS - and it must be round numbers.
