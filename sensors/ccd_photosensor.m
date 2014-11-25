@@ -17,18 +17,11 @@
 % ======================================================================
 function ccd = ccd_photosensor(Uin,lambda,ccd);
 
+ccd = ccd_set_photosensor_constants(ccd); %%% defining the constants such as speed of light _c_, Plank's _h_ and others.
 
-%%%%%%% Section: Fundamental constants
-h = 6.62606896*10^(-34); %%% Plank's constant, in [Joule*s]
-c = 2.99792458*10^8; %% speed of light, in [m/s].
-%%%%%%% END Section: Fundamental constants
-
-ccd = ccd_set_photosensor_constants(ccd);
 
 %%%%%%%%#### Section: complete darkness
-if (ccd.flag.darkframe == 1)
-
-    
+if (ccd.flag.darkframe == 1)    
     ccd.Signal_CCD_electrons = zeros(size(Uin));
 %%%%%%%%#### END Section: complete darkness
 
@@ -45,14 +38,12 @@ else %% if we don't measure the dark frame
 
 
 
-
     %%%% Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
     ccd.Uin_irradiance =  PA * abs(Uin).^2;  %% Converting to radiant flux per pixel in [W].
 
-    P_photon = (h*c)/lambda;   %% Power of a single photon, in [Joule = Watt*s]
+    P_photon = (ccd.h * ccd.c)/lambda;   %% Power of a single photon, in [Joule = Watt*s]
     ccd.Signal_CCD_photons = round(ccd.Uin_irradiance * ccd.t_I / P_photon); %% the result is the average number of photons (rounded).
     %%%% END:: Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
-
 
 
 
@@ -66,9 +57,7 @@ else %% if we don't measure the dark frame
 
     %%%%%%% Converting the signal from Photons to Electrons:
     QE = (ccd.QE_I)*(ccd.QuantumYield);  %% Quantum Efficiency = Quantum Efficiency Interaction X Quantum Yield Gain.
-    
     ccd.Signal_CCD_electrons = ccd.Signal_CCD_photons*QE; %% output signal of the CCD in electrons [e]
-
 
 
     %%%%%%%%%%%#####      Section: Photo Response Non-Uniformity

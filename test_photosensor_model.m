@@ -33,7 +33,9 @@ addpath('sensors', 'propagation');
 %%%%%%%%#### Section: selectable parameters
 
 %%%%%%%%#### Subsection: Irradiance parameters
-N      = 512;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
+N  = 256;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
+M  = 256;
+
 lambda = 550*10^(-9); % optical wavelength [m]
 %%%%%%%%#### END Subsection: Irradiance parameters
 
@@ -155,11 +157,12 @@ ccd.flag.sensenoderesetnoise	= 1; %%%<----
 ccd.flag.plots.irradiance	= 1;
 ccd.flag.plots.electrons	= 1;
 ccd.flag.plots.volts		= 0;
-ccd.flag.plots.DN		= 0;
+ccd.flag.plots.DN		    = 0;
 %%%## Subsection: Sensor noises and signal visualisators
 
+%%% For testing and measurements only:
 ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
-ccd.flag.darkframe = 0;
+ccd.flag.darkframe          = 0;
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -171,6 +174,8 @@ if (ccd.flag.darkframe == 0)
 %%%%%%%%#### Section: Illumination
 amplitude_coeff = 0.1;
 
+% Uin = amplitude_coeff*ones(N,M);
+
 Uin = amplitude_coeff*ones(N).*prop_absorbing_window_supergaussian(N, 6, 0.4); %% input (source) optical field, possibly a complex matrix.
 %%%%%%%%#### END Section: Illumination and propagation
 
@@ -180,7 +185,7 @@ Uin = amplitude_coeff*ones(N).*prop_absorbing_window_supergaussian(N, 6, 0.4); %
 	Uin_irradiance = abs(Uin).^2; %% computing the Irradiance [W/m^2] of the input optical field Uin.
     
 	figure, imagesc(Uin_irradiance), title('Irradiance map of the light field [W/m^2].'); %% Irradiance map of the optical field.
-	figure, plot(Uin_irradiance(round(N/2),1:N)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance map
+	figure, plot(Uin_irradiance(round(N/2),1:M)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance map
 
     end %% if (ccd.flag.plots.irradiance
 	%%%%%%%%%%%% Visualisation subsection.
@@ -196,9 +201,13 @@ end%% if (ccd.flag.darkframe == 1)
 
 
 
-%%%%%%%%####### Starting to sense the ligh field with photosensor
+%%%%%%%%####### BEGIN::: Light registration with the model of the CCD/CMOS sensor
+
 ccd = ccd_photosensor(Uin,lambda, ccd); %% here the Photon-to-electron conversion occurred.
-%%%%%%%%####### END: sense the ligh field with photosensor
+
+%%%%%%%%########### END: Light registration with the model of the CCD/CMOS sensor
+
+
 
 %%%%%%%%%%%% Visualisation subsection.
 if (ccd.flag.plots.irradiance == 1)
