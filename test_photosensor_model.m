@@ -102,8 +102,8 @@ ccd.flag.PRNU			= 1;
     
 %% Dark noises
 ccd.flag.darkcurrent		= 1;
-	ccd.T			= 300; %% operating temperature, [K]
- 	ccd.DFM			= 1;  %% dark current figure of merit, [nA/cm^2]. %%%% For very poor sensors, add DFM
+        	ccd.T			= 300; %% operating temperature, [K]
+            ccd.DFM			= 1;  %% dark current figure of merit, [nA/cm^2]. %%%% For very poor sensors, add DFM
 %  Increasing the DFM more than 10 results to (with the same exposure time of 10^-6):
 %  Hence the DFM increases the standard deviation and does not affect the mean value.
 
