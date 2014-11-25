@@ -23,7 +23,7 @@ h = 6.62606896*10^(-34); %%% Plank's constant, in [Joule*s]
 c = 2.99792458*10^8; %% speed of light, in [m/s].
 %%%%%%% END Section: Fundamental constants
 
-
+ccd = ccd_set_photosensor_constants(ccd);
 
 %%%%%%%%#### Section: complete darkness
 if (ccd.flag.darkframe == 1)

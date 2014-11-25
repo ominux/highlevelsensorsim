@@ -42,28 +42,16 @@ lambda = 550*10^(-9); % optical wavelength [m]
 %  	ccd.SensorType		= 'CCD';
 	ccd.SensorType		= 'CMOS';
 
+	ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
 
-	ccd.pixel_size		= [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
+	ccd.t_I	  = 1*10^(-2); %%% exposure/integration time, [sec].
 
-	ccd.t_I			= 1*10^(-2); %%% exposure/integration time, [sec].
-
-	ccd.QE_I		= 0.8;  %% quantum efficiency of the photo sensor.
-	ccd.FillFactor		= 0.5;  %% Pixel Fill Factor for CMOS photo sensors.
-	ccd.QuantumYield	= 1;  %% quantum yeild (number of electrons per one photon interaction). QuantumYield = 1 for visible light.
-	ccd.V_REF		= 3.1; %%% Reference voltage to reset the sense node. [V] typically 3-10 V.
-
-
-	ccd.Boltzman_Constant	= 8.617343*10^(-5); %%% Boltzman constant, [eV/K].
-	ccd.Boltzman_Constant_JK= 1.3806504*10^(-23); %%% Boltzman constant, [J/K].
-	ccd.q 			= 1.602176487*10^(-19); %% a charge of an electron [C], Cylon
-	ccd.k1			= 10.909*10^(-15); %% a constant;
-
-	ccd.A_SN		= 5*10^(-6); %% Sense node gain, A_SN [V/e]
-	ccd.Eg_0		= 1.1557; %% bandgap energy for 0 degrees of K. [For Silicon, eV]
-	ccd.alpha		= 7.021*10^(-4); %% material parameter, [eV/K].
-	ccd.beta		= 1108; %% material parameter, [K].
+	ccd.QE_I          = 0.8;  %% quantum efficiency of the photo sensor.
+	ccd.FillFactor    = 0.5;  %% Pixel Fill Factor for CMOS photo sensors.
+	ccd.QuantumYield  = 1;  %% quantum yeild (number of electrons per one photon interaction). QuantumYield = 1 for visible light.
+	ccd.V_REF	      = 3.1; %%% Reference voltage to reset the sense node. [V] typically 3-10 V.
     
-	ccd.FW_e		= 2*10^4; %% full well of the pixel (how many electrons can be stored in one pixel), [e]
+	ccd.FW_e  = 2*10^4; %% full well of the pixel (how many electrons can be stored in one pixel), [e]
 
 
     ccd.flag.Venonlinearity = 0; %%%%% <-- ###### Gain non-linearity Subsection [CMOS ONLY!!!!]
@@ -71,6 +59,7 @@ lambda = 550*10^(-9); % optical wavelength [m]
 			ccd.nonlinearity.A_SNratio = 0.05; %% in how many times should A_SF be increased due to non-linearity?
 		end %%% if (ccd.flag.VVnonlinearity == 1)
 
+	ccd.A_SN		= 5*10^(-6); %% Sense node gain, A_SN [V/e]
 
 %%%%% <----- ### Start:: Source Follower Subsection
 	ccd.A_SF		= 1; %%% Source follower gain, [V/V], lower means amplify the noise.
@@ -87,9 +76,9 @@ lambda = 550*10^(-9); % optical wavelength [m]
 
 
 %%%% <----- ### Start:: ADC Subsection
- 	ccd.N_bits		= 12; %% noise is more apparent on high Bits
-
-    ccd.S_ADC_OFFSET	= 0; %%% Offset of the ADC, in DN
+ 	ccd.N_bits		 = 12; %% noise is more apparent on high Bits
+    
+    ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
 
 	ccd.flag.ADCnonlinearity= 1; %%% turn the non-linea
 		if (ccd.flag.ADCnonlinearity == 1)
@@ -172,11 +161,6 @@ ccd.flag.plots.DN		= 0;
 ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
 ccd.flag.darkframe = 0;
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
 
 
 
