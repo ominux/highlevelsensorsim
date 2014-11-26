@@ -78,6 +78,13 @@ end %%%if (ccd.flag.darkframe == 1)
 
 
 
+
+
+
+
+
+
+
 %%%%%%%%####### Section: adding dark current noise
 if (ccd.flag.darkcurrent == 1)
  ccd = ccd_photosensor_darkcurrentnoise(ccd);
@@ -85,7 +92,14 @@ end
 %%%%%%%%####### END Section: adding dark current noise
 
 
-  
+
+
+%%%%%% Start: Adding dark current and noises to signal
+ccd.Signal_CCD_electrons = round(ccd.Signal_CCD_electrons+ccd.dark_signal); %% making DFPN as a ROW-repeated noise, just like light FPN;
+%%%%%% Start: Adding dark noises to signal
+
+
+
 %%%%%%%%%%%######### Full-well checkup (if there more electrons than depth of the pixel - saturate the pixel)
     idx = (ccd.Signal_CCD_electrons>=ccd.FW_e); %%% find all of pixels that are saturated (there are more electrons that full-well of the pixel)
     ccd.Signal_CCD_electrons(idx) = ccd.FW_e;  %% saturate the pixel if there are more electrons than full-well.
@@ -97,7 +111,7 @@ end
 %%%%%%%%%%%######### END Full-well checkup
 
     
-
+%% Up to here we have finished with ELECTRONS!
 
 
 %%%%%%%%####### Section: Node sensing - charge-to-voltage conversion

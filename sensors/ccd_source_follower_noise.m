@@ -52,11 +52,13 @@ H_CDS = (1./( 1 + (2*pi*(tau_D).*f).^2 ) ).*(2-2*cos(2*pi*(ccd.noise.sf.t_s).*f)
 
 
 %%%%%%%%%%%%% DEPENDING ON SENSOR TYPE, THE NOISE IS SLIGHTLY DIFFERENT
-	if strcmp('CMOS',ccd.SensorType) %%  In CMOS photosensors, source follower noise is typically limited by the RTS noise.
-S_RTS = (2*((ccd.noise.sf.Delta_I)^2)*tau_RTS)./(4+(2*pi*tau_RTS.*f).^2);  %%% for CMOS sensors only
-	elseif strcmp('CCD',ccd.SensorType) %% In CCD photosensors, source follower noise is typically limited by the flicker noise.
-S_RTS =0;
-	end
+S_RTS =0; %%% In CCD photosensors, source follower noise is typically limited by the flicker noise.
+
+if strcmp('CMOS',ccd.SensorType) %%  In CMOS photosensors, source follower noise is typically limited by the RTS noise.
+
+    S_RTS = (2*((ccd.noise.sf.Delta_I)^2)*tau_RTS)./(4+(2*pi*tau_RTS.*f).^2);  %%% for CMOS sensors only
+
+end
 %%%%%%%%%%%%% DEPENDING ON SENSOR TYPE, THE NOISE IS SLIGHTLY DIFFERENT
 
 

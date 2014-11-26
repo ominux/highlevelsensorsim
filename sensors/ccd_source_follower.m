@@ -22,6 +22,7 @@ function ccd = ccd_source_follower(ccd)
 if (ccd.flag.sourcefollowernoise == 1)
 %%%%%%%%%%%%% Adding Source Follower noise
 	ccd = ccd_source_follower_noise(ccd); %% caclulation of the source follower noise.
+    
 	source_follower_noise = 1+(ccd.V_min*ccd.noise.sf.sigma_SF)*randn(sensor_signal_rows,sensor_signal_columns);
 	ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage)*(ccd.A_SF).*(source_follower_noise);  %%% Signal of Source Follower [SF]
 %%%%%%%%%%%%% Adding Source Follower noise

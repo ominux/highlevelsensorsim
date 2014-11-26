@@ -24,10 +24,5 @@ function ccd = ccd_photosensor_FPN_modelling(ccd)
 		ccd.FPN.column = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'column');
 	end 
     
-    
-    if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
-        ccd.FPN.pixelDark = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel');
-    end
-
 
    

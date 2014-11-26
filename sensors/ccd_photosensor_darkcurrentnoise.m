@@ -67,12 +67,3 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 	ccd = ccd_photosensor_darkFPN(ccd);
 end
 %%%%%% END Section: adding Dark FPN  %%% being added to dark current, it is too small.
-
-
-
-
-
-
-%%%%%% Start: Adding dark noises to signal
-ccd.Signal_CCD_electrons = round(ccd.Signal_CCD_electrons+ccd.dark_signal); %% making DFPN as a ROW-repeated noise, just like light FPN;
-%%%%%% Start: Adding dark noises to signal

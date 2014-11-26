@@ -51,10 +51,10 @@ lambda = 550*10^(-9); % optical wavelength [m]
 	ccd.QE_I          = 0.8;  %% quantum efficiency of the photo sensor.
 	ccd.FillFactor    = 0.5;  %% Pixel Fill Factor for CMOS photo sensors.
 	ccd.QuantumYield  = 1;  %% quantum yeild (number of electrons per one photon interaction). QuantumYield = 1 for visible light.
-	ccd.V_REF	      = 3.1; %%% Reference voltage to reset the sense node. [V] typically 3-10 V.
     
 	ccd.FW_e  = 2*10^4; %% full well of the pixel (how many electrons can be stored in one pixel), [e]
 
+	ccd.V_REF	      = 3.1; %%% Reference voltage to reset the sense node. [V] typically 3-10 V.
 
     ccd.flag.Venonlinearity = 0; %%%%% <-- ###### Gain non-linearity Subsection [CMOS ONLY!!!!]
 		if (ccd.flag.Venonlinearity == 1)
