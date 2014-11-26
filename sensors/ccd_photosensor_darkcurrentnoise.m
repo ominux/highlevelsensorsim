@@ -48,27 +48,27 @@ PA = ccd.pixel_size(1)*ccd.pixel_size(1)*10^(4); %% translating the size to squa
 ccd.Eg = ccd.Eg_0 - ( ccd.alpha*(ccd.T^2) )/(ccd.beta + ccd.T);  %% silicon band gap energy, [eV];
 
 ccd.DARK_e = (ccd.t_I)*2.55*10^(15)*PA*ccd.DFM*(ccd.T^(1.5))*exp(-ccd.Eg/(2*ccd.Boltzman_Constant*ccd.T)); %% average amount of dark current that is thermally generated [e]  !!! This ccd.DARK_e is that for equation 11.15 for Janesick D = t_I*D_R
-%%%%%% END Section: Dark current generation 
-
 
 ccd.dark_signal = (ccd.DARK_e).*ones(size(ccd.Signal_CCD_electrons)); %% creating the matrix of dark generated signals.
-
-
-%%%%%% Section: adding Dark FPN  %%% being added to dark current, it is too small.
-if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
-	ccd = ccd_photosensor_darkFPN(ccd);
-%  disp('Here dark FPN')
-end
-%%%%%% END Section: adding Dark FPN  %%% being added to dark current, it is too small.
+%%%%%% END Section: Dark current generation 
 
 
 
 %%%%%% Section: adding Dark Shot noise
 if (ccd.flag.darkcurrent_Dshot == 1)
 	ccd = ccd_photosensor_darkshotnoise(ccd);
-%  disp('Here dark Dshot')
 end
 %%%%%% END Section: adding Dark Shot noise
+
+
+
+%%%%%% Section: adding Dark FPN  %%% being added to dark current, it is too small.
+if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
+	ccd = ccd_photosensor_darkFPN(ccd);
+end
+%%%%%% END Section: adding Dark FPN  %%% being added to dark current, it is too small.
+
+
 
 
 

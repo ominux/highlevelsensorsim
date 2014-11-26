@@ -21,8 +21,10 @@ ccd = ccd_set_photosensor_constants(ccd); %%% defining the constants such as spe
 
 
 %%%%%%%%#### Section: complete darkness
-if (ccd.flag.darkframe == 1)    
+if (ccd.flag.darkframe == 1)
+    
     ccd.Signal_CCD_electrons = zeros(size(Uin));
+    ccd.Signal_CCD_photons = ccd.Signal_CCD_electrons;
 %%%%%%%%#### END Section: complete darkness
 
 else %% if we don't measure the dark frame

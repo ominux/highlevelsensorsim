@@ -162,7 +162,7 @@ ccd.flag.plots.DN		    = 0;
 
 %%% For testing and measurements only:
 ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
-ccd.flag.darkframe          = 0;
+ccd.flag.darkframe          = 1;
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
 
 

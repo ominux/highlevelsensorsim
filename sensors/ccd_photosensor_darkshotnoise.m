@@ -30,4 +30,9 @@
 % ======================================================================
 function ccd = ccd_photosensor_darkshotnoise(ccd)
 
+%%% Since this is a dark current shot noise, it must be random every time we apply it, unlike the Fixed Pattern Noise (PRNU or DSNU).
+                    rand('state', sum(100*clock));
+                    randn('state', sum(100*clock));
+
+%%% Apply the Poisson noise to the dark signal.
 ccd.dark_signal = poissrnd(ccd.dark_signal); %% adding shot noise to the dark signal
