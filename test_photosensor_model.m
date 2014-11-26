@@ -41,8 +41,8 @@ lambda = 550*10^(-9); % optical wavelength [m]
 
 
 %%%%%%%%## Subsection: General photosensor settings
-%  	ccd.SensorType		= 'CCD';
-	ccd.SensorType		= 'CMOS';
+ 	ccd.SensorType		= 'CCD';
+% 	ccd.SensorType		= 'CMOS';
 
 	ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
 
