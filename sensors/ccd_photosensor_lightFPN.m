@@ -20,9 +20,6 @@
 % ======================================================================
 function ccd = ccd_photosensor_lightFPN(ccd)
 
-[sensor_signal_rows, sensor_signal_columns] = size(ccd.Signal_CCD_electrons);
-
-
 %%% the random generator will be fixed on seed 362436069
                     rand( 'state', 362436069); %%% Fix the state of the rand  random generator
                     randn('state', 362436069); %%% Fix the state of the randn random generator

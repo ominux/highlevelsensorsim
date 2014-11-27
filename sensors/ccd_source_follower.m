@@ -16,10 +16,12 @@
 %> @retval ccd 	= matrix [NxM] of signal in Volts after source follower [V].
 % ======================================================================
 function ccd = ccd_source_follower(ccd)
+
 [sensor_signal_rows,sensor_signal_columns] = size(ccd.Signal_CCD_voltage);
 
 
 if (ccd.flag.sourcefollowernoise == 1)
+
 %%%%%%%%%%%%% Adding Source Follower noise
 	ccd = ccd_source_follower_noise(ccd); %% caclulation of the source follower noise.
     
@@ -29,16 +31,16 @@ if (ccd.flag.sourcefollowernoise == 1)
 
 else 
 
-%%%%% <-- ###### Source Follower non-linearity
+%%%%% <-- ###### BEGIN:: adding Source Follower non-linearity
 	if (ccd.flag.VVnonlinearity == 1) %%%%%% adds V/V non-linearity
 
 		nonlinearity_alpha = (ccd.A_SF*(ccd.nonlinearity.A_SFratio - 1))/(ccd.V_FW);
-		A_SF_new =  nonlinearity_alpha*((ccd.V_REF - ccd.Signal_CCD_voltage)/(ccd.V_REF)) +(ccd.A_SF)*ones(sensor_signal_rows,sensor_signal_columns);
+		A_SF_new =  nonlinearity_alpha*((ccd.V_REF - ccd.Signal_CCD_voltage)/(ccd.V_REF)) + (ccd.A_SF)*ones(sensor_signal_rows,sensor_signal_columns);
 		ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(A_SF_new);  %%% Signal of Source Follower [SF]
 
-	else
-%%%%% <-- ###### Source Follower non-linearity
-
+%%%%% <-- ###### END:::: adding Source Follower non-linearity
+    else
+        
 		ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage)*(ccd.A_SF);  %%% Signal of Source Follower [SF]
 
 	end %%% if (ccd.flag.VVnonlinearity == 1)

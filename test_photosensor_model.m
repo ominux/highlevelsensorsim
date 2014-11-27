@@ -41,8 +41,8 @@ lambda = 550*10^(-9); % optical wavelength [m]
 
 
 %%%%%%%%## Subsection: General photosensor settings
- 	ccd.SensorType		= 'CCD';
-% 	ccd.SensorType		= 'CMOS';
+%  	ccd.SensorType		= 'CCD';
+	ccd.SensorType		= 'CMOS';
 
 	ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
 
@@ -162,7 +162,7 @@ ccd.flag.plots.DN		    = 0;
 
 %%% For testing and measurements only:
 ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
-ccd.flag.darkframe          = 1;
+ccd.flag.darkframe          = 0;
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -201,11 +201,27 @@ end%% if (ccd.flag.darkframe == 1)
 
 
 
+
+
+
+
+
+
+
+
 %%%%%%%%####### BEGIN::: Light registration with the model of the CCD/CMOS sensor
 
 ccd = ccd_photosensor(Uin,lambda, ccd); %% here the Photon-to-electron conversion occurred.
 
 %%%%%%%%########### END: Light registration with the model of the CCD/CMOS sensor
+
+
+
+
+
+
+
+
 
 
 

@@ -15,18 +15,22 @@
 % ======================================================================
 function ccd = ccd_cds(ccd)
 
-%%%%%%%%%%%%% CDS = Correlated Double Sampling.
 if  strcmp('CMOS',ccd.SensorType)
 
 	if (ccd.flag.darkcurrent_offsetFPN == 1)
+        
 		columnnoise = ccd_FPN_models(ccd, size(ccd.Signal_CCD_voltage,1), size(ccd.Signal_CCD_voltage,2), 'column');
-		ccd.Signal_CCD_voltage = ccd.Signal_CCD_voltage.*(1 + columnnoise*(ccd.V_FW*ccd.DNcolumn)); %% add pixel FPN dark noise.
-	else %%% if (ccd.flag.darkcurrent_offsetFPN == 1)
-		ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
-	end  %%strcmp('CMOS',ccd.SensorType)
+		ccd.Signal_CCD_voltage = ccd.Signal_CCD_voltage.*( 1 + columnnoise*(ccd.V_FW*ccd.DNcolumn)   ); %% add pixel FPN dark noise.
+
+    else %%% if (ccd.flag.darkcurrent_offsetFPN == 1)
+	
+        ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
+
+    end  %%strcmp('CMOS',ccd.SensorType)
 
 
 else
-	ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
+
+    ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
+
 end %% (ccd.flag.sensenoderesetnoise == 1)
-%%%%%%%%%%%%% CDS = Correlated Double Sampling.

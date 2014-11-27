@@ -33,20 +33,21 @@ if (ccd.flag.ADCnonlinearity == 1)
 	A_ADC_NL = ccd.nonlinearity.ADCratio*ccd.A_ADC;
 	nonlinearity_alpha = ( log(A_ADC_NL)/log(ccd.A_ADC)  - 1 )/ccd.V_FW;
 	signal = ccd.V_REF - ccd.Signal_CCD_voltage; %%%%%% Removing the reference Voltage;
+    
 	A_ADC_new = (ccd.A_ADC)*ones(size(signal));
 	A_ADC_new = A_ADC_new.^(1-nonlinearity_alpha.*signal);
-	S_DN = round(ccd.S_ADC_OFFSET + A_ADC_new.*signal);  %% ADC convertation with NON-LINEARITY
+
+    S_DN = round(ccd.S_ADC_OFFSET + A_ADC_new.*signal);  %% ADC convertation with NON-LINEARITY
 %%%%% <-- ###### ADC non-linearity
 
 else
+    
 	S_DN = round(ccd.S_ADC_OFFSET + ccd.A_ADC*(ccd.V_REF - ccd.Signal_CCD_voltage));  %% ADC convertation
-	%%%%%% Removing the reference Voltage;
 end %% (ccd.flag.ADCnonlinearity == 1)
 %%%%%%%%%%%%% END ::: ADC = Analogue-to-Digital Converter
 
 
 S_DN (S_DN<=0) = 0; %%% ## Truncating the numbers that are less than 0:
 S_DN (S_DN>=N_max) = N_max; %%% ## Truncating the numbers that are less than 0:
-
 
 ccd.Signal_CCD_DN = S_DN; %%%% END of ADC conversion: subtract the the signal from N_max to get the normal, non-inverted image.

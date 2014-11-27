@@ -17,7 +17,7 @@
 % ======================================================================
 function ccd = ccd_photosensor(Uin,lambda,ccd);
 
-ccd = ccd_set_photosensor_constants(ccd); %%% defining the constants such as speed of light _c_, Plank's _h_ and others.
+ccd = ccd_set_photosensor_constants(ccd,Uin); %%% defining the constants such as speed of light _c_, Plank's _h_ and others.
 
 
 %%%%%%%%#### Section: complete darkness
@@ -41,10 +41,10 @@ else %% if we don't measure the dark frame
 
 
     %%%% Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
-    ccd.Uin_irradiance =  PA * abs(Uin).^2;  %% Converting to radiant flux per pixel in [W].
+    Uin_irradiance =  PA * abs(Uin).^2;  %% Converting to radiant flux per pixel in [W].
 
     P_photon = (ccd.h * ccd.c)/lambda;   %% Power of a single photon, in [Joule = Watt*s]
-    ccd.Signal_CCD_photons = round(ccd.Uin_irradiance * ccd.t_I / P_photon); %% the result is the average number of photons (rounded).
+    ccd.Signal_CCD_photons = round(Uin_irradiance * ccd.t_I / P_photon); %% the result is the average number of photons (rounded).
     %%%% END:: Calculation of irradiance of the input light field. The input is the sensor irradiance  |Uin|^2  in [W/m^2].
 
 

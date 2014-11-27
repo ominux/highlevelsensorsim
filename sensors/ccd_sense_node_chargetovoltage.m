@@ -46,10 +46,12 @@ if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must
         %%% Obtain the matrix of 
         sense_node_reset_noise = ccd_sense_node_reset_noise(ccd);
 
+        figure, imagesc(sense_node_reset_noise);
+        
 		if (ccd.flag.Venonlinearity == 1)
            ccd.Signal_CCD_voltage = ccd.V_REF.*(sense_node_reset_noise).*(exp(-ccd.nonlinearity.A_SNratio*ccd.q*ccd.Signal_CCD_electrons./ccd.k1)); %% non-linearity
         else
-           ccd.Signal_CCD_voltage = ccd.V_REF.*(sense_node_reset_noise) - (ccd.Signal_CCD_electrons).*ccd.q/(ccd.C_SN);   %%% Node signal voltage.
+           ccd.Signal_CCD_voltage = (ccd.V_REF).*(sense_node_reset_noise) - ccd.Signal_CCD_electrons * ccd.A_SN;   %%% Node signal voltage.
 		end %%% if (ccd.flag.Venonlinearity == 1)
 
                 
@@ -58,7 +60,7 @@ if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must
 		if (ccd.flag.Venonlinearity == 1)
             ccd.Signal_CCD_voltage = ccd.V_REF*(exp(-ccd.nonlinearity.A_SNratio*ccd.q*ccd.Signal_CCD_electrons./ccd.k1)); %% non-linearity
 		else
-	    	ccd.Signal_CCD_voltage = ccd.V_REF - (ccd.Signal_CCD_electrons) * ccd.A_SN;   %%% Sense Node voltage.
+	    	ccd.Signal_CCD_voltage = ccd.V_REF -  ccd.Signal_CCD_electrons * ccd.A_SN;   %%% Sense Node voltage.
 		end %%% if (ccd.flag.Venonlinearity == 1)
 
     end  %%strcmp('CMOS',ccd.SensorType)
@@ -72,7 +74,7 @@ else %% The sensor is CCD
 	if (ccd.flag.Venonlinearity == 1)
             ccd.Signal_CCD_voltage  = ccd.V_REF*(exp(-ccd.nonlinearity.A_SNratio*ccd.q*ccd.Signal_CCD_electrons./ccd.k1)); %% non-linearity
     else
-            ccd.Signal_CCD_voltage  = ccd.V_REF - (ccd.Signal_CCD_electrons) * ccd.A_SN;   %%% Sense Node voltage.
+            ccd.Signal_CCD_voltage  = ccd.V_REF - ccd.Signal_CCD_electrons * ccd.A_SN;   %%% Sense Node voltage.
 	end %%% if (ccd.flag.Venonlinearity == 1)
 
 %% <--- END:::: the CCD sensor

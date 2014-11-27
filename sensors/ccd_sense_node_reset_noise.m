@@ -15,8 +15,8 @@
 %> @param ccd		= matrix [NxM] of signal in Volts.
 %> @retval reset_noise	= sense node reset noise matrix [NxM].
 % ======================================================================
-function reset_noise = ccd_sense_node_reset_noise(ccd)
+function [ccd, reset_noise] = ccd_sense_node_reset_noise(ccd)
 
-ccd.noise.reset.sigma_ktc = sqrt( (ccd.Boltzman_Constant_JK)*(ccd.T)*(ccd.A_SN)./ccd.q);
+ccd.noise.sn_reset.sigma_ktc = sqrt( (ccd.Boltzman_Constant_JK)*(ccd.T)/(ccd.C_SN) );
 
-reset_noise = 1+ccd.snresetnoiseFactor*(ccd.noise.reset.sigma_ktc)*randn(size(ccd.Signal_CCD_electrons));
+ccd.noise.sn_reset.noise_matrix = 1+ccd.snresetnoiseFactor*(ccd.noise.reset.sigma_ktc)*randn(size(ccd.Signal_CCD_electrons));
