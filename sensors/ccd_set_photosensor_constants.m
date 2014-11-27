@@ -24,5 +24,9 @@ ccd.sensor_size = size(Uin); %%% determining the size of the sensor.
 %%% pre-allocating the matrices for photons, electrons, voltages and DNs.
     ccd.Signal_CCD_photons   = zeros(ccd.sensor_size);
     ccd.Signal_CCD_electrons = zeros(ccd.sensor_size);
+
+        ccd.dark_signal  = zeros(ccd.sensor_size);
+        ccd.light_signal  = zeros(ccd.sensor_size);
+
     ccd.Signal_CCD_voltage   = zeros(ccd.sensor_size);
     ccd.Signal_CCD_DN        = zeros(ccd.sensor_size);

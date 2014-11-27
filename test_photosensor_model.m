@@ -56,12 +56,17 @@ lambda = 550*10^(-9); % optical wavelength [m]
 
 	ccd.V_REF	      = 3.1; %%% Reference voltage to reset the sense node. [V] typically 3-10 V.
 
-    ccd.flag.Venonlinearity = 0; %%%%% <-- ###### Gain non-linearity Subsection [CMOS ONLY!!!!]
+
+    
+%%%%% <----- ### Start:: Sense Nose Subsection
+    ccd.A_SN		= 5*10^(-6); %% Sense node gain, A_SN [V/e]
+
+    ccd.flag.Venonlinearity = 0;%%%%% <-- ###### Gain non-linearity Subsection [CMOS ONLY!!!!]
 		if (ccd.flag.Venonlinearity == 1)
 			ccd.nonlinearity.A_SNratio = 0.05; %% in how many times should A_SF be increased due to non-linearity?
 		end %%% if (ccd.flag.VVnonlinearity == 1)
-
-	ccd.A_SN		= 5*10^(-6); %% Sense node gain, A_SN [V/e]
+%%%%% <----- ### END :: Sense Nose Subsection
+    
 
 %%%%% <----- ### Start:: Source Follower Subsection
 	ccd.A_SF		= 1; %%% Source follower gain, [V/V], lower means amplify the noise.
@@ -82,7 +87,7 @@ lambda = 550*10^(-9); % optical wavelength [m]
     
     ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
 
-	ccd.flag.ADCnonlinearity= 1; %%% turn the non-linea
+	ccd.flag.ADCnonlinearity= 0; %%% turn the non-linea
 		if (ccd.flag.ADCnonlinearity == 1)
 			ccd.nonlinearity.ADCratio = 1.1; %% in how many times should A_ADC be decreased due to non-linearity?
 		end %%% if (ccd.flag.ADCnonlinearity == 1)
@@ -140,7 +145,7 @@ end
 
 
 ccd.flag.sourcefollowernoise	= 1;
-if (ccd.flag.sourcefollowernoise== 1)
+if (ccd.flag.sourcefollowernoise == 1)
 	ccd.noise.sf.t_s	= 10^(-6); %% is the CDS sample-to-sampling time [sec].
 	ccd.noise.sf.f_c	= 10^6; %% flicker noise corner frequency $f_c$ in [Hz], where power spectrum of white and flicker noise are equal [Hz].
 	ccd.f_clock_speed	= 20*10^(6); %%20 MHz data rate clocking speed.

@@ -35,8 +35,9 @@ function ccd = ccd_source_follower(ccd)
 	if (ccd.flag.VVnonlinearity == 1) %%%%%% adds V/V non-linearity
 
 		nonlinearity_alpha = (ccd.A_SF*(ccd.nonlinearity.A_SFratio - 1))/(ccd.V_FW);
-		A_SF_new =  nonlinearity_alpha*((ccd.V_REF - ccd.Signal_CCD_voltage)/(ccd.V_REF)) + (ccd.A_SF)*ones(sensor_signal_rows,sensor_signal_columns);
-		ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(A_SF_new);  %%% Signal of Source Follower [SF]
+		ccd.A_SF_new =  nonlinearity_alpha*((ccd.V_REF - ccd.Signal_CCD_voltage)/(ccd.V_REF)) + (ccd.A_SF)*ones(sensor_signal_rows,sensor_signal_columns);
+
+        ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_SF_new);  %%% Signal of Source Follower [SF]
 
 %%%%% <-- ###### END:::: adding Source Follower non-linearity
     else

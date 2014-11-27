@@ -37,11 +37,7 @@
 % ======================================================================
 function ccd = ccd_photosensor_darkcurrentnoise(ccd)
 
-sensor_signal_rows = size(ccd.Signal_CCD_electrons,1);
-sensor_signal_columns = size(ccd.Signal_CCD_electrons,2);
-
 PA = ccd.pixel_size(1)*ccd.pixel_size(1)*10^(4); %% translating the size to square sentimeters, as in Janesick book.
-
 
 
 %%%%%% Section: Dark current generation
@@ -64,11 +60,18 @@ end
 
 %%%%%% Section: adding Dark FPN  %%% being added to dark current, it is too small.
 if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
-	ccd = ccd_photosensor_darkFPN(ccd);
+    ccd = ccd_photosensor_darkFPN(ccd);
 end
 %%%%%% END Section: adding Dark FPN  %%% being added to dark current, it is too small.
 
 
 
-%%% ADD THE Source follower noies!
+%%%%%% Section: adding the Source follower noise in electrons.
+if (ccd.flag.sourcefollowernoise == 1)
 
+    ccd = ccd_source_follower_noise(ccd); %% caclulation of the source follower noise sigma_FS.
+    
+    ccd.dark_signal = ccd.dark_signal + (ccd.noise.sf.sigma_SF) * randn(ccd.sensor_size(1),ccd.sensor_size(2));
+    
+end % if (ccd.flag.sourcefollowernoise == 1)
+%%%%%% Section: adding the Source follower noise in electrons.
