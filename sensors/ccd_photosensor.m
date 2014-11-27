@@ -92,7 +92,11 @@ end
 %%%%%%%%####### END Section: adding dark current noise
 
 
+% FIXME: make the structure ccd.light_noise and then add it to dark noise
 
+% FIXME: dont' round them here - first run the Full-Well checkup. 
+
+% FIXME: the sense node reset noise must be LOG-NORMAL!
 
 %%%%%% Start: Adding dark current and noises to signal
 ccd.Signal_CCD_electrons = round(ccd.Signal_CCD_electrons+ccd.dark_signal); %% making DFPN as a ROW-repeated noise, just like light FPN;

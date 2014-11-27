@@ -67,3 +67,8 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 	ccd = ccd_photosensor_darkFPN(ccd);
 end
 %%%%%% END Section: adding Dark FPN  %%% being added to dark current, it is too small.
+
+
+
+%%% ADD THE Source follower noies!
+

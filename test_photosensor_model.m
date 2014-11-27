@@ -117,14 +117,15 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 
  	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
+%  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
+%  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+
 %  	ccd.noise.FPN.model	= 'AR-ElGamal';
 %  	ccd.noise.FPN.ar_elgamal= [1 0.5];
 
 % 	ccd.noise.FPN.model	= 'Wald';
 % 	ccd.noise.FPN.wald_parameter = 2; %% small parameters (w<1) produces estremely narrow distribution, large parameters (w>10) produces distribution with large tail.
 
-%  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
-%  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
 
 end %%  if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 
