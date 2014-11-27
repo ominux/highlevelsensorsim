@@ -18,9 +18,10 @@ function ccd = ccd_cds(ccd)
 if  strcmp('CMOS',ccd.SensorType)
 
 	if (ccd.flag.darkcurrent_offsetFPN == 1)
-        
-		columnnoise = ccd_FPN_models(ccd, size(ccd.Signal_CCD_voltage,1), size(ccd.Signal_CCD_voltage,2), 'column');
-		ccd.Signal_CCD_voltage = ccd.Signal_CCD_voltage.*( 1 + columnnoise*(ccd.V_FW*ccd.DNcolumn)   ); %% add pixel FPN dark noise.
+
+%%%%##### adding Column FPN model - CMOS only!
+        ccd.FPN.column = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'column');
+		ccd.Signal_CCD_voltage = ccd.Signal_CCD_voltage.*( 1 +  ccd.FPN.column*(ccd.V_FW*ccd.DNcolumn)   ); %% add pixel FPN dark noise.
 
     else %%% if (ccd.flag.darkcurrent_offsetFPN == 1)
 	
