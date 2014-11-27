@@ -59,13 +59,11 @@
 % ======================================================================
 function ccd = ccd_photosensor_darkFPN(ccd)
   
-[sensor_signal_rows, sensor_signal_columns] = size(ccd.Signal_CCD_electrons);
-
 %%% the random generator will be fixed on seed 362436128
                     rand( 'state', 362436128); %%% Fix the state of the rand  random generator
                     randn('state', 362436128); %%% Fix the state of the randn random generator
 
 
-ccd.FPN.pixelDark = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'pixel');
+ccd.FPN.pixelDark = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'pixel');
 
 ccd.dark_signal = ccd.dark_signal.*(1 + (ccd.noise.FPN.DN)*(ccd.FPN.pixelDark)); %% add pixel FPN dark noise.

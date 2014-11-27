@@ -115,7 +115,6 @@ ccd.Signal_CCD_electrons = round(ccd.Signal_CCD_electrons+ccd.dark_signal); %% m
 %%%%%%%%%%%######### END Full-well checkup
 
     
-%% Up to here we have finished with ELECTRONS!
 
 
 %%%%%%%%####### Section: Node sensing - charge-to-voltage conversion
