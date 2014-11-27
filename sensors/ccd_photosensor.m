@@ -52,17 +52,24 @@ ccd.Signal_CCD_electrons = ccd.light_signal + ccd.dark_signal;
     %%%%%%%%%%%######### END Full-well checkup
 
 ccd.Signal_CCD_electrons = floor(ccd.Signal_CCD_electrons);  %% round the number of electrons.        
-%%%%% <----- ### END:: adding dark current and light electrons 
-    
+%%%%% <----- ### END:: adding dark current and light electrons     
 
 
-%%%%%%%%####### Section: Node sensing - charge-to-voltage conversion
+%%%%% <----- ### Start:: Sense Node - charge-to-voltage conversion
 ccd = ccd_sense_node_chargetovoltage(ccd); %%% Charge-to-Voltage conversion by Sense Node
+%%%%% <----- ### END:: Sense Node - charge-to-voltage conversion
 
+
+%%%%% <----- ### Start:: Source Follower - Voltages
 ccd = ccd_source_follower(ccd); %%% Signal's Voltage amplification by Source Follower
+%%%%% <----- ### END:: Source Follower - Voltages
 
+
+%%%%% <----- ### Start:: Correlated Double Sampling
 ccd = ccd_cds(ccd); %%% Signal's amplification and denoising by Correlated Double Sampling
-%%%%%%%%####### END Section: Node sensing - charge-to-voltage conversion
+%%%%% <----- ### END:: Correlated Double Sampling
 
 
+%%%%% <----- ### Start:: Analogue-To-Digital Converter
 ccd = ccd_adc(ccd); %% Quantizator ADC
+%%%%% <----- ### END:: Analogue-To-Digital Converter
