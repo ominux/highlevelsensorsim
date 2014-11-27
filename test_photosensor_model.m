@@ -156,8 +156,8 @@ ccd.flag.sensenoderesetnoise	= 1; %%%<----
 %%%## Subsection: Sensor noises and signal visualisators
 ccd.flag.plots.irradiance	= 1;
 ccd.flag.plots.electrons	= 1;
-ccd.flag.plots.volts		= 0;
-ccd.flag.plots.DN		    = 0;
+ccd.flag.plots.volts		= 1;
+ccd.flag.plots.DN		    = 1;
 %%%## Subsection: Sensor noises and signal visualisators
 
 %%% For testing and measurements only:
