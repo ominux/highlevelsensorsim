@@ -17,25 +17,12 @@
 % ======================================================================
 function ccd = ccd_source_follower(ccd)
 
-% % % [sensor_signal_rows,sensor_signal_columns] = size(ccd.Signal_CCD_voltage);
-
-
-% % % % if (ccd.flag.sourcefollowernoise == 1)
-
-% % % % %%%%%%%%%%%%% Adding Source Follower noise
-% % % % 	ccd = ccd_source_follower_noise(ccd); %% caclulation of the source follower noise.
-% % % %     
-% % % % 	source_follower_noise = 1+(ccd.V_min*ccd.noise.sf.sigma_SF)*randn(sensor_signal_rows,sensor_signal_columns);
-% % % % 	ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage)*(ccd.A_SF).*(source_follower_noise);  %%% Signal of Source Follower [SF]
-% % % % %%%%%%%%%%%%% Adding Source Follower noise
-
-% % % % else 
 
 %%%%% <-- ###### BEGIN:: adding Source Follower non-linearity
 	if (ccd.flag.VVnonlinearity == 1) %%%%%% adds V/V non-linearity
 
 		nonlinearity_alpha = (ccd.A_SF*(ccd.nonlinearity.A_SFratio - 1))/(ccd.V_FW);
-		ccd.A_SF_new =  nonlinearity_alpha*((ccd.V_REF - ccd.Signal_CCD_voltage)/(ccd.V_REF)) + (ccd.A_SF)*ones(sensor_signal_rows,sensor_signal_columns);
+		ccd.A_SF_new =  nonlinearity_alpha*((ccd.V_REF - ccd.Signal_CCD_voltage)/(ccd.V_REF)) + (ccd.A_SF)*ones(ccd.sensor_size(1), ccd.sensor_size(2)); 
 
         ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_SF_new);  %%% Signal of Source Follower [SF]
 
@@ -45,5 +32,3 @@ function ccd = ccd_source_follower(ccd)
 		ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage)*(ccd.A_SF);  %%% Signal of Source Follower [SF]
 
 	end %%% if (ccd.flag.VVnonlinearity == 1)
-
-% % % % end %%% (ccd.flag.sourcefollowernoise==1)

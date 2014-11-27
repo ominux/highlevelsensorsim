@@ -16,12 +16,9 @@
 % ======================================================================
 function ccd = ccd_photosensor_FPN_modelling(ccd)
 
-[sensor_signal_rows, sensor_signal_columns] = size(ccd.Signal_CCD_electrons);
-
-
 %%%%##### adding Column FPN model - CMOS only!
 	if (strcmp('CMOS',ccd.SensorType) == 1)
-		ccd.FPN.column = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, 'column');
+		ccd.FPN.column = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'column');
 	end 
     
 

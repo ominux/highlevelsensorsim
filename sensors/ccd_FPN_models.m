@@ -36,7 +36,7 @@
 %> @param noisetype			= type of noise to generate: valid are @b 'pixel' or @b 'column'
 %> @retval noiseout			= generated noise of FPN
 % ======================================================================
-function noiseout = ccd_FPN_models(ccd, sensor_signal_rows,sensor_signal_columns, noisetype);
+function noiseout = ccd_FPN_models(ccd, sensor_signal_rows, sensor_signal_columns, noisetype);
 
 
 switch ccd.noise.FPN.model
