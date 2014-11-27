@@ -30,13 +30,11 @@ warning off
 addpath('sensors', 'propagation');
 
 
-%%%%%%%%#### Section: selectable parameters
-
 %%%%%%%%#### Subsection: Irradiance parameters
 N  = 256;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
 M  = 256;
 
-lambda = 550*10^(-9); % optical wavelength [m]
+ccd.lambda = 550*10^(-9); % optical wavelength [m]
 %%%%%%%%#### END Subsection: Irradiance parameters
 
 
@@ -87,7 +85,7 @@ lambda = 550*10^(-9); % optical wavelength [m]
     
     ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
 
-	ccd.flag.ADCnonlinearity= 0; %%% turn the non-linea
+	ccd.flag.ADCnonlinearity = 0; %%% turn the non-linea
 		if (ccd.flag.ADCnonlinearity == 1)
 			ccd.nonlinearity.ADCratio = 1.1; %% in how many times should A_ADC be decreased due to non-linearity?
 		end %%% if (ccd.flag.ADCnonlinearity == 1)
@@ -217,7 +215,7 @@ end%% if (ccd.flag.darkframe == 1)
 
 %%%%%%%%####### BEGIN::: Light registration with the model of the CCD/CMOS sensor
 
-ccd = ccd_photosensor(Uin,lambda, ccd); %% here the Photon-to-electron conversion occurred.
+ccd = ccd_photosensor(Uin, ccd); %% here the Photon-to-electron conversion occurred.
 
 %%%%%%%%########### END: Light registration with the model of the CCD/CMOS sensor
 

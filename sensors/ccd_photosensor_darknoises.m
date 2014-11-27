@@ -1,4 +1,4 @@
-%> @file ccd_photosensor_darkcurrentnoise.m
+%> @file ccd_photosensor_darknoises.m
 %> @brief This routine for adding dark current noises that consist of Dark FPN and Dark shot noise.
 %> 
 %> @author Mikhail V. Konnik
@@ -35,7 +35,8 @@
 %> @param ccd 		= structure of signal without dark current noises.
 %> @retval ccd 		= structure of signal WITH added Dark shot noise and dark FPN.
 % ======================================================================
-function ccd = ccd_photosensor_darkcurrentnoise(ccd)
+function ccd = ccd_photosensor_darknoises(ccd)
+
 
 PA = ccd.pixel_size(1)*ccd.pixel_size(1)*10^(4); %% translating the size to square sentimeters, as in Janesick book.
 
