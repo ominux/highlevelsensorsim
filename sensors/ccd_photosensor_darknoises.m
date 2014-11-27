@@ -41,37 +41,37 @@ function ccd = ccd_photosensor_darknoises(ccd)
 PA = ccd.pixel_size(1)*ccd.pixel_size(1)*10^(4); %% translating the size to square sentimeters, as in Janesick book.
 
 
-%%%%%% Section: Dark current generation
+%%%%% <----- ### Start:: Dark current generation
 ccd.Eg = ccd.Eg_0 - ( ccd.alpha*(ccd.T^2) )/(ccd.beta + ccd.T);  %% silicon band gap energy, [eV];
 
 ccd.DARK_e = (ccd.t_I)*2.55*10^(15)*PA*ccd.DFM*(ccd.T^(1.5))*exp(-ccd.Eg/(2*ccd.Boltzman_Constant*ccd.T)); %% average amount of dark current that is thermally generated [e]  !!! This ccd.DARK_e is that for equation 11.15 for Janesick D = t_I*D_R
 
 ccd.dark_signal = (ccd.DARK_e).*ones(size(ccd.Signal_CCD_electrons)); %% creating the matrix of dark generated signals.
-%%%%%% END Section: Dark current generation 
+%%%%% <----- ### END:: Dark current generation 
 
 
 
-%%%%%% Section: adding Dark Shot noise
+%%%%% <----- ### Start:: adding Dark Shot noise
 if (ccd.flag.darkcurrent_Dshot == 1)
 	ccd = ccd_photosensor_darkshotnoise(ccd);
 end
-%%%%%% END Section: adding Dark Shot noise
+%%%%% <----- ### END:: adding Dark Shot noise
 
 
 
-%%%%%% Section: adding Dark FPN  %%% being added to dark current, it is too small.
+%%%%% <----- ### Start:: adding Dark FPN  %%% being added to dark current, it is too small.
 if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
     ccd = ccd_photosensor_darkFPN(ccd);
 end
-%%%%%% END Section: adding Dark FPN  %%% being added to dark current, it is too small.
+%%%%% <----- ### END:: adding Dark FPN  %%% being added to dark current, it is too small.
 
 
 
-%%%%%% Section: adding the Source follower noise in electrons.
+%%%%% <----- ### Start:: adding the Source follower noise in electrons.
 if (ccd.flag.sourcefollowernoise == 1)
 
     ccd = ccd_source_follower_noise(ccd); %% caclulation of the source follower noise sigma_FS.
     ccd.dark_signal = ccd.dark_signal + (ccd.noise.sf.sigma_SF) * randn(ccd.sensor_size(1),ccd.sensor_size(2));
     
-end % if (ccd.flag.sourcefollowernoise == 1)
-%%%%%% Section: adding the Source follower noise in electrons.
+end 
+%%%%% <----- ### END:: adding the Source follower noise in electrons.

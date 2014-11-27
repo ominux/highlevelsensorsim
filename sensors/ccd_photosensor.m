@@ -17,7 +17,6 @@
 % ======================================================================
 function ccd = ccd_photosensor(Uin,ccd);
 
-
 ccd = ccd_set_photosensor_constants(ccd,Uin); %%% defining the constants such as speed of light _c_, Plank's _h_ and others.
 
 
@@ -35,28 +34,25 @@ end
 %%%%% <----- ### END:: adding dark current noise
 
 
-% FIXME: make the structure ccd.light_noise and then add it to dark noise
-
-% FIXME: dont' round them here - first run the Full-Well checkup. 
-
 % FIXME: the sense node reset noise must be LOG-NORMAL!
 
-%%%%%% Start: Adding dark current and noises to signal
-ccd.Signal_CCD_electrons = round(ccd.Signal_CCD_electrons+ccd.dark_signal); %% making DFPN as a ROW-repeated noise, just like light FPN;
-%%%%%% Start: Adding dark noises to signal
 
+%%%%% <----- ### Start:: adding dark current and light electrons 
+ccd.Signal_CCD_electrons = ccd.light_signal + ccd.dark_signal;
 
+% figure, imagesc(ccd.light_signal);
+% figure, imagesc(ccd.dark_signal);
 
-%%%%%%%%%%%######### Full-well checkup (if there more electrons than depth of the pixel - saturate the pixel)
-    idx = (ccd.Signal_CCD_electrons>=ccd.FW_e); %%% find all of pixels that are saturated (there are more electrons that full-well of the pixel)
-    ccd.Signal_CCD_electrons(idx) = ccd.FW_e;  %% saturate the pixel if there are more electrons than full-well.
+    %%%%%%%%%%%######### Full-well checkup (if there more electrons than depth of the pixel - saturate the pixel)
+        idx = (ccd.Signal_CCD_electrons>=ccd.FW_e); %%% find all of pixels that are saturated (there are more electrons that full-well of the pixel)
+        ccd.Signal_CCD_electrons(idx) = ccd.FW_e;  %% saturate the pixel if there are more electrons than full-well.
 
-    idx = (ccd.Signal_CCD_electrons<0); %%% find all of pixels that are less than zero
-    ccd.Signal_CCD_electrons(idx) = 0; %%% truncate pixels that are less than zero to zero. (there no negative electrons).
+        idx = (ccd.Signal_CCD_electrons<0); %%% find all of pixels that are less than zero
+        ccd.Signal_CCD_electrons(idx) = 0; %%% truncate pixels that are less than zero to zero. (there no negative electrons).
+    %%%%%%%%%%%######### END Full-well checkup
 
-    ccd.Signal_CCD_electrons = floor(ccd.Signal_CCD_electrons);  %% round the number of electrons.        
-%%%%%%%%%%%######### END Full-well checkup
-
+ccd.Signal_CCD_electrons = floor(ccd.Signal_CCD_electrons);  %% round the number of electrons.        
+%%%%% <----- ### END:: adding dark current and light electrons 
     
 
 

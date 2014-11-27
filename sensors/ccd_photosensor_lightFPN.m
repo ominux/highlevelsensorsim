@@ -29,4 +29,4 @@ function ccd = ccd_photosensor_lightFPN(ccd)
 
 ccd.FPN.pixelLight = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'pixel'); %% getting the matrix for the PRNU
 
-ccd.Signal_CCD_electrons = ccd.Signal_CCD_electrons.*(1 + (ccd.FPN.pixelLight)*(ccd.PRNU_factor)); %% apply the PRNU noise to the light signal of the photosensor.
+ccd.light_signal = ccd.light_signal.*(1 + (ccd.FPN.pixelLight)*(ccd.PRNU_factor)); %% apply the PRNU noise to the light signal of the photosensor.
