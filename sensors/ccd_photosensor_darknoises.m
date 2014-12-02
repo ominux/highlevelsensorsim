@@ -71,6 +71,11 @@ end
 if (ccd.flag.sourcefollowernoise == 1)
 
     ccd = ccd_source_follower_noise(ccd); %% caclulation of the source follower noise sigma_FS.
+    
+    %%% ranomising the state of the noise generators
+                    rand('state', sum(100*clock));
+                    randn('state', sum(100*clock));
+                    
     ccd.dark_signal = ccd.dark_signal + (ccd.noise.sf.sigma_SF) * randn(ccd.sensor_size(1),ccd.sensor_size(2));
     
 end 
