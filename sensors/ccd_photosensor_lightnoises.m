@@ -2,17 +2,21 @@
 %> @brief This routine for adding light noise (photon shot noise and photo response non-uniformity, PRNU).
 %> 
 %> @author Mikhail V. Konnik
-%> @date   17 January 2011
+%> @date   17 January 2011, reworked on 5 December 2014
 %> 
 %> @section secphoton2electron From Photon to Charge
-%> The input to the model of the photosensor is assumed to be a matrix $U_{in} \in \mathbb{C}^{N\times M} $ that corresponds to the opical field. 
-Then the sensor's irradiance $I_{irrad} = |U_{in}|^2$, which is in units of  [W/m$^2$], converted to the average number of photons $I_{ph}$ collected by each pixel during the integration (exposure) time:
-\begin{equation}\label{eq:photonsignal}
- I_{ph}  =  round \left( \frac{ I_{irrad} \cdot P_A  \cdot t_I }{ Q_p} \right),
-\end{equation}
-where $P_A$ is the area of a pixel [m$^2$],  $t_{I}$ is integration (exposure) time, $Q_p = \frac{h\cdot c}{\lambda}$ is the energy of a single photon at wavelength $\lambda$, $h$ is Planck's constant and $c$ is the speed of light. 
-
-
+%> The input to the model of the photosensor is assumed to be a matrix \f$U_{in}\in \mathbb{C}^{N\times M} \f$ 
+%> that corresponds to the opical field.  Then the
+%> sensor's irradiance \f$I_{irrad} = |U_{in}|^2\f$, which is in units of 
+%> [W/m\f$^2\f$], converted to the average number of photons \f$I_{ph}\f$ collected
+%> by each pixel during the integration (exposure) time:
+%> 
+%> \f$ I_{ph}  =  round \left( \frac{ I_{irrad} \cdot P_A  \cdot t_I }{ Q_p} \right),\f$
+%> 
+%> where \f$P_A\f$ is the area of a pixel [m\f$^2\f$],  \f$t_{I}\f$ is integration
+%> (exposure) time, \f$Q_p = \frac{h\cdot c}{\lambda}\f$ is the energy of a single
+%> photon at wavelength \f$\lambda\f$, \f$h\f$ is Planck's constant and \f$c\f$ is
+%> the speed of light. 
 %======================================================================
 %> @param ccd 		= structure of signal without dark current noises.
 %> @param Uin       = the matrix [NxM] of the input optical field.

@@ -1,7 +1,15 @@
-
+%> The input to the model of the photosensor is assumed to be a matrix \f$U_{in}\in \mathbb{C}^{N\times M} \f$ 
+%> that corresponds to the opical field.  Then the
+%> sensor's irradiance \f$I_{irrad} = |U_{in}|^2\f$, which is in units of 
+%> [W/m\f$^2\f$], converted to the average number of photons \f$I_{ph}\f$ collected
+%> by each pixel during the integration (exposure) time:
 %> 
+%> \f$ I_{ph}  =  round \left( \frac{ I_{irrad} \cdot P_A  \cdot t_I }{ Q_p} \right),\f$
 %> 
-%> 
+%> where \f$P_A\f$ is the area of a pixel [m\f$^2\f$],  \f$t_{I}\f$ is integration
+%> (exposure) time, \f$Q_p = \frac{h\cdot c}{\lambda}\f$ is the energy of a single
+%> photon at wavelength \f$\lambda\f$, \f$h\f$ is Planck's constant and \f$c\f$ is
+%> the speed of light. 
 %> 
 %> 
 %> 

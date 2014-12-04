@@ -37,7 +37,6 @@
 % ======================================================================
 function ccd = ccd_photosensor_darknoises(ccd)
 
-
 PA = ccd.pixel_size(1)*ccd.pixel_size(1)*10^(4); %% translating the size to square sentimeters, as in Janesick book.
 
 
@@ -65,6 +64,9 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 end
 %%%%% <----- ### END:: adding Dark FPN  %%% being added to dark current, it is too small.
 
+
+
+% FIXME: the sense node reset noise must be LOG-NORMAL!
 
 
 %%%%% <----- ### Start:: adding the Source follower noise in electrons.

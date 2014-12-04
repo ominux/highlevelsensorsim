@@ -1,19 +1,18 @@
 %> @file ccd_photosensor_lightFPN.m
-%> @brief This routine performs initial conversion of the light from the irradiance and photons to electrons.
+%> @brief Adding the PRNU light noise to the sensor signal.
 %> @author Mikhail V. Konnik
-%> @date   17 January 2011
+%> @date   17 January 2011, improved 5 December 2014
 %>
-%> @section prnusim Gain FPN or PRNU
-%> Gain FPN is photo response non-uniformity (PRNU, or Light FPN) that is a pixel-to-pixel variation in the sensor responsivity. Gain FPN can be described as the gain or ratio between irradiance on a pixel versus the electrical signal output. For example, although a sensor may be quoted as having a \f$4\mu m \times 4\mu m\f$ pixel, in reality, there will be a variation in pixel size across the array.
-%>
-%> Each pixel has a slightly different sensitivity to light is commonly called ``Photo Response Non Uniformity'' or light FPN\cite{janesickscintificCCD} is due to limitations in the fabrication process such as variations in the photomask alignment\cite{irie2008model} and slight variations in pixel geometry and substrate material. The effect of PRNU is proportional to illumination, and is prominent under high illumination levels\cite{gamalCMOSimagesensors}.
-%>
-%> Since PRNU is caused by the physical properties of a sensor, it is nearly impossible to eliminate and usually considered a normal characteristic of the sensor array. Typically the non-uniformity is only 1-2\%~\cite{janesickscintificCCD} that is more difficult to remove \cite{hpsensorsnoise}. Usually single error factor the PRNU (2\%) is prominent, photon shot noise is secondly\cite{irie2008model}.  The PRNU can be simulated as a variance of the quantum efficiency matrix. For instance, we can have QE coefficient with \f$\mu = 1\f$ and \f$\sigma = PN\f$, where PN is FPN/PRNU factor in percent.
-%>
-%> It is measured at a given integration time, temperature, and gain under uniform lighting conditions (typically at half of the saturation level).  This area variation will contribute to Gain FPN.  For megapixel area arrays, PRNU is quantified\cite{pixelLinkCameraParams} as: @n 
-%>  \f$PRNU = \frac{\sigma}{FrameMean} \% \f$
-%>
-%> Gain FPN can be pixel and column as well and depends on the type and architecture of the photosensor.
+%> @section prnusim Simulation of photo response non-uniformity (PRNU)
+%> The Photo Response Non-Uniformity (PRNU) is the spatial variation in pixel output under uniform illumination mainly due to variations in the surface area of the photodiodes. This occurs due to variations in substrate material during the fabrication of the sensor.
+%> 
+%> The PRNU is signal-dependent (proportional to the input signal) and is fixed-pattern (time-invariant). The PRNU factor is typically \f$0.01\dots 0.02\f$ for a given sensor, but varies from one sensor to another.
+%> 
+%> The photo response non-uniformity (PRNU) is considered in our numerical model as a temporally-fixed light signal non-uniformity. According to our experimental results, the PRNU can be modelled using a Gaussian distribution for each \f$(i,j)\f$-th pixel of the matrix \f$I_{e^-}\f$:
+%> 
+%> \f$I_{PRNU.e^-}  = I_{e^-} +I_{e^-} \cdot \mathcal{N}(0,\sigma_{PRNU}^2)\f$
+%> 
+%> where \f$\sigma_{PRNU}\f$ is the PRNU factor value. 
 %======================================================================
 %> @param ccd 		= structure without PRNU added to signal
 %> @retval ccd	 	= signal with added PRNU to variable @b Signal_CCD_electrons that is signal of the photosensor in electrons [matrix NxM], [e].
