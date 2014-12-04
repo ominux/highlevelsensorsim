@@ -1,5 +1,5 @@
 %> @file ccd_photosensor_darkshotnoise.m
-%> @brief This routine adds dark shot noise.
+%> @brief This routine adds dark shot noise in electrons.
 %> 
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011

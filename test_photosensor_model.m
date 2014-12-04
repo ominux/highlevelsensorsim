@@ -118,10 +118,10 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 
     ccd.noise.FPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
 
- 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
+%  	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
-%  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
-%  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+ 	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
+ 	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
 
 %  	ccd.noise.FPN.model	= 'AR-ElGamal';
 %  	ccd.noise.FPN.ar_elgamal= [1 0.5];
