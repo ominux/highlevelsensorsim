@@ -81,7 +81,7 @@ ccd.lambda = 550*10^(-9); % optical wavelength [m]
 
 
 %%%% <----- ### Start:: ADC Subsection
- 	ccd.N_bits		 = 12; %% noise is more apparent on high Bits
+ 	ccd.N_bits		 = 16; %% noise is more apparent on high Bits
     
     ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
 
@@ -116,18 +116,18 @@ ccd.flag.darkcurrent_Dshot	= 1;
 ccd.flag.darkcurrent_DarkFPN_pixel = 1;
 if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 
-    ccd.noise.FPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
+    ccd.noise.FPN.DN	= 0.1; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
 
-%  	ccd.noise.FPN.model	= 'Janesick-Gaussian';
+ 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
- 	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
- 	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+%  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
+%  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
 
 %  	ccd.noise.FPN.model	= 'AR-ElGamal';
 %  	ccd.noise.FPN.ar_elgamal= [1 0.5];
 
 % 	ccd.noise.FPN.model	= 'Wald';
-% 	ccd.noise.FPN.wald_parameter = 2; %% small parameters (w<1) produces estremely narrow distribution, large parameters (w>10) produces distribution with large tail.
+% 	ccd.noise.FPN.wald_parameter = 2; %% small parameters (w<1) produces extremely narrow distribution, large parameters (w>10) produces distribution with large tail.
 
 
 end %%  if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
@@ -142,7 +142,7 @@ if (ccd.flag.darkcurrent_offsetFPN == 1)
 end
 
 
-ccd.flag.sourcefollowernoise	= 1;
+ccd.flag.sourcefollowernoise	= 0;
 if (ccd.flag.sourcefollowernoise == 1)
 	ccd.noise.sf.t_s	= 10^(-6); %% is the CDS sample-to-sampling time [sec].
 	ccd.noise.sf.f_c	= 10^6; %% flicker noise corner frequency $f_c$ in [Hz], where power spectrum of white and flicker noise are equal [Hz].
@@ -153,7 +153,7 @@ end %% if (ccd.flag.sourcefollowernoise == 1)
 
 
 ccd.flag.sensenoderesetnoise	= 1; %%%<---- 
-	ccd.snresetnoiseFactor	= 0.01;
+% 	ccd.snresetnoiseFactor	= 0.01;
 %%%%%%%%## END Subsection: photosensor NOISE settings
 
 

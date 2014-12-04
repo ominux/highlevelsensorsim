@@ -77,11 +77,13 @@ switch ccd.noise.FPN.model
 %%% ### <---- Wald FPN model
 	case 'Wald' %% runnig El Gamal white noise Autoregressive noise model.
 	    if strcmp(noisetype, 'pixel')
-		noiseout = stat_randraw('wald',ccd.noise.FPN.wald_parameter,[sensor_signal_rows, sensor_signal_columns]) + rand(sensor_signal_rows, sensor_signal_columns);
+		noiseout = stat_randraw('wald',ccd.noise.FPN.wald_parameter,...
+            [sensor_signal_rows, sensor_signal_columns]) + rand(sensor_signal_rows, sensor_signal_columns);
         end
         
 	    if strcmp(noisetype, 'column')
-		x = stat_randraw('wald',ccd.noise.FPN.wald_parameter,[1, sensor_signal_columns]) + rand(1, sensor_signal_columns);
+		x = stat_randraw('wald',ccd.noise.FPN.wald_parameter,[1, sensor_signal_columns])...
+            + rand(1, sensor_signal_columns);
 		noiseout = repmat(x,sensor_signal_rows,1); %% making PRNU as a ROW-repeated noise, just like light FPN
 	    end
 %%% ### <---- Wald FPN model
@@ -91,11 +93,13 @@ switch ccd.noise.FPN.model
 %%% ### <---- lognorm FPN model
 	case 'LogNormal' %% runnig El Gamal white noise Autoregressive noise model.
 	    if strcmp(noisetype, 'pixel')
-		noiseout = stat_randraw('lognorm',[ccd.noise.FPN.lognorm_parameter(1), ccd.noise.FPN.lognorm_parameter(2)],[sensor_signal_rows, sensor_signal_columns]);;
+		noiseout = stat_randraw('lognorm',[ccd.noise.FPN.lognorm_parameter(1),ccd.noise.FPN.lognorm_parameter(2)],...
+            [sensor_signal_rows, sensor_signal_columns]);
         end
 
         if strcmp(noisetype, 'column')
-		x = stat_randraw('lognorm',[ccd.noise.FPN.lognorm_parameter(1), ccd.noise.FPN.lognorm_parameter(2)],[1, sensor_signal_columns]);
+		x = stat_randraw('lognorm',[ccd.noise.FPN.lognorm_parameter(1), ccd.noise.FPN.lognorm_parameter(2)],...
+            [1, sensor_signal_columns]);
 		noiseout = repmat(x,sensor_signal_rows,1); %% making PRNU as a ROW-repeated noise, just like light FPN
 	    end
 %%% ### <---- lognorm FPN model

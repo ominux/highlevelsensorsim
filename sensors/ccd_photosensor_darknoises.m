@@ -2,7 +2,7 @@
 %> @brief This routine for adding dark current noises that consist of Dark FPN and Dark shot noise.
 %> 
 %> @author Mikhail V. Konnik
-%> @date   17 January 2011
+%> @date   17 January 2011, reworked on 5 December 2014.
 %> 
 %> @section readnoise Read noise in solid-state photosensors
 %======================================================================
@@ -38,9 +38,6 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 end
 %%%%% <----- ### END:: adding Dark FPN  %%% being added to dark current, it is too small.
 
-
-
-% FIXME: the sense node reset noise must be LOG-NORMAL!
 
 
 %%%%% <----- ### Start:: adding the Source follower noise in electrons.

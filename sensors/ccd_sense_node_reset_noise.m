@@ -19,4 +19,9 @@ function ccd = ccd_sense_node_reset_noise(ccd)
 
 ccd.noise.sn_reset_sigma_ktc = sqrt( (ccd.Boltzman_Constant_JK)*(ccd.T)/(ccd.C_SN) );
 
-ccd.noise.sn_reset_noise_matrix = 1+ccd.snresetnoiseFactor*(ccd.noise.sn_reset_sigma_ktc)*randn( ccd.sensor_size );
+%% Soft-Reset case for the CMOS sensor
+ccd.noise.sn_reset_noise_matrix = stat_randraw('lognorm',[0, ccd.noise.sn_reset_sigma_ktc],[ccd.sensor_size(1), ccd.sensor_size(2)]);
+
+
+disp(ccd.noise.sn_reset_sigma_ktc)
+% disp(mean(ccd.noise.sn_reset_noise_matrix(:)))
