@@ -206,24 +206,9 @@ end%% if (ccd.flag.darkframe == 1)
 
 
 
-
-
-
-
-
-
-
 %%%%%%%%####### BEGIN::: Light registration with the model of the CCD/CMOS sensor
-
-ccd = ccd_photosensor(Uin, ccd); %% here the Photon-to-electron conversion occurred.
-
-%%%%%%%%########### END: Light registration with the model of the CCD/CMOS sensor
-
-
-
-
-
-
+    ccd = ccd_photosensor(Uin, ccd); %% here the Photon-to-electron conversion occurred.
+%%%%%%%%####### END: Light registration with the model of the CCD/CMOS sensor
 
 
 

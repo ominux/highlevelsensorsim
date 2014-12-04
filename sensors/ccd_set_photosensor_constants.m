@@ -1,3 +1,13 @@
+%> @file ccd_set_photosensor_constants.m
+%> @brief Defining the constants that are necessary for calculation of photon energy, dark current rate, etc.
+%> 
+%> @author Mikhail V. Konnik
+%> @date   5 December 2014
+%======================================================================
+%> @param ccd 		= structure of signal without dark current noises.
+%> @param Uin       = the matrix [NxM] of the input optical field.
+%> @retval ccd 		= constants added to the ''ccd.'' structure
+% ======================================================================
 function ccd = ccd_set_photosensor_constants(ccd, Uin)
 
 %%%%%%% Section: Sensor material constants    
@@ -16,7 +26,6 @@ ccd.c = 2.99792458*10^8; %% speed of light, in [m/s].
 	ccd.q 			          = 1.602176487*10^(-19); %% a charge of an electron [C], Cylon
 	ccd.k1			          = 10.909*10^(-15); %% a constant;
 %%%%%%% END Section: Fundamental constants    
-
 
 
 ccd.sensor_size = size(Uin); %%% determining the size of the sensor.

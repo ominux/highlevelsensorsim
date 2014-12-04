@@ -17,7 +17,7 @@
 % ======================================================================
 function ccd = ccd_photosensor(Uin,ccd);
 
-ccd = ccd_set_photosensor_constants(ccd,Uin); %%% defining the constants such as speed of light _c_, Plank's _h_ and others.
+ccd = ccd_set_photosensor_constants(ccd,Uin); %%% defining the constants such as speed of light c, Plank's h, and others.
 
 
 %%%%% <----- ### Start:: adding light noises
