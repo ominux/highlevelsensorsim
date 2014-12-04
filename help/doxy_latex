@@ -1,0 +1,10 @@
+@section fresnel_propIR One-step Fresnel Impulse Response (propIR) propagator
+Another propagation approach~\cite{voelz2011computational} can be devised based on the impulse response:
+
+\f$ U_2(x,y) = \mathcal{F}^{-1} \{ \mathcal{F}(U_1(x,y) ) \mathcal{F}(h(x,y)  \}, \mbox{ where } h(x,y) =  \frac{  \exp[ikz]  }{i \lambda z }  \exp\left[   \frac{e^{ik} }{2z} (x^2 +y^2) \right] \f$
+
+Here in \f$\exp\left[   \frac{e^{ik} }{2z} (x^2 +y^2) \right]\f$ we apparently use the Fresnel approximation.
+
+The propIR code is similar to the propTF function, where the source and observation planes assumed to have the same side length. 
+
+Due to numerical artifacts, the IR approach turns out to be more limited in terms of the situations where it should be used than the TF approach, however, it provides a way to simulate propagation over longer distances and is useful for the discussion of simulation limitations and artifacts.

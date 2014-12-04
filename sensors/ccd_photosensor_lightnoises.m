@@ -1,17 +1,31 @@
 %> @file ccd_photosensor_lightnoises.m
-%> @brief This routine for adding dark current noises that consist of Dark FPN and Dark shot noise.
+%> @brief This routine for adding light noise (photon shot noise and photo response non-uniformity, PRNU).
 %> 
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011
 %> 
+%> @section secphoton2electron From Photon to Charge
+%> The input to the model of the photosensor is assumed to be a matrix $U_{in} \in \mathbb{C}^{N\times M} $ that corresponds to the opical field. 
+Then the sensor's irradiance $I_{irrad} = |U_{in}|^2$, which is in units of  [W/m$^2$], converted to the average number of photons $I_{ph}$ collected by each pixel during the integration (exposure) time:
+\begin{equation}\label{eq:photonsignal}
+ I_{ph}  =  round \left( \frac{ I_{irrad} \cdot P_A  \cdot t_I }{ Q_p} \right),
+\end{equation}
+where $P_A$ is the area of a pixel [m$^2$],  $t_{I}$ is integration (exposure) time, $Q_p = \frac{h\cdot c}{\lambda}$ is the energy of a single photon at wavelength $\lambda$, $h$ is Planck's constant and $c$ is the speed of light. 
+
+
+%======================================================================
+%> @param ccd 		= structure of signal without dark current noises.
+%> @param Uin       = the matrix [NxM] of the input optical field.
+%> @retval ccd 		= constants added to the ''ccd.'' structure
+% ======================================================================
 function ccd = ccd_photosensor_lightnoises(ccd, Uin)
 
 
 %%%%% <----- ### Start:: Calculating the area of the pixel (in [m^2]).
 if (strcmp('CMOS',ccd.SensorType) == 1)
-    PA = ccd.FillFactor*ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area [m^2].
+    PA = ccd.FillFactor*ccd.pixel_size(1)*ccd.pixel_size(2); %% for CMOS, taking into account the Fill Factor.
 else
-    PA = ccd.pixel_size(1)*ccd.pixel_size(2); %% PA is pixel area, [m^2].
+    PA = ccd.pixel_size(1)*ccd.pixel_size(2);
 end
 %%%%% <----- ### END:: Calculating the area of the pixel (in [m^2]).
 

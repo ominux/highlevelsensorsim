@@ -1,0 +1,14 @@
+%> @file atm_structure_fun2_ft.m
+%> @brief Estimation of the structure function for the phase screen.
+%> @author Mikhail V. Konnik
+%> @date   30 March 2014
+%>
+%> @section strfunphase Structure function for the phase screen.
+
+%======================================================================
+%> @param ph = the matrix that contains the phase screen.
+%> @param mask =  the matrix of aperture mask.
+%> @param delta = the pixel scale is $p_S = D/d_p$ meters/pixel.
+%>
+%> @retval D = the estimated structure function. 
+% ======================================================================
