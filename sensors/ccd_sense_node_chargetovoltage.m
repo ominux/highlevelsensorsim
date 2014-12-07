@@ -52,15 +52,15 @@ if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must
         
         
         %%% START:: Sanitizing the input for ccd.snresetnoiseFactor
-        if (ccd.snresetnoiseFactor > 1)
+        if (ccd.noise.sn_reset.Factor > 1)
 
-            ccd.snresetnoiseFactor = 1;
-            fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be more than 1! The factor is set to 1.', ccd.snresetnoiseFactor);
+            ccd.noise.sn_reset.Factor = 1;
+            fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be more than 1! The factor is set to 1.\n', ccd.noise.sn_reset.Factor);
 
-        else if (ccd.snresetnoiseFactor < 0)
+        else if (ccd.noise.sn_reset.Factor < 0)
 
-            ccd.snresetnoiseFactor = 0;
-            fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be negative! The factor is set to 0, SNReset noise is not simulated.', ccd.snresetnoiseFactor);
+            ccd.noise.sn_reset.Factor = 0;
+            fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be negative! The factor is set to 0, SNReset noise is not simulated.\n', ccd.noise.sn_reset.Factor);
 
             end
         end
@@ -71,9 +71,9 @@ if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must
         ccd = ccd_sense_node_reset_noise(ccd); %%% the actual noise matrix is in   ccd.noise.sn_reset_noise_matrix
         
 		if (ccd.flag.Venonlinearity == 1)
-           ccd.Signal_CCD_voltage = (ccd.V_REF + ccd.snresetnoiseFactor*ccd.noise.sn_reset_noise_matrix).*(exp(-ccd.nonlinearity.A_SNratio*ccd.q*ccd.Signal_CCD_electrons./ccd.k1)); %% non-linearity
+           ccd.Signal_CCD_voltage = (ccd.V_REF + ccd.noise.sn_reset.Factor*ccd.noise.sn_reset.noisematrix).*(exp(-ccd.nonlinearity.A_SNratio*ccd.q*ccd.Signal_CCD_electrons./ccd.k1)); %% non-linearity
         else
-           ccd.Signal_CCD_voltage = (ccd.V_REF + ccd.snresetnoiseFactor*ccd.noise.sn_reset_noise_matrix) - (ccd.Signal_CCD_electrons * ccd.A_SN);   %%% Node signal voltage.
+           ccd.Signal_CCD_voltage = (ccd.V_REF + ccd.noise.sn_reset.Factor*ccd.noise.sn_reset.noisematrix) - (ccd.Signal_CCD_electrons * ccd.A_SN);   %%% Node signal voltage.
 		end %%% if (ccd.flag.Venonlinearity == 1)
 
                 
