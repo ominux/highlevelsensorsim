@@ -12,19 +12,15 @@ close all
 addpath('sensors', 'propagation');
 
 
-
-
-%%%%%%%%#### Start: Irradiance parameters
-ccd.lambda = 550*10^(-9); % optical wavelength [m]
-%%%%%%%%#### END  : Irradiance parameters
-
-
 %%%%% <----- ### Start :: General parameters of the photosensor
 N  = 256;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
 M  = 256;
 
-%  	ccd.SensorType		= 'CCD';
-	ccd.SensorType		= 'CMOS';
+ccd.lambda = 550*10^(-9); % optical wavelength [m]
+
+%% Select (uncomment) the type of a photo sensor
+ccd.SensorType		= 'CCD';
+% ccd.SensorType		= 'CMOS';
 
 	ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
 
@@ -57,14 +53,8 @@ M  = 256;
 
 
 %%%% <----- ### Start:: Analogue-to-Digital Converter (ADC)
- 	ccd.N_bits		 = 12; %% noise is more apparent on high Bits
-    
+ 	ccd.N_bits		 = 12; %% noise is more apparent on high Bits    
     ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
-
-	ccd.flag.ADCnonlinearity = 0; %%% turn the non-linea
-		if (ccd.flag.ADCnonlinearity == 1)
-			ccd.nonlinearity.ADCratio = 1.1; %% in how many times should A_ADC be decreased due to non-linearity?
-		end %%% if (ccd.flag.ADCnonlinearity == 1)
 %%%%% <-- ###### END:: Analogue-to-Digital Converter (ADC)
 
 
@@ -120,17 +110,6 @@ ccd.flag.darkcurrent_offsetFPN	= 1;
         ccd.noise.FPN.model	= 'Janesick-Gaussian';
         ccd.DNcolumn 		= 0.0005;  %% percentage of (V_REF - V_SN)
 %%% END :: Simulation of the dark current Offset Fixed Pattern Noise 
-
-
-%%% START:: Simulation of the source follower noise.
-ccd.flag.sourcefollowernoise	= 0;
-
-    ccd.noise.sf.t_s	= 10^(-6); %% is the CDS sample-to-sampling time [sec].
-	ccd.noise.sf.f_c	= 10^6; %% flicker noise corner frequency $f_c$ in [Hz], where power spectrum of white and flicker noise are equal [Hz].
-	ccd.f_clock_speed	= 20*10^(6); %%20 MHz data rate clocking speed.
-	ccd.noise.sf.W_f	= 15*10^(-9); %% is the thermal white noise [\f$V/Hz^{1/2}\f$, typically \f$15 nV/Hz^{1/2}\f$ ]
-	ccd.noise.sf.Delta_I	= 10^(-8); % [Amper] is the source follower current modulation induced by RTS [CMOS ONLY]
-%%% END :: Simulation of the source follower noise.
 
 
 %%% START:: Simulation of the sense node reset noise.

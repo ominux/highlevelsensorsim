@@ -41,6 +41,10 @@ end
 
 
 %%%%% <----- ### Start:: adding the Source follower noise in electrons.
+if ( isfield(ccd.flag,'sourcefollowernoise') == 0 ) %% Just in case - if the field ccd.flag.sourcefollowernoise does NOT exist, make it zero to prevent the code from crashing.
+    ccd.flag.sourcefollowernoise = 0;
+end
+
 if (ccd.flag.sourcefollowernoise == 1)
 
     ccd = ccd_source_follower_noise(ccd); %% caclulation of the source follower noise sigma_FS.
@@ -50,6 +54,5 @@ if (ccd.flag.sourcefollowernoise == 1)
                     randn('state', sum(100*clock));
                     
     ccd.dark_signal = ccd.dark_signal + (ccd.noise.sf.sigma_SF) * randn(ccd.sensor_size(1),ccd.sensor_size(2));
-    
 end 
 %%%%% <----- ### END:: adding the Source follower noise in electrons.

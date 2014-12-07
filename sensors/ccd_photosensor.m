@@ -14,6 +14,11 @@
 % ======================================================================
 function ccd = ccd_photosensor(Uin,ccd);
 
+
+if ( isfield(ccd,'SensorType') == 0 )
+    error('Sensor Simulator::: please choose (uncomment) at least one type of sensor, CMOS or CCD!')
+end
+
 ccd = ccd_set_photosensor_constants(ccd,Uin); %%% defining the constants such as speed of light c, Plank's h, and others.
 
 
