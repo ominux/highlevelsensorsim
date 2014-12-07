@@ -37,6 +37,24 @@ ccd.V_min = ccd.q*ccd.A_SN/(ccd.C_SN);
 %%%%%%%%%%%%% SN = Sense node, the capacitor area.
 
 
+%%% START:: Sanitizing the input for ccd.snresetnoiseFactor
+if (ccd.snresetnoiseFactor > 1)
+    
+    ccd.snresetnoiseFactor = 1;
+    fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be more than 1! The factor is set to 1.', ccd.snresetnoiseFactor);
+
+else if (ccd.snresetnoiseFactor < 0)
+
+    ccd.snresetnoiseFactor = 0;
+    fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be negative! The factor is set to 0, SNReset noise is not simulated.', ccd.snresetnoiseFactor);
+
+    ccd.flag.sensenoderesetnoise = 0;
+    
+    end
+end
+%%% END:: Sanitizing the input for ccd.snresetnoiseFactor
+
+
 
 if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must be here
     

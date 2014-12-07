@@ -21,7 +21,3 @@ ccd.noise.sn_reset_sigma_ktc = sqrt( (ccd.Boltzman_Constant_JK)*(ccd.T)/(ccd.C_S
 
 %% Soft-Reset case for the CMOS sensor
 ccd.noise.sn_reset_noise_matrix =  exp( ccd.noise.sn_reset_sigma_ktc * randn( ccd.sensor_size ) ) - 1;
-
-
-disp(ccd.noise.sn_reset_sigma_ktc)
-% disp(mean(ccd.noise.sn_reset_noise_matrix(:)))
