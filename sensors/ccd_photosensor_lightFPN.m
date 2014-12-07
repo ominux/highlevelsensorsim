@@ -26,6 +26,6 @@ function ccd = ccd_photosensor_lightFPN(ccd)
 % % % % %                     randn('state', sum(100*clock));
 
 
-ccd.noise.PRNU.noisematrix = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'pixel', ccd.noise.PRNU.model); %% getting the matrix for the PRNU
+ccd.noise.PRNU.noisematrix = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'pixel', ccd.noise.PRNU.model, ccd.noise.PRNU.parameters); %% getting the matrix for the PRNU
 
 ccd.light_signal = ccd.light_signal.*(1 + (ccd.noise.PRNU.noisematrix)*(ccd.noise.PRNU.factor)); %% apply the PRNU noise to the light signal of the photosensor.

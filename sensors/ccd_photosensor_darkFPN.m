@@ -84,6 +84,6 @@ function ccd = ccd_photosensor_darkFPN(ccd)
                     rand( 'state', 362436128); %%% Fix the state of the rand  random generator
                     randn('state', 362436128); %%% Fix the state of the randn random generator
     
-ccd.noise.darkFPN.noisematrix = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'pixel', ccd.noise.darkFPN.model);
+ccd.noise.darkFPN.noisematrix = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'pixel', ccd.noise.darkFPN.model, ccd.noise.darkFPN.parameters);
 
 ccd.dark_signal = ccd.dark_signal.*(1 + (ccd.noise.darkFPN.DN)*(ccd.noise.darkFPN.noisematrix)); %% add pixel FPN dark noise.

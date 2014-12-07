@@ -27,7 +27,7 @@ if  strcmp('CMOS',ccd.SensorType)
 %%%%% <----- ### Start:: If the sensor is CMOS and the Column FPN is on  - add the column FPN noise  (CMOS only!)
 	if (ccd.flag.darkcurrent_offsetFPN == 1)
 
-        ccd.noise.darkFPN_offset.noisematrix = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'column', ccd.noise.darkFPN_offset.model);
+        ccd.noise.darkFPN_offset.noisematrix = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'column', ccd.noise.darkFPN_offset.model, ccd.noise.darkFPN_offset.parameters);
         
 		ccd.Signal_CCD_voltage = ccd.Signal_CCD_voltage.*( 1 +  ccd.noise.darkFPN_offset.noisematrix*(ccd.V_FW * ccd.noise.darkFPN_offset.DNcolumn)   ); %% add pixel FPN dark noise.
     end
