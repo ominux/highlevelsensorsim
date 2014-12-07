@@ -2,7 +2,7 @@
 %> @brief Reducing the noise by Correlated Double Sampling, but right now the routine just adds the noise.
 %>
 %> @author Mikhail V. Konnik
-%> @date   18 January 2011
+%> @date   18 January 2011, improved 8 December 2014
 %>
 %> @section cds Correlated Double Sampling
 %> Correlated Double Sampling (CDS) is a technique for measuring photovoltage values that removes an undesired noise. The sensor's output is measured twice. Correlated Double Sampling is used for compensation of Fixed pattern noise~\cite{canonfullframeCMOSwhitepaper} caused by dark current leakage, irregular pixel converters and the like. It appears on the same pixels at different times when images are taken. It can be suppressed with noise reduction and on-chip noise reduction technology. The main approach is CDS, having one light signal read by two circuits.@n
@@ -18,12 +18,12 @@ function ccd = ccd_cds(ccd)
 if  strcmp('CMOS',ccd.SensorType)
 
 	if (ccd.flag.darkcurrent_offsetFPN == 1)
-
-%%%%##### adding Column FPN model - CMOS only!
+%%%%% <----- ### Start:: If the sensor is CMOS and the Column FPN is on  - add the column FPN noise  (CMOS only!)
         ccd.FPN.column = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'column');
 		ccd.Signal_CCD_voltage = ccd.Signal_CCD_voltage.*( 1 +  ccd.FPN.column*(ccd.V_FW*ccd.DNcolumn)   ); %% add pixel FPN dark noise.
+%%%%% <----- ### Start:: If the sensor is CMOS and the Column FPN is on  - add the column FPN noise  (CMOS only!)
 
-    else %%% if (ccd.flag.darkcurrent_offsetFPN == 1)
+    else %%% if (ccd.flag.darkcurrent_offsetFPN == 0)
 	
         ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
 
@@ -32,6 +32,6 @@ if  strcmp('CMOS',ccd.SensorType)
 
 else
 
-    ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
+        ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
 
 end %% (ccd.flag.sensenoderesetnoise == 1)

@@ -41,8 +41,8 @@ ccd.lambda = 550*10^(-9); % optical wavelength [m]
 N  = 256;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
 M  = 256;
 
- 	ccd.SensorType		= 'CCD';
-% 	ccd.SensorType		= 'CMOS';
+%  	ccd.SensorType		= 'CCD';
+	ccd.SensorType		= 'CMOS';
 
 	ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
 
@@ -133,10 +133,10 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1) %% uncomment the desirable model of
 
     ccd.noise.FPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
 
-%  	ccd.noise.FPN.model	= 'Janesick-Gaussian';
+ 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
- 	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
- 	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+%  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
+%  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
 
 %  	ccd.noise.FPN.model	= 'AR-ElGamal';
 %  	ccd.noise.FPN.ar_elgamal= [1 0.5];

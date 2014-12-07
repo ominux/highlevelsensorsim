@@ -61,8 +61,8 @@ if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must
 %% <--- BEGIN:: the CMOS sensor case
 	if (ccd.flag.sensenoderesetnoise == 1)  %%% If the reset noise is turned on - ADD THE SENSE NOISE
         
-        %%% Obtain the matrix of 
-        ccd = ccd_sense_node_reset_noise(ccd);
+        %%% Obtain the matrix for the Sense Node Reset Noise:
+        ccd = ccd_sense_node_reset_noise(ccd); %%% the actual noise matrix is in   ccd.noise.sn_reset_noise_matrix
         
 		if (ccd.flag.Venonlinearity == 1)
            ccd.Signal_CCD_voltage = (ccd.V_REF + ccd.snresetnoiseFactor*ccd.noise.sn_reset_noise_matrix).*(exp(-ccd.nonlinearity.A_SNratio*ccd.q*ccd.Signal_CCD_electrons./ccd.k1)); %% non-linearity

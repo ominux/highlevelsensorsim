@@ -2,7 +2,7 @@
 %> @brief The amplification of the voltage from Sense Node by Source Follower.
 %> 
 %> @author Mikhail V. Konnik
-%> @date   18 January 2011
+%> @date   18 January 2011, reworked 8 December 2014.
 %> @section sourcefollow V/V gain source follower non-linearity
 %> The V/V non-linearity affect shot noise (but does not affect FPN curve) and can cause some shot-noise probability density compression. \textbf{The V/V non-linearity non-linearity is caused by non-linear response in ADC or source follower\cite{photontransferbook}}. 
 %> 
