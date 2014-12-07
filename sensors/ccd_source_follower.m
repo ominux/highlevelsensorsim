@@ -18,6 +18,10 @@
 function ccd = ccd_source_follower(ccd)
 
 
+if ( isfield(ccd.flag,'VVnonlinearity') == 0 ) %% Just in case - if the field ccd.flag.Venonlinearity does NOT exist, make it zero to prevent the code from crashing.
+    ccd.flag.VVnonlinearity = 0;
+end
+
 %%%%% <-- ###### BEGIN:: adding Source Follower non-linearity
 	if (ccd.flag.VVnonlinearity == 1) %%%%%% adds V/V non-linearity
 

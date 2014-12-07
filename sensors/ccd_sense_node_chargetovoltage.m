@@ -30,29 +30,17 @@
 % ======================================================================
 function ccd = ccd_sense_node_chargetovoltage(ccd)
 
+
+if ( isfield(ccd.flag,'Venonlinearity') == 0 ) %% Just in case - if the field ccd.flag.Venonlinearity does NOT exist, make it zero to prevent the code from crashing.
+    ccd.flag.Venonlinearity = 0;
+end
+
+    
 %%%%%%%%%%%%% SN = Sense node, the capacitor area.
 ccd.C_SN = (ccd.q)/ccd.A_SN; %%%% Sense node capacitance, parameter, [F] Farad
 ccd.V_FW = ccd.FW_e*ccd.q/(ccd.C_SN); %% Voltage on the Full Well
 ccd.V_min = ccd.q*ccd.A_SN/(ccd.C_SN);
 %%%%%%%%%%%%% SN = Sense node, the capacitor area.
-
-
-%%% START:: Sanitizing the input for ccd.snresetnoiseFactor
-if (ccd.snresetnoiseFactor > 1)
-    
-    ccd.snresetnoiseFactor = 1;
-    fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be more than 1! The factor is set to 1.', ccd.snresetnoiseFactor);
-
-else if (ccd.snresetnoiseFactor < 0)
-
-    ccd.snresetnoiseFactor = 0;
-    fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be negative! The factor is set to 0, SNReset noise is not simulated.', ccd.snresetnoiseFactor);
-
-    ccd.flag.sensenoderesetnoise = 0;
-    
-    end
-end
-%%% END:: Sanitizing the input for ccd.snresetnoiseFactor
 
 
 
@@ -61,6 +49,23 @@ if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must
 %% <--- BEGIN:: the CMOS sensor case
 	if (ccd.flag.sensenoderesetnoise == 1)  %%% If the reset noise is turned on - ADD THE SENSE NOISE
         
+        
+        %%% START:: Sanitizing the input for ccd.snresetnoiseFactor
+        if (ccd.snresetnoiseFactor > 1)
+
+            ccd.snresetnoiseFactor = 1;
+            fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be more than 1! The factor is set to 1.', ccd.snresetnoiseFactor);
+
+        else if (ccd.snresetnoiseFactor < 0)
+
+            ccd.snresetnoiseFactor = 0;
+            fprintf('Sensor Simulator::: Warning! The compensation factor you entered %2.3e for \n the Sense Node Reset Noise cannot be negative! The factor is set to 0, SNReset noise is not simulated.', ccd.snresetnoiseFactor);
+
+            end
+        end
+        %%% END:: Sanitizing the input for ccd.snresetnoiseFactor
+
+
         %%% Obtain the matrix for the Sense Node Reset Noise:
         ccd = ccd_sense_node_reset_noise(ccd); %%% the actual noise matrix is in   ccd.noise.sn_reset_noise_matrix
         
@@ -90,8 +95,8 @@ if  strcmp('CMOS',ccd.SensorType) %%%%% Sense Noide Reset Noise (KTC noise) must
 
 %% <--- BEGIN:: the CCD sensor
 else %% The sensor is CCD
-    
-	if (ccd.flag.Venonlinearity == 1)
+
+    if (ccd.flag.Venonlinearity == 1)
             ccd.Signal_CCD_voltage  = ccd.V_REF*(exp(-ccd.nonlinearity.A_SNratio*ccd.q*ccd.Signal_CCD_electrons./ccd.k1)); %% non-linearity
     else
             ccd.Signal_CCD_voltage  = ccd.V_REF - ccd.Signal_CCD_electrons * ccd.A_SN;   %%% Sense Node voltage.
