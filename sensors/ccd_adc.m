@@ -22,7 +22,8 @@
 % ======================================================================
 function ccd = ccd_adc(ccd);
 
-N_max = 2^(ccd.N_bits);
+N_max = 2^(ccd.N_bits); %% maximum number of DN.
+
 ccd.A_ADC = N_max/(ccd.V_FW - ccd.V_min); %%% ADC gain, [DN/V].
 
 

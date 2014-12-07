@@ -171,7 +171,6 @@ ccd.flag.plots.DN		    = 1;
 %%%## Subsection: Sensor noises and signal visualisators
 
 %%% For testing and measurements only:
-ccd.flag.writetotiff		= 0; %%% output of the image to TIFF file
 ccd.flag.darkframe          = 0;
 %%%%%%%%############### END Section: selectable parameters %%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -243,10 +242,3 @@ figure, imagesc(ccd.Signal_CCD_DN), title('Signal from the photosensor in DN.'),
 figure, imagesc(log10(abs(ccd.Signal_CCD_DN))), title('Log-Log Signal from the photosensor in DN.'); %%
 end
 %%%%%%%%%%%% END Visualisation subsection.
-
-
-%%%%%%%%%%####        Section: Write down the image to TIFF file
-if (ccd.flag.writetotiff == 1)
-tool_photosensor_image_output(ccd); %%% Write down files in TIFF FORMAT
-end
-%%%%%%%%%%####### END Section: Write down the image to TIFF file
