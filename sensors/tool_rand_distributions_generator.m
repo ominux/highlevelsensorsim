@@ -16,10 +16,10 @@
 %> 
 %> Any comments and suggestions please send to:
 %>     alex@wavion.co.il
+function out = tool_rand_distributions_generator(distribName, distribParams, sampleSize)
 
+funcName = mfilename;
 
-function out = tool_rand_distributions_generator(distribName, distribParams, varargin)
-disp('Wyo')
 distribNameInner = lower( distribName( ~isspace( distribName ) ) );
 
 out = [];
@@ -28,7 +28,57 @@ out = [];
         
           switch lower( distribNameInner )
               
-              
+                  case {'exp','exponential'}
+                    % START exp HELP START exponential HELP
+                    % THE EXPONENTIAL DISTRIBUTION
+                    %
+                    % pdf = lambda * exp( -lambda*y );
+                    % cdf = 1 - exp(-lambda*y);
+                    %
+                    %  Mean = 1/lambda;
+                    %  Variance = 1/lambda^2;
+                    %  Mode = lambda;
+                    %  Median = log(2)/lambda;
+                    %  Skewness = 2;
+                    %  Kurtosis = 6;
+                    %
+                    % PARAMETERS:
+                    %   lambda - inverse scale or rate (lambda>0)
+                    %
+                    % SUPPORT:
+                    %   y,  y>= 0
+                    %
+                    % CLASS:
+                    %   Continuous skewed distributions
+                    %
+                    % NOTES:
+                    %  The discrete version of the Exponential distribution is 
+                    %  the Geometric distribution.
+                    %
+                    % USAGE:
+                    %   randraw('exp', lambda, sampleSize) - generate sampleSize number
+                    %         of variates from the Exponential distribution
+                    %         with parameter 'lambda';
+                    %   randraw('exp') - help for the Exponential distribution;
+                    %
+                    % EXAMPLES:
+                    %  1.   y = randraw('exp', 1, [1 1e5]);
+                    %  2.   y = randraw('exp', 1.5, 1, 1e5);
+                    %  3.   y = randraw('exp', 2, 1e5 );
+                    %  4.   y = randraw('exp', 3, [1e5 1] );
+                    %  5.   randraw('exp');
+                    %
+                    % SEE ALSO:
+                    %   GEOMETRIC, GAMMA, POISSON, WEIBULL distributions
+                    % END exp HELP END exponential HELP
+                    
+                    checkParamsNum(funcName, 'Exponential', 'exp', distribParams, [1]);  
+                    lambda  = distribParams(1);
+                    validateParam(funcName, 'Exponential', 'exp', 'lambda', 'lambda', lambda, {'> 0'});
+                    
+                    out = -log( rand( sampleSize ) ) / lambda;
+                    
+                    
                case { 'lognorm', 'lognormal', 'cobbdouglas', 'antilognormal' }
                     % START lognorm HELP START lognormal HELP START cobbdouglas HELP START antilognormal HELP
                     % THE LOG-NORMAL DISTRIBUTION

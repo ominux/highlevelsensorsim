@@ -94,12 +94,12 @@ switch noisedistribution
 %%% ### <---- lognorm FPN model
 	case 'LogNormal' %% runnig El Gamal white noise Autoregressive noise model.
 	    if strcmp(noisetype, 'pixel')
-		noiseout = stat_randraw('lognorm',[noise_params(1),noise_params(2)],...
+		noiseout = tool_rand_distributions_generator('lognorm',[noise_params(1),noise_params(2)],...
             [sensor_signal_rows, sensor_signal_columns]);
         end
 
         if strcmp(noisetype, 'column')
-		x = stat_randraw('lognorm',[noise_params(1),noise_params(2)],...
+		x = tool_rand_distributions_generator('lognorm',[noise_params(1),noise_params(2)],...
             [1, sensor_signal_columns]);
 		noiseout = repmat(x,sensor_signal_rows,1); %% making PRNU as a ROW-repeated noise, just like light FPN
 	    end

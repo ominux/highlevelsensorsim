@@ -86,4 +86,4 @@ function ccd = ccd_photosensor_darkFPN(ccd)
     
 ccd.noise.darkFPN.noisematrix = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'pixel', ccd.noise.darkFPN.model);
 
-ccd.dark_signal = ccd.dark_signal.*(1 + (ccd.noise.FPN.DN)*(ccd.noise.darkFPN.noisematrix)); %% add pixel FPN dark noise.
+ccd.dark_signal = ccd.dark_signal.*(1 + (ccd.noise.darkFPN.DN)*(ccd.noise.darkFPN.noisematrix)); %% add pixel FPN dark noise.

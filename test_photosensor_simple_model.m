@@ -19,8 +19,8 @@ M  = 256;
 ccd.lambda = 550*10^(-9); % optical wavelength [m]
 
 %% Select (uncomment) the type of a photo sensor
-ccd.SensorType		= 'CCD';
-% ccd.SensorType		= 'CMOS';
+% ccd.SensorType		= 'CCD';
+ccd.SensorType		= 'CMOS';
 
 	ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
 
@@ -99,25 +99,25 @@ ccd.flag.darkcurrent_DarkFPN_pixel = 1;
 
 %         ccd.noise.darkFPN.model	= 'Janesick-Gaussian';
 
-    %  	ccd.noise.darkFPN.model	     = 'LogNormal'; %%% suitable for long exposures
-    %  	ccd.noise.darkFPN.parameters = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+     	ccd.noise.darkFPN.model	     = 'LogNormal'; %%% suitable for long exposures
+     	ccd.noise.darkFPN.parameters = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
 
-    	ccd.noise.darkFPN.model	      = 'Wald';
-    	ccd.noise.darkFPN.parameters  = 2; %% small parameters (w<1) produces extremely narrow distribution, large parameters (w>10) produces distribution with large tail.
+%     	ccd.noise.darkFPN.model	      = 'Wald';
+%     	ccd.noise.darkFPN.parameters  = 2; %% small parameters (w<1) produces extremely narrow distribution, large parameters (w>10) produces distribution with large tail.
 
 %%% END :: Simulation of the dark current Fixed Pattern Noise 
 
 
 %%% START:: Simulation of the dark current Offset Fixed Pattern Noise 
 ccd.flag.darkcurrent_offsetFPN	= 1;
-        ccd.noise.FPN.model	= 'Janesick-Gaussian';
-        ccd.DNcolumn 		= 0.0005;  %% percentage of (V_REF - V_SN)
+        ccd.noise.darkFPN_offset.model	= 'Janesick-Gaussian';
+        ccd.noise.darkFPN_offset.DNcolumn 		= 0.0005;  %% percentage of (V_REF - V_SN)
 %%% END :: Simulation of the dark current Offset Fixed Pattern Noise 
 
 
 %%% START:: Simulation of the sense node reset noise.
-ccd.flag.sensenoderesetnoise	= 1; 
-	ccd.snresetnoiseFactor	= 0.8; %% the compensation factor of the Sense Node Reset Noise: 
+ccd.flag.sensenoderesetnoise	= 0; 
+	ccd.snresetnoiseFactor = 0.8; %% the compensation factor of the Sense Node Reset Noise: 
                                    %%    1 - fully compensated, 
                                    %%    0 - no compensation from CDS for Sense node reset noise.
 %%% END :: Simulation of the sense node reset noise.
