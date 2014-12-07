@@ -15,23 +15,16 @@
 % ======================================================================
 function ccd = ccd_cds(ccd)
 
+
 if  strcmp('CMOS',ccd.SensorType)
 
-	if (ccd.flag.darkcurrent_offsetFPN == 1)
 %%%%% <----- ### Start:: If the sensor is CMOS and the Column FPN is on  - add the column FPN noise  (CMOS only!)
+	if (ccd.flag.darkcurrent_offsetFPN == 1)
         ccd.FPN.column = ccd_FPN_models(ccd, ccd.sensor_size(1), ccd.sensor_size(2), 'column');
 		ccd.Signal_CCD_voltage = ccd.Signal_CCD_voltage.*( 1 +  ccd.FPN.column*(ccd.V_FW*ccd.DNcolumn)   ); %% add pixel FPN dark noise.
+    end
 %%%%% <----- ### Start:: If the sensor is CMOS and the Column FPN is on  - add the column FPN noise  (CMOS only!)
 
-    else %%% if (ccd.flag.darkcurrent_offsetFPN == 0)
-	
-        ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
+end
 
-    end  %%strcmp('CMOS',ccd.SensorType)
-
-
-else
-
-        ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS);  %%% Signal of Source Follower [SF]
-
-end %% (ccd.flag.sensenoderesetnoise == 1)
+ccd.Signal_CCD_voltage = (ccd.Signal_CCD_voltage).*(ccd.A_CDS); 

@@ -82,7 +82,7 @@ M  = 256;
 	ccd.A_CDS		= 1; %%% Correlated Double Sampling gain, [V/V], lower means amplify the noise.
 
 %%%% <----- ### Start:: Analogue-to-Digital Converter (ADC)
- 	ccd.N_bits		 = 16; %% noise is more apparent on high Bits
+ 	ccd.N_bits		 = 12; %% noise is more apparent on high Bits
     
     ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
 
@@ -151,10 +151,10 @@ end %%  if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 %%% START:: Simulation of the dark current Offset Fixed Pattern Noise 
 ccd.flag.darkcurrent_offsetFPN	= 1;
 
-if (ccd.flag.darkcurrent_offsetFPN == 1)
-	ccd.noise.FPN.model	= 'Janesick-Gaussian';
-	ccd.DNcolumn 		= 0.0005;  %% percentage of (V_REF - V_SN)
-end
+    if (ccd.flag.darkcurrent_offsetFPN == 1)
+        ccd.noise.FPN.model	= 'Janesick-Gaussian';
+        ccd.DNcolumn 		= 0.0005;  %% percentage of (V_REF - V_SN)
+    end
 %%% END :: Simulation of the dark current Offset Fixed Pattern Noise 
 
 
