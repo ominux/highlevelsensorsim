@@ -17,10 +17,10 @@
 % ======================================================================
 function ccd = ccd_sense_node_reset_noise(ccd)
 
-ccd.noise.sn_reset_sigma_ktc = sqrt( (ccd.Boltzman_Constant_JK)*(ccd.T)/(ccd.C_SN) );
+ccd.noise.sn_reset_sigma_ktc = sqrt( (ccd.Boltzman_Constant_JK)*(ccd.T)/(ccd.C_SN) ); %% in [V], see Janesick, Photon Transfer, page 166.
 
 %% Soft-Reset case for the CMOS sensor
-ccd.noise.sn_reset_noise_matrix = stat_randraw('lognorm',[0, ccd.noise.sn_reset_sigma_ktc],[ccd.sensor_size(1), ccd.sensor_size(2)]);
+ccd.noise.sn_reset_noise_matrix =  exp( ccd.noise.sn_reset_sigma_ktc * randn( ccd.sensor_size ) ) - 1;
 
 
 disp(ccd.noise.sn_reset_sigma_ktc)

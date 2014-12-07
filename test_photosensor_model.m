@@ -56,31 +56,31 @@ ccd.lambda = 550*10^(-9); % optical wavelength [m]
 
 
     
-%%%%% <----- ### Start:: Sense Nose Subsection
+%%%%% <----- ### Start:: Sense Nose 
     ccd.A_SN		= 5*10^(-6); %% Sense node gain, A_SN [V/e]
 
-    ccd.flag.Venonlinearity = 0;%%%%% <-- ###### Gain non-linearity Subsection [CMOS ONLY!!!!]
+    ccd.flag.Venonlinearity = 0;%%%%% <-- ###### Gain non-linearity  [CMOS ONLY!!!!]
 		if (ccd.flag.Venonlinearity == 1)
 			ccd.nonlinearity.A_SNratio = 0.05; %% in how many times should A_SF be increased due to non-linearity?
 		end %%% if (ccd.flag.VVnonlinearity == 1)
-%%%%% <----- ### END :: Sense Nose Subsection
+%%%%% <----- ### END :: Sense Nose 
     
 
-%%%%% <----- ### Start:: Source Follower Subsection
+%%%%% <----- ### Start:: Source Follower 
 	ccd.A_SF		= 1; %%% Source follower gain, [V/V], lower means amplify the noise.
 
-	ccd.flag.VVnonlinearity = 0; %%%%% <-- ###### Gain non-linearity Subsection [CMOS ONLY!!!!]
+	ccd.flag.VVnonlinearity = 0; %%%%% <-- ###### Gain non-linearity  [CMOS ONLY!!!!]
 		if (ccd.flag.VVnonlinearity == 1)
 			ccd.nonlinearity.A_SFratio = 1.05; %% signal gets lower
 %  			ccd.nonlinearity.A_SFratio = 0.95; %% signal gets HIGHER
 		end %%% if (ccd.flag.VVnonlinearity == 1)
-%%%%% <----- ### END:: Source Follower Subsection
+%%%%% <----- ### END:: Source Follower 
 
 
 	ccd.A_CDS		= 1; %%% Correlated Double Sampling gain, [V/V], lower means amplify the noise.
 
 
-%%%% <----- ### Start:: ADC Subsection
+%%%% <----- ### Start:: ADC 
  	ccd.N_bits		 = 16; %% noise is more apparent on high Bits
     
     ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
@@ -89,7 +89,7 @@ ccd.lambda = 550*10^(-9); % optical wavelength [m]
 		if (ccd.flag.ADCnonlinearity == 1)
 			ccd.nonlinearity.ADCratio = 1.1; %% in how many times should A_ADC be decreased due to non-linearity?
 		end %%% if (ccd.flag.ADCnonlinearity == 1)
-%%%%% <-- ###### END:: ADC Subsection
+%%%%% <-- ###### END:: ADC 
 
 %%%## END Subsection: General photosensor settings;
 
@@ -118,10 +118,10 @@ if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 
     ccd.noise.FPN.DN	= 0.1; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
 
- 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
+%  	ccd.noise.FPN.model	= 'Janesick-Gaussian';
 
-%  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
-%  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+ 	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
+ 	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
 
 %  	ccd.noise.FPN.model	= 'AR-ElGamal';
 %  	ccd.noise.FPN.ar_elgamal= [1 0.5];
@@ -138,7 +138,7 @@ end %%  if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 ccd.flag.darkcurrent_offsetFPN	= 1;
 if (ccd.flag.darkcurrent_offsetFPN == 1)
 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
-	ccd.DNcolumn 		= 0.0003;  %% percentage of (V_REF - V_SN)
+	ccd.DNcolumn 		= 0.0005;  %% percentage of (V_REF - V_SN)
 end
 
 
@@ -152,8 +152,11 @@ if (ccd.flag.sourcefollowernoise == 1)
 end %% if (ccd.flag.sourcefollowernoise == 1)
 
 
-ccd.flag.sensenoderesetnoise	= 1; %%%<---- 
-% 	ccd.snresetnoiseFactor	= 0.01;
+ccd.flag.sensenoderesetnoise	= 1; 
+	ccd.snresetnoiseFactor	= 0.9; %% the compensation factor of the Sense Node Reset Noise: 
+                                   %%    1 - fully compensated, 
+                                   %%    0 - no compensation from CDS for Sense node reset noise.
+
 %%%%%%%%## END Subsection: photosensor NOISE settings
 
 
