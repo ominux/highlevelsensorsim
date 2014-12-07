@@ -69,8 +69,8 @@ ccd.flag.photonshotnoise	= 1;
 %%% START:: Simulation of the photo response non-uniformity noise (PRNU), or also called light Fixed Pattern Noise (light FPN)
 ccd.flag.PRNU			= 1;
 
-    ccd.noise.FPN.model	= 'Janesick-Gaussian';
- 	ccd.PRNU_factor		= 0.01;  %% PRNU factor in percent [typically about 1\% for CCD and up to 5% for CMOS];
+    ccd.noise.PRNU.model	= 'Janesick-Gaussian';
+ 	ccd.noise.PRNU.factor   = 0.01;  %% PRNU factor in percent [typically about 1\% for CCD and up to 5% for CMOS];
 %%% END :: Simulation of the photo response non-uniformity noise (PRNU)
 %%%%% <-- ###### END:: Light Noise parameters 
 
@@ -95,12 +95,15 @@ ccd.flag.darkcurrent_Dshot	= 1;
 %%% START:: Simulation of the dark current Fixed Pattern Noise 
 ccd.flag.darkcurrent_DarkFPN_pixel = 1;
 
-        ccd.noise.FPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
+        ccd.noise.darkFPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
 
-        ccd.noise.FPN.model	= 'Janesick-Gaussian';
+%         ccd.noise.darkFPN.model	= 'Janesick-Gaussian';
 
-    %  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
-    %  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+    %  	ccd.noise.darkFPN.model	     = 'LogNormal'; %%% suitable for long exposures
+    %  	ccd.noise.darkFPN.parameters = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
+
+    	ccd.noise.darkFPN.model	      = 'Wald';
+    	ccd.noise.darkFPN.parameters  = 2; %% small parameters (w<1) produces extremely narrow distribution, large parameters (w>10) produces distribution with large tail.
 
 %%% END :: Simulation of the dark current Fixed Pattern Noise 
 
