@@ -9,16 +9,25 @@ clear all
 close all
  
  
-addpath('sensors', 'propagation');
+addpath('sensors');
 
 [m, cm, mm, mum, nm, rad, mrad] = tool_define_metrics; 
  
-%%%%% <----- ### Start :: General parameters of the photosensor
-N  = 256;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
-M  = 256;
 
-ccd.lambda = 550*nm; % optical wavelength [m]
+%%%%% <----- ### Start :: Illumination parameters  
+    ccd.illumination.input_screen_size = 1*m;
+    ccd.illumination.input_screen_hole_size = 0.7*m;
+    ccd.illumination.input_screen_blur = 0.2*m;
+
+    ccd.illumination.amplitude_coeff = 0.1;
+    
+    ccd.lambda = 550*nm; % optical wavelength [m]
+%%%%% <----- ###### END :: Illumination parameters
  
+
+%%%%% <----- ### Start :: General parameters of the photosensor
+N  = 256;         % size of the input plane and sensor pixels, NxM pixels. 
+M  = 256;
 
 %% Select (uncomment) the type of a photo sensor
 % ccd.SensorType        = 'CCD';
@@ -144,12 +153,6 @@ ccd.flag.darkframe          = 0;
  
 %%%%%%%%#### Start Illumination
 if (ccd.flag.darkframe == 0) %% that is, we have light illumination for our software sensor    
-  
-    ccd.illumination.input_screen_size = 1*m;
-    ccd.illumination.input_screen_hole_size = 0.7*m;
-    ccd.illumination.input_screen_blur = 0.2*m;
-
-    ccd.illumination.amplitude_coeff = 0.1;
  
     Uin = ccd_illumination_prepare(ccd, N, M);
  
