@@ -164,7 +164,7 @@ ccd.flag.sensenoderesetnoise  = 1;
 
 
 %%%## Subsection: Sensor noises and signal visualisators
-ccd.flag.plots.irradiance	= 1;
+ccd.flag.plots.irradiance	= 0;
 ccd.flag.plots.electrons	= 1;
 ccd.flag.plots.volts		= 1;
 ccd.flag.plots.DN		    = 1;
@@ -186,7 +186,71 @@ end%% if (ccd.flag.darkframe == 1)
 %%%%%%%%#### End Illumination
 
 
-% break %% <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+%% function ccd = ccd_source_follower_noise(ccd)
+
+tau_D = 0.5 * (ccd.noise.sf.t_s); %% is the CDS dominant time constant usually set as \f$\tau_D = 0.5t_s\f$ [sec].
+tau_RTN = 0.1 * tau_D;
+
+delta_f = 1000;
+
+f = 1:delta_f:(ccd.noise.sf.f_clock_speed); %% frequency, with delta_f as a spacing.
+
+H_CDS = ( 2-2*cos(2*pi*(ccd.noise.sf.t_s).*f) ) ./ ( 1 + (2*pi*(tau_D).*f).^2 );
+
+
+%%%%%%%%%%%%% DEPENDING ON SENSOR TYPE, THE NOISE IS SLIGHTLY DIFFERENT
+S_RTN = 0; %%% In CCD photosensors, source follower noise is typically limited by the flicker noise.
+
+if strcmp('CMOS',ccd.SensorType) %%  In CMOS photosensors, source follower noise is typically limited by the RTS noise.
+
+    S_RTN = (2*((ccd.noise.sf.Delta_I)^2)*tau_RTN)./(4+(2*pi*tau_RTN.*f).^2);  %%% for CMOS sensors only
+
+end
+%%%%%%%%%%%%% DEPENDING ON SENSOR TYPE, THE NOISE IS SLIGHTLY DIFFERENT
+
+
+S_SF = ((ccd.noise.sf.W_f)^2).*(1+(ccd.noise.sf.f_c)./f) + S_RTN;
+
+
+nomin = sqrt( delta_f*S_SF*H_CDS' );
+
+denomin = ccd.A_SN*ccd.A_SF*(1-exp(-(ccd.noise.sf.t_s)/(tau_D)));
+
+ccd.noise.sf.sigma_SF = nomin/denomin; %% the resulting sigma_SF_noise
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+break %% <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 

@@ -132,9 +132,7 @@ ccd.flag.sensenoderesetnoise  = 1;
                                      %%    0 - fully compensated SN reset noise by CDS.
 %%% END :: Simulation of the sense node reset noise.
  
- 
- ccd.noise.sn_reset.Factor*
- 
+
 %%%## Subsection: Sensor noises and signal visualisations
 ccd.flag.plots.irradiance   = 1;
 ccd.flag.plots.electrons    = 1;
