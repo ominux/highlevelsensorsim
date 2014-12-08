@@ -1,8 +1,8 @@
-%> @file ccd_FPN_models.m
-%> @brief The routine contains various models on simulation of FPN
+%> @file tool_rand_distributions_generator.m
+%> @brief The routine contains various models for simulation of FPN (DSNU or PRNU).
 %> @author Alex Bar Guy
 %> 
-%> @section fpnsimmodels Models on Simulation of FPN
+%> @section noisedistribgeneration Generation of Probability Distributions
 %> This routine generates various types of random distributions, and is based on the code "randraw"
 %> by Alex Bar Guy  &  Alexander Podgaetsky.
 %> 
@@ -16,6 +16,13 @@
 %> 
 %> Any comments and suggestions please send to:
 %>     alex@wavion.co.il
+%======================================================================
+%> @param distribName       = name of the distribution (string).
+%> @param distribParams     = parameters of the distribution in a single vector.
+%> @param sampleSize        = size of the matrix/vector to be generated, [N,M].
+%> 
+%> @retval out      = generated random matrix according to the specified probability distribution, matrix [matrix NxM].
+% ======================================================================
 function out = tool_rand_distributions_generator(distribName, distribParams, sampleSize)
 
 funcName = mfilename;

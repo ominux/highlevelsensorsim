@@ -4,13 +4,14 @@
 %> @date   17 January 2011, reworked on 4 December 2014.
 %> 
 %> @section ccdphotosensor Convesrion from photons to electrons.
-%> The process from incident photons to the digital numbers appeared on the image is outlined. See @ref secphoton2electron "this page" about particular implementation.
+%> The process from incident photons to the digital numbers appeared on the image is outlined. 
+%> See @ref secphoton2electron "this page" about particular implementation.
 %>
 %======================================================================
 %> @param Uin		= light field incident on the photosensor [matrix NxM], [Watt/m2].
 %> @param ccd		= structure that contains parameters of the sensor (exposure time and so on).
 %>
-%> @retval ccd 		= structure with new variable @b Signal_CCD_electrons signal of the photosensor in electrons [matrix NxM], [e].
+%> @retval ccd 		= structure with new field @b Signal_CCD_electrons signal of the photosensor in electrons [matrix NxM], [e].
 % ======================================================================
 function ccd = ccd_photosensor(Uin,ccd);
 
