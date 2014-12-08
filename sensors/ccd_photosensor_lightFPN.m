@@ -4,11 +4,19 @@
 %> @date   17 January 2011, improved 5 December 2014
 %>
 %> @section prnusim Simulation of photo response non-uniformity (PRNU)
-%> The Photo Response Non-Uniformity (PRNU) is the spatial variation in pixel output under uniform illumination mainly due to variations in the surface area of the photodiodes. This occurs due to variations in substrate material during the fabrication of the sensor.
+%> The Photo Response Non-Uniformity (PRNU) is the spatial variation in pixel
+%> output under uniform illumination mainly due to variations in the surface area
+%> of the photodiodes. This occurs due to variations in substrate material during
+%> the fabrication of the sensor.
 %> 
-%> The PRNU is signal-dependent (proportional to the input signal) and is fixed-pattern (time-invariant). The PRNU factor is typically \f$0.01\dots 0.02\f$ for a given sensor, but varies from one sensor to another.
+%> The PRNU is signal-dependent (proportional to the input signal) and is
+%> fixed-pattern (time-invariant). The PRNU factor is typically \f$0.01\dots 0.02\f$ 
+%> for a given sensor, but varies from one sensor to another.
 %> 
-%> The photo response non-uniformity (PRNU) is considered in our numerical model as a temporally-fixed light signal non-uniformity. According to our experimental results, the PRNU can be modelled using a Gaussian distribution for each \f$(i,j)\f$-th pixel of the matrix \f$I_{e^-}\f$:
+%> The photo response non-uniformity (PRNU) is considered in our numerical model
+%> as a temporally-fixed light signal non-uniformity. According to our experimental
+%> results, the PRNU can be modelled using a Gaussian distribution for each
+%> \f$(i,j)\f$-th pixel of the matrix \f$I_{e^-}\f$:
 %> 
 %> \f$I_{PRNU.e^-}  = I_{e^-} +I_{e^-} \cdot \mathcal{N}(0,\sigma_{PRNU}^2)\f$
 %> 

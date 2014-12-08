@@ -3,7 +3,7 @@
 %> @author Mikhail V. Konnik
 %> @date   8 February 2011
 %> 
-%> @section fpnsimmodels Models on Simulation of FPN
+%> @section fpnsimmodels Models on Simulation of Fixed Pattern Noise
 %> There are many models for simulation of the FPN, some of them are implemented here.
 %>
 %> @subsection elgamalfpn El Gamal model of FPN with Autoregressive process

@@ -1,0 +1,8 @@
+@subsection PRNUadd Photo response non-uniformity
+The Photo Response Non-Uniformity (PRNU) is the spatial variation in pixel
+output under uniform illumination mainly due to variations in the surface area
+of the photodiodes. This occurs due to variations in substrate material during
+the fabrication of the sensor. The PRNU is signal-dependent (proportional to the
+input signal) and is fixed-pattern (time-invariant). The PRNU factor is
+typically \f$0.01\dots 0.02\f$ for a given sensor, but varies from one sensor to
+another. The simulation of the PRNU noise is described @ref prnusim "here".

@@ -3,7 +3,7 @@
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011, improved 2 December 2014
 %>
-%> @section ccdphotosensor Photon shot noise
+%> @section photonshotnoisesimulation Photon shot noise
 %> The photon shot noise is due to the random arrival of photons and can be
 %> described by a Poisson process. Therefore, for each \f$(i,j)\f$-th element of
 %> the matrix \f$I_{ph}\f$ that contains the number of collected photons, a photon

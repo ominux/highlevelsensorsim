@@ -17,6 +17,24 @@
 %> (exposure) time, \f$Q_p = \frac{h\cdot c}{\lambda}\f$ is the energy of a single
 %> photon at wavelength \f$\lambda\f$, \f$h\f$ is Planck's constant and \f$c\f$ is
 %> the speed of light. 
+%> 
+%> @subsection photonshotnoiseadd Photon Shot noise simulation
+%> The process of photon capturing has an uncertainty that arises from random
+%> fluctuations when photons are collected by the photodiode. Such uncertainty
+%> leads to photon shot noise and is described by the Poisson process. In the case
+%> of a high level  of light  (more than 1000 arrival events of photons), the
+%> Poisson distribution may be approximated by a Gaussian distribution. However,
+%> this is not justified for low-light conditions. The simulation of photon shot
+%> noise is described @ref photonshotnoisesimulation "here".
+%> 
+%> @subsection PRNUadd Photo response non-uniformity
+%> The Photo Response Non-Uniformity (PRNU) is the spatial variation in pixel
+%> output under uniform illumination mainly due to variations in the surface area
+%> of the photodiodes. This occurs due to variations in substrate material during
+%> the fabrication of the sensor. The PRNU is signal-dependent (proportional to the
+%> input signal) and is fixed-pattern (time-invariant). The PRNU factor is
+%> typically \f$0.01\dots 0.02\f$ for a given sensor, but varies from one sensor to
+%> another. The simulation of the PRNU noise is described @ref prnusim "here".
 %======================================================================
 %> @param ccd 		= structure of signal without dark current noises.
 %> @param Uin       = the matrix [NxM] of the input optical field.
