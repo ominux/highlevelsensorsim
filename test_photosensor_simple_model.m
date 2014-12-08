@@ -10,20 +10,21 @@ close all
  
  
 addpath('sensors', 'propagation');
- 
+
+[m, cm, mm, mum, nm, rad, mrad] = tool_define_metrics; 
  
 %%%%% <----- ### Start :: General parameters of the photosensor
 N  = 256;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
 M  = 256;
- 
-ccd.lambda = 550*10^(-9); % optical wavelength [m]
+
+ccd.lambda = 550*nm; % optical wavelength [m]
  
 
 %% Select (uncomment) the type of a photo sensor
 % ccd.SensorType        = 'CCD';
 ccd.SensorType      = 'CMOS';
  
-    ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
+    ccd.pixel_size = [5*mum, 5*mum] ;  %% pixels size, in [m], ROWxCOLUMN size
  
     ccd.t_I   = 1*10^(-2); %%% Exposure/Integration time, [sec].
  
@@ -142,25 +143,15 @@ ccd.flag.darkframe          = 0;
  
  
 %%%%%%%%#### Start Illumination
-if (ccd.flag.darkframe == 0)
+if (ccd.flag.darkframe == 0) %% that is, we have light illumination for our software sensor    
+  
+    ccd.illumination.input_screen_size = 1*m;
+    ccd.illumination.input_screen_hole_size = 0.7*m;
+    ccd.illumination.input_screen_blur = 0.2*m;
+
+    ccd.illumination.amplitude_coeff = 0.1;
  
-    %%%%%%%%#### Section: Illumination
-    amplitude_coeff = 0.1;
- 
-    % Uin = amplitude_coeff*ones(N,M);
- 
-    Uin = amplitude_coeff*ones(N).*prop_absorbing_window_supergaussian(N, 6, 0.4); %% input (source) optical field, possibly a complex matrix.
- 
- 
-    %%%%%%%%%%%% Visualisation subsection.
-    if (ccd.flag.plots.irradiance == 1)
-    Uin_irradiance = abs(Uin).^2; %% computing the Irradiance [W/m^2] of the input optical field Uin.
-    
-    figure, imagesc(Uin_irradiance), title('Irradiance map of the light field [W/m^2].'); %% Irradiance map of the optical field.
-    figure, plot(Uin_irradiance(round(N/2),1:M)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance map
- 
-    end %% if (ccd.flag.plots.irradiance
-    %%%%%%%%%%%% Visualisation subsection.
+    Uin = ccd_illumination_prepare(ccd, N, M);
  
 else  %% we simulate the dark frame only
  
@@ -170,7 +161,7 @@ end%% if (ccd.flag.darkframe == 1)
 %%%%%%%%#### End Illumination
  
  
-% break <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% break %%%% <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
  
  
