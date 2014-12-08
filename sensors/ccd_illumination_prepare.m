@@ -1,13 +1,14 @@
 %> @file ccd_illumination_prepare.m
-%> @brief This routine performs initial conversion of the light from the irradiance and photons to electrons.
+%> @brief This routine performs makes a simple illuminated circle with blurred boundaries.
 %> @author Mikhail V. Konnik
 %> @date   9 December 2014.
 %> 
 %======================================================================
-%> @param Uin		= light field incident on the photosensor [matrix NxM], [Watt/m2].
-%> @param ccd		= structure that contains parameters of the sensor (exposure time and so on).
+%> @param ccd       = structure that contains parameters of the sensor (exposure time and so on).
+%> @param N     = row size of the sensor/light field, [pix]
+%> @param M     = column size of the sensor/light field, [pix]
 %>
-%> @retval ccd 		= structure with new variable @b Signal_CCD_electrons signal of the photosensor in electrons [matrix NxM], [e].
+%> @retval Uin      = light field incident on the photosensor [matrix NxM], [Watt/m2].
 % ======================================================================
 function Uin = ccd_illumination_prepare(ccd, N, M)
 
