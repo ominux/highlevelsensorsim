@@ -1,5 +1,5 @@
 %> @file test_photosensor_advanced_model.m
-%> @brief This tesing routine is necessary for testing the correctness of the operation of photosensor and its noise performance.
+%> @brief This is the _COMPREHENSIVE_ model of a CMOS/CCD photosensor, with non-linearities.
 %>
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011, re-worked on 8 December 2014.
@@ -165,7 +165,7 @@ ccd.flag.sensenoderesetnoise  = 1;
 
 
 %%%## Subsection: Sensor noises and signal visualisators
-ccd.flag.plots.irradiance	= 0;
+ccd.flag.plots.irradiance	= 1;
 ccd.flag.plots.electrons	= 1;
 ccd.flag.plots.volts		= 1;
 ccd.flag.plots.DN		    = 1;
@@ -180,9 +180,13 @@ ccd.flag.darkframe          = 0;
 
 %%%%%%%%#### Start Illumination
 if (ccd.flag.darkframe == 0) %% that is, we have light illumination for our software sensor    
-     Uin = ccd_illumination_prepare(ccd, N, M);
- else  %% we simulate the dark frame only
-     Uin = zeros(N);
+
+    Uin = ccd_illumination_prepare(ccd, N, M);
+
+else  %% we simulate the dark frame only
+
+    Uin = zeros(N);
+
 end%% if (ccd.flag.darkframe == 1)
 %%%%%%%%#### End Illumination
 
@@ -190,68 +194,7 @@ end%% if (ccd.flag.darkframe == 1)
 
 
 
-
-
-
-
-
-
-
-%% function ccd = ccd_source_follower_noise(ccd)
-
-tau_D = 0.5 * (ccd.noise.sf.t_s); %% is the CDS dominant time constant usually set as \f$\tau_D = 0.5t_s\f$ [sec].
-tau_RTN = 0.1 * tau_D;
-
-f = 1:ccd.noise.sf.sampling_delta_f:(ccd.noise.sf.f_clock_speed); %% frequency, with delta_f as a spacing.
-
-
-%% CDS transfer function
-H_CDS = ( 2-2*cos(2*pi*(ccd.noise.sf.t_s).*f) ) ./ ( 1 + (2*pi*(tau_D).*f).^2 );
-
-
-%%%%%%%%%%%%% DEPENDING ON SENSOR TYPE, THE NOISE IS SLIGHTLY DIFFERENT
-%% RTS noise power
-S_RTN = 0; %%% In CCD photosensors, source follower noise is typically limited by the flicker noise.
-
-if strcmp('CMOS',ccd.SensorType) %%  In CMOS photosensors, source follower noise is typically limited by the RTS noise.
-
-    S_RTN = (2*((ccd.noise.sf.Delta_I)^2)*tau_RTN)./(4+(2*pi*tau_RTN.*f).^2);  %%% for CMOS sensors only
-
-end
-%%%%%%%%%%%%% DEPENDING ON SENSOR TYPE, THE NOISE IS SLIGHTLY DIFFERENT
-
-
-S_SF = ((ccd.noise.sf.W_f)^2).*(1+(ccd.noise.sf.f_c)./f) + S_RTN;
-
-
-nomin = sqrt( delta_f*S_SF*H_CDS' );
-denomin = ccd.A_SN*ccd.A_SF*(1-exp(-(ccd.noise.sf.t_s)/(tau_D)));
-
-ccd.noise.sf.sigma_SF = nomin/denomin; %% the resulting sigma_SF_noise
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-break %% <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% break %% <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 

@@ -150,9 +150,13 @@ ccd.flag.darkframe          = 0;
  
 %%%%%%%%#### Start Illumination
 if (ccd.flag.darkframe == 0) %% that is, we have light illumination for our software sensor    
-     Uin = ccd_illumination_prepare(ccd, N, M);
- else  %% we simulate the dark frame only
-     Uin = zeros(N);
+
+    Uin = ccd_illumination_prepare(ccd, N, M);
+
+else  %% we simulate the dark frame only
+
+    Uin = zeros(N);
+
 end%% if (ccd.flag.darkframe == 1)
 %%%%%%%%#### End Illumination
  
