@@ -85,12 +85,12 @@ ccd.SensorType      = 'CMOS';
 %% <----- ### Start:: Light Noise parameters
 
 %%% START:: Simulation of the photon shot noise.
-ccd.flag.photonshotnoise	= 1;
+ccd.flag.photonshotnoise = 1;
 %%% END :: Simulation of the photon shot noise.
 
 
 %%% START:: Simulation of the photo response non-uniformity noise (PRNU), or also called light Fixed Pattern Noise (light FPN)
-ccd.flag.PRNU           = 1; 
+ccd.flag.PRNU  = 1; 
     ccd.noise.PRNU.model    = 'Janesick-Gaussian'; ccd.noise.PRNU.parameters = [];
     ccd.noise.PRNU.factor   = 0.01;  %% PRNU factor in percent [typically about 1\% for CCD and up to 5% for CMOS];
 %%% END :: Simulation of the photo response non-uniformity noise (PRNU)
@@ -102,7 +102,7 @@ ccd.flag.PRNU           = 1;
 %% <----- ### Start:: Dark Current Noise parameters
 
 %%% START:: Simulation of the dark signal
-ccd.flag.darkcurrent		= 1;
+ccd.flag.darkcurrent  = 1;
         	ccd.T			= 300; %% operating temperature, [K]
             ccd.DFM			= 1;  %% dark current figure of merit, [nA/cm^2]. %%%% For very poor sensors, add DFM
 %  Increasing the DFM more than 10 results to (with the same exposure time of 10^-6):
@@ -118,7 +118,7 @@ ccd.flag.darkcurrent_Dshot	= 1;
 %%% START:: Simulation of the dark current Fixed Pattern Noise 
 ccd.flag.darkcurrent_DarkFPN_pixel = 1;
 
-        ccd.noise.darkFPN.DN    = 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
+        ccd.noise.darkFPN.DN = 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
  
 %         ccd.noise.darkFPN.model = 'Janesick-Gaussian'; ccd.noise.darkFPN.parameters = [];
  
@@ -144,22 +144,20 @@ ccd.flag.darkcurrent_offsetFPN	= 1;
 
 %#FIXME !!!!!!!!!!!!
 %%% START:: Simulation of the source follower noise.
-ccd.flag.sourcefollowernoise	= 0;
-if (ccd.flag.sourcefollowernoise == 1)
-	ccd.noise.sf.t_s	= 10^(-6); %% is the CDS sample-to-sampling time [sec].
-	ccd.noise.sf.f_c	= 10^6; %% flicker noise corner frequency $f_c$ in [Hz], where power spectrum of white and flicker noise are equal [Hz].
-	ccd.f_clock_speed	= 20*10^(6); %%20 MHz data rate clocking speed.
-	ccd.noise.sf.W_f	= 15*10^(-9); %% is the thermal white noise [\f$V/Hz^{1/2}\f$, typically \f$15 nV/Hz^{1/2}\f$ ]
-	ccd.noise.sf.Delta_I	= 10^(-8); % [Amper] is the source follower current modulation induced by RTS [CMOS ONLY]
-end %% if (ccd.flag.sourcefollowernoise == 1)
+ccd.flag.sourcefollowernoise  = 1;
+    ccd.noise.sf.t_s            = 10^(-6); %% is the CDS sample-to-sampling time [sec].
+	ccd.noise.sf.f_c            = 10^6; %% flicker noise corner frequency $f_c$ in [Hz], where power spectrum of white and flicker noise are equal [Hz].
+	ccd.noise.sf.f_clock_speed	= 20*10^(6); %%20 MHz data rate clocking speed.
+	ccd.noise.sf.W_f            = 15*10^(-9); %% is the thermal white noise [\f$V/Hz^{1/2}\f$, typically \f$15 nV/Hz^{1/2}\f$ ]
+	ccd.noise.sf.Delta_I        = 10^(-8); % [Amper] is the source follower current modulation induced by RTS [CMOS ONLY]
 %%% END :: Simulation of the source follower noise.
 
 
 %%% START:: Simulation of the sense node reset noise.
 ccd.flag.sensenoderesetnoise  = 1; 
        ccd.noise.sn_reset.Factor = 0.8; %% the compensation factor of the Sense Node Reset Noise: 
-                                   %%    1 - fully compensated, 
-                                   %%    0 - no compensation from CDS for Sense node reset noise.
+                                     %%    1 - no compensation from CDS for Sense node reset noise.
+                                     %%    0 - fully compensated SN reset noise by CDS.
 %%% END :: Simulation of the sense node reset noise.
 
 

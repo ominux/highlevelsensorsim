@@ -128,12 +128,12 @@ ccd.flag.darkcurrent_offsetFPN  = 1;
 %%% START:: Simulation of the sense node reset noise.
 ccd.flag.sensenoderesetnoise  = 1; 
        ccd.noise.sn_reset.Factor = 0.8; %% the compensation factor of the Sense Node Reset Noise: 
-                                     %%    1 - fully compensated, 
-                                     %%    0 - no compensation from CDS for Sense node reset noise.
+                                     %%    1 - no compensation from CDS for Sense node reset noise.
+                                     %%    0 - fully compensated SN reset noise by CDS.
 %%% END :: Simulation of the sense node reset noise.
  
  
- 
+ ccd.noise.sn_reset.Factor*
  
 %%%## Subsection: Sensor noises and signal visualisations
 ccd.flag.plots.irradiance   = 1;
