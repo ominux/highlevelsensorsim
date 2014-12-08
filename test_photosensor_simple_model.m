@@ -27,11 +27,11 @@ addpath('sensors');
 
 %%%%% <----- ### Start :: General parameters of the photosensor
 N  = 256;         % size of the input plane and sensor pixels, NxM pixels. 
-M  = 256;
+M  = 356;
 
 %% Select (uncomment) the type of a photo sensor
-% ccd.SensorType        = 'CCD';
-ccd.SensorType      = 'CMOS';
+ccd.SensorType        = 'CCD';
+% ccd.SensorType      = 'CMOS';
  
     ccd.pixel_size = [5*mum, 5*mum] ;  %% pixels size, in [m], ROWxCOLUMN size
  
@@ -50,8 +50,7 @@ ccd.SensorType      = 'CMOS';
 %%%%% <----- ### Start :: Sense Nose 
     ccd.A_SN        = 5*10^(-6); %% Sense node gain, A_SN [V/e]
 %%%%% <----- ###### END :: Sense Nose 
-    
- 
+
  
 %%%%% <----- ### Start:: Source Follower 
     ccd.A_SF        = 1; %%% Source follower gain, [V/V], lower means amplify the noise.
@@ -78,11 +77,11 @@ ccd.flag.photonshotnoise    = 1;
  
  
 %%% START:: Simulation of the photo response non-uniformity noise (PRNU), or also called light Fixed Pattern Noise (light FPN)
-ccd.flag.PRNU           = 1;
- 
+ccd.flag.PRNU           = 1; 
     ccd.noise.PRNU.model    = 'Janesick-Gaussian'; ccd.noise.PRNU.parameters = [];
     ccd.noise.PRNU.factor   = 0.01;  %% PRNU factor in percent [typically about 1\% for CCD and up to 5% for CMOS];
 %%% END :: Simulation of the photo response non-uniformity noise (PRNU)
+
 %%%%% <-- ###### END:: Light Noise parameters 
  
  
@@ -153,13 +152,9 @@ ccd.flag.darkframe          = 0;
  
 %%%%%%%%#### Start Illumination
 if (ccd.flag.darkframe == 0) %% that is, we have light illumination for our software sensor    
- 
-    Uin = ccd_illumination_prepare(ccd, N, M);
- 
-else  %% we simulate the dark frame only
- 
-    Uin = zeros(N);
- 
+     Uin = ccd_illumination_prepare(ccd, N, M);
+ else  %% we simulate the dark frame only
+     Uin = zeros(N);
 end%% if (ccd.flag.darkframe == 1)
 %%%%%%%%#### End Illumination
  

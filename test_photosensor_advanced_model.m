@@ -27,33 +27,32 @@ addpath('sensors');
  
 
 %%%%% <----- ### Start :: General parameters of the photosensor
-N  = 256;         % number of grid points in the observation plane, on photo sensor NxN pixels. %% changes size of spot: smaller number=smaller spot, larger number - larger spectral
+N  = 256;         % size of the input plane and sensor pixels, NxM pixels. 
 M  = 256;
 
-%  	ccd.SensorType		= 'CCD';
-	ccd.SensorType		= 'CMOS';
-
-	ccd.pixel_size = [5*10^(-6), 5*10^(-6)] ;  %% pixels size, in [m], ROWxCOLUMN size
-
-	ccd.t_I	  = 1*10^(-2); %%% Exposure/Integration time, [sec].
-
-	ccd.QE_I          = 0.8;  %% Quantum Efficiency of the photo sensor.
-	ccd.FillFactor    = 0.5;  %% Pixel Fill Factor for CMOS photo sensors.
-	ccd.QuantumYield  = 1;  %% quantum yeild (number of electrons per one photon interaction). QuantumYield = 1 for visible light.
+%% Select (uncomment) the type of a photo sensor
+% ccd.SensorType        = 'CCD';
+ccd.SensorType      = 'CMOS';
+ 
+    ccd.pixel_size = [5*mum, 5*mum] ;  %% pixels size, in [m], ROWxCOLUMN size
+ 
+    ccd.t_I   = 1*10^(-2); %%% Exposure/Integration time, [sec].
+ 
+    ccd.QE_I          = 0.8;  %% Quantum Efficiency of the photo sensor.
+    ccd.FillFactor    = 0.5;  %% Pixel Fill Factor for CMOS photo sensors.
+    ccd.QuantumYield  = 1;  %% quantum yield (number of electrons per one photon interaction). QuantumYield = 1 for visible light.
     
-	ccd.FW_e  = 2*10^4; %% full well of the pixel (how many electrons can be stored in one pixel), [e]
-	ccd.V_REF = 3.1; %%% Reference voltage to reset the sense node. [V] typically 3-10 V.
+    ccd.FW_e  = 2*10^4; %% full well of the pixel (how many electrons can be stored in one pixel), [e]
+    ccd.V_REF = 3.1; %%% Reference voltage to reset the sense node. [V] typically 3-10 V.
 %%%%% <----- ###### END :: General parameters of the photosensor
-
+ 
 
     
 %%%%% <----- ### Start :: Sense Nose 
     ccd.A_SN		= 5*10^(-6); %% Sense node gain, A_SN [V/e]
 
     ccd.flag.Venonlinearity = 0;%%%%% <-- ###### Gain non-linearity  [CMOS ONLY!!!!]
-		if (ccd.flag.Venonlinearity == 1)
-			ccd.nonlinearity.A_SNratio = 0.05; %% in how many times should A_SF be increased due to non-linearity?
-		end %%% if (ccd.flag.VVnonlinearity == 1)                
+		ccd.nonlinearity.A_SNratio = 0.05; %% in how many times should A_SF be increased due to non-linearity?
 %%%%% <----- ###### END :: Sense Nose 
     
 
@@ -62,13 +61,15 @@ M  = 256;
 	ccd.A_SF		= 1; %%% Source follower gain, [V/V], lower means amplify the noise.
 
 	ccd.flag.VVnonlinearity = 0; %%%%% <-- ###### Gain non-linearity  [CMOS ONLY!!!!]
-		if (ccd.flag.VVnonlinearity == 1)
-			ccd.nonlinearity.A_SFratio = 1.05; %% signal gets lower
-%  			ccd.nonlinearity.A_SFratio = 0.95; %% signal gets HIGHER
-		end %%% if (ccd.flag.VVnonlinearity == 1)
+        ccd.nonlinearity.A_SFratio = 1.05; %% signal gets lower
+%  		ccd.nonlinearity.A_SFratio = 0.95; %% signal gets HIGHER
 %%%%% <----- ###### END:: Source Follower 
 
-	ccd.A_CDS		= 1; %%% Correlated Double Sampling gain, [V/V], lower means amplify the noise.
+
+%%%%% <----- ### Start:: Correlated Double Sampling
+    ccd.A_CDS       = 1; %%% Correlated Double Sampling gain, [V/V], lower means amplify the noise.
+%%%%% <----- ###### END:: Correlated Double Sampling
+
 
 %%%% <----- ### Start:: Analogue-to-Digital Converter (ADC)
  	ccd.N_bits		 = 12; %% noise is more apparent on high Bits
@@ -76,9 +77,7 @@ M  = 256;
     ccd.S_ADC_OFFSET = 0; %%% Offset of the ADC, in DN
 
 	ccd.flag.ADCnonlinearity = 0; %%% turn the non-linea
-		if (ccd.flag.ADCnonlinearity == 1)
 			ccd.nonlinearity.ADCratio = 1.1; %% in how many times should A_ADC be decreased due to non-linearity?
-		end %%% if (ccd.flag.ADCnonlinearity == 1)
 %%%%% <-- ###### END:: Analogue-to-Digital Converter (ADC)
 
 
@@ -89,12 +88,13 @@ M  = 256;
 ccd.flag.photonshotnoise	= 1;
 %%% END :: Simulation of the photon shot noise.
 
-%%% START:: Simulation of the photo response non-uniformity noise (PRNU), or also called light Fixed Pattern Noise (light FPN)
-ccd.flag.PRNU			= 1;
 
-    ccd.noise.FPN.model	= 'Janesick-Gaussian';
- 	ccd.PRNU_factor		= 0.01;  %% PRNU factor in percent [typically about 1\% for CCD and up to 5% for CMOS];
+%%% START:: Simulation of the photo response non-uniformity noise (PRNU), or also called light Fixed Pattern Noise (light FPN)
+ccd.flag.PRNU           = 1; 
+    ccd.noise.PRNU.model    = 'Janesick-Gaussian'; ccd.noise.PRNU.parameters = [];
+    ccd.noise.PRNU.factor   = 0.01;  %% PRNU factor in percent [typically about 1\% for CCD and up to 5% for CMOS];
 %%% END :: Simulation of the photo response non-uniformity noise (PRNU)
+
 %%%%% <-- ###### END:: Light Noise parameters 
 
 
@@ -118,35 +118,31 @@ ccd.flag.darkcurrent_Dshot	= 1;
 %%% START:: Simulation of the dark current Fixed Pattern Noise 
 ccd.flag.darkcurrent_DarkFPN_pixel = 1;
 
-if (ccd.flag.darkcurrent_DarkFPN_pixel == 1) %% uncomment the desirable model of dark current FPN below.
+        ccd.noise.darkFPN.DN    = 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
+ 
+%         ccd.noise.darkFPN.model = 'Janesick-Gaussian'; ccd.noise.darkFPN.parameters = [];
+ 
+      ccd.noise.darkFPN.model      = 'LogNormal'; %%% suitable for long exposures
+      ccd.noise.darkFPN.parameters = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
 
-    ccd.noise.FPN.DN	= 0.3; %% the dark current FPN quality factor, which is typically between 10\% and 40\% for CCD and CMOS sensors
+%  	ccd.noise.darkFPN.model	= 'AR-ElGamal';
+%  	ccd.noise.darkFPN.parameters = [1 0.5];
 
- 	ccd.noise.FPN.model	= 'Janesick-Gaussian';
+%       ccd.noise.darkFPN.model       = 'Wald';
+%       ccd.noise.darkFPN.parameters  = 2; %% small parameters (w<1) produces extremely narrow distribution, large parameters (w>10) produces distribution with large tail.
 
-%  	ccd.noise.FPN.model	= 'LogNormal'; %%% suitable for long exposures
-%  	ccd.noise.FPN.lognorm_parameter = [0, 0.4]; %%first is lognorm_mu; second is lognorm_sigma.
-
-%  	ccd.noise.FPN.model	= 'AR-ElGamal';
-%  	ccd.noise.FPN.ar_elgamal= [1 0.5];
-
-% 	ccd.noise.FPN.model	= 'Wald';
-% 	ccd.noise.FPN.wald_parameter = 2; %% small parameters (w<1) produces extremely narrow distribution, large parameters (w>10) produces distribution with large tail.
-
-end %%  if (ccd.flag.darkcurrent_DarkFPN_pixel == 1)
 %%% END :: Simulation of the dark current Fixed Pattern Noise 
 
 
 %%% START:: Simulation of the dark current Offset Fixed Pattern Noise 
 ccd.flag.darkcurrent_offsetFPN	= 1;
-
-    if (ccd.flag.darkcurrent_offsetFPN == 1)
-        ccd.noise.FPN.model	= 'Janesick-Gaussian';
-        ccd.DNcolumn 		= 0.0005;  %% percentage of (V_REF - V_SN)
-    end
+        ccd.noise.darkFPN_offset.model  = 'Janesick-Gaussian'; ccd.noise.darkFPN_offset.parameters = [];
+        ccd.noise.darkFPN_offset.DNcolumn       = 0.0005;  %% percentage of (V_REF - V_SN)
 %%% END :: Simulation of the dark current Offset Fixed Pattern Noise 
 
 
+
+%#FIXME !!!!!!!!!!!!
 %%% START:: Simulation of the source follower noise.
 ccd.flag.sourcefollowernoise	= 0;
 if (ccd.flag.sourcefollowernoise == 1)
@@ -160,8 +156,8 @@ end %% if (ccd.flag.sourcefollowernoise == 1)
 
 
 %%% START:: Simulation of the sense node reset noise.
-ccd.flag.sensenoderesetnoise	= 1; 
-	ccd.snresetnoiseFactor	= 0.8; %% the compensation factor of the Sense Node Reset Noise: 
+ccd.flag.sensenoderesetnoise  = 1; 
+       ccd.noise.sn_reset.Factor = 0.8; %% the compensation factor of the Sense Node Reset Noise: 
                                    %%    1 - fully compensated, 
                                    %%    0 - no compensation from CDS for Sense node reset noise.
 %%% END :: Simulation of the sense node reset noise.
@@ -183,38 +179,16 @@ ccd.flag.darkframe          = 0;
 
 
 
-
-
 %%%%%%%%#### Start Illumination
-if (ccd.flag.darkframe == 0)
-
-    %%%%%%%%#### Section: Illumination
-    amplitude_coeff = 0.1;
-
-    % Uin = amplitude_coeff*ones(N,M);
-
-    Uin = amplitude_coeff*ones(N).*prop_absorbing_window_supergaussian(N, 6, 0.4); %% input (source) optical field, possibly a complex matrix.
-
-
-	%%%%%%%%%%%% Visualisation subsection.
-	if (ccd.flag.plots.irradiance == 1)
-	Uin_irradiance = abs(Uin).^2; %% computing the Irradiance [W/m^2] of the input optical field Uin.
-    
-	figure, imagesc(Uin_irradiance), title('Irradiance map of the light field [W/m^2].'); %% Irradiance map of the optical field.
-	figure, plot(Uin_irradiance(round(N/2),1:M)), title('profile of the Irradiance map of the light field [W/m^2].'), xlabel('Number of Pixel on the photo sensor'), ylabel('Irradiance, [W/m^2]');  %% the profile of the Irradiance map
-
-    end %% if (ccd.flag.plots.irradiance
-	%%%%%%%%%%%% Visualisation subsection.
-
-else  %% we simulate the dark frame only
-
-    Uin = zeros(N);
-
+if (ccd.flag.darkframe == 0) %% that is, we have light illumination for our software sensor    
+     Uin = ccd_illumination_prepare(ccd, N, M);
+ else  %% we simulate the dark frame only
+     Uin = zeros(N);
 end%% if (ccd.flag.darkframe == 1)
 %%%%%%%%#### End Illumination
 
 
-% break <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% break %% <--- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
