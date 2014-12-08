@@ -1,9 +1,8 @@
-%> @file test_photosensor_model.m
+%> @file test_photosensor_advanced_model.m
 %> @brief This tesing routine is necessary for testing the correctness of the operation of photosensor and its noise performance.
 %>
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011, re-worked on 8 December 2014.
-
 
 clc
 clear all
