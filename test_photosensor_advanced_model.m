@@ -142,7 +142,6 @@ ccd.flag.darkcurrent_offsetFPN	= 1;
 
 
 
-%#FIXME !!!!!!!!!!!!
 %%% START:: Simulation of the source follower noise.
 ccd.flag.sourcefollowernoise  = 1;
     ccd.noise.sf.t_s            = 10^(-6); %% is the CDS sample-to-sampling time [sec].
@@ -150,6 +149,8 @@ ccd.flag.sourcefollowernoise  = 1;
 	ccd.noise.sf.f_clock_speed	= 20*10^(6); %%20 MHz data rate clocking speed.
 	ccd.noise.sf.W_f            = 15*10^(-9); %% is the thermal white noise [\f$V/Hz^{1/2}\f$, typically \f$15 nV/Hz^{1/2}\f$ ]
 	ccd.noise.sf.Delta_I        = 10^(-8); % [Amper] is the source follower current modulation induced by RTS [CMOS ONLY]
+    ccd.noise.sf.sampling_delta_f = 10000; %% sampling spacing for the frequencies (e.g., sample every 10kHz);
+
 %%% END :: Simulation of the source follower noise.
 
 
@@ -201,14 +202,15 @@ end%% if (ccd.flag.darkframe == 1)
 tau_D = 0.5 * (ccd.noise.sf.t_s); %% is the CDS dominant time constant usually set as \f$\tau_D = 0.5t_s\f$ [sec].
 tau_RTN = 0.1 * tau_D;
 
-delta_f = 1000;
+f = 1:ccd.noise.sf.sampling_delta_f:(ccd.noise.sf.f_clock_speed); %% frequency, with delta_f as a spacing.
 
-f = 1:delta_f:(ccd.noise.sf.f_clock_speed); %% frequency, with delta_f as a spacing.
 
+%% CDS transfer function
 H_CDS = ( 2-2*cos(2*pi*(ccd.noise.sf.t_s).*f) ) ./ ( 1 + (2*pi*(tau_D).*f).^2 );
 
 
 %%%%%%%%%%%%% DEPENDING ON SENSOR TYPE, THE NOISE IS SLIGHTLY DIFFERENT
+%% RTS noise power
 S_RTN = 0; %%% In CCD photosensors, source follower noise is typically limited by the flicker noise.
 
 if strcmp('CMOS',ccd.SensorType) %%  In CMOS photosensors, source follower noise is typically limited by the RTS noise.
@@ -223,7 +225,6 @@ S_SF = ((ccd.noise.sf.W_f)^2).*(1+(ccd.noise.sf.f_c)./f) + S_RTN;
 
 
 nomin = sqrt( delta_f*S_SF*H_CDS' );
-
 denomin = ccd.A_SN*ccd.A_SF*(1-exp(-(ccd.noise.sf.t_s)/(tau_D)));
 
 ccd.noise.sf.sigma_SF = nomin/denomin; %% the resulting sigma_SF_noise
