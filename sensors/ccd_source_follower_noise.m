@@ -2,8 +2,8 @@
 %> @brief The source follower noise routine.
 %> 
 %> @author Mikhail V. Konnik
-%> @date   25 January 2011
-%> @section sourcefollownoise Pixel Source Follower Noise
+%> @date   25 January 2011, re-worked 9 December 2014.
+%> @section sourcefollownoise Source Follower Noise
 %> The pixel's source follower noise limits the read noise, however in high-end CCD and CMOS cameras the source follower noise has been driven down to one electron rms\cite{photontransferbook}.
 %> Pixel source follower MOSFET noise consists of three types of noise:
 %> -  white noise;
