@@ -76,13 +76,13 @@ ccd.Signal_CCD_electrons = ccd.light_signal + ccd.dark_signal; %%% adding the el
 % figure, imagesc(ccd.light_signal);
 % figure, imagesc(ccd.dark_signal);
 
-    %%%%%%%%%%%######### Full-well checkup (if there more electrons than depth of the pixel - saturate the pixel)
+    %%%%%%%%%%%######### Full-well check-up (if there more electrons than depth of the pixel - saturate the pixel)
         idx = (ccd.Signal_CCD_electrons>=ccd.FW_e); %%% find all of pixels that are saturated (there are more electrons that full-well of the pixel)
         ccd.Signal_CCD_electrons(idx) = ccd.FW_e;  %% saturate the pixel if there are more electrons than full-well.
 
         idx = (ccd.Signal_CCD_electrons<0); %%% find all of pixels that are less than zero
         ccd.Signal_CCD_electrons(idx) = 0; %%% truncate pixels that are less than zero to zero. (there no negative electrons).
-    %%%%%%%%%%%######### END Full-well checkup
+    %%%%%%%%%%%######### END Full-well check-up
 
 ccd.Signal_CCD_electrons = floor(ccd.Signal_CCD_electrons);  %% round the number of electrons.        
 %%%%% <----- ### END:: adding dark current and light electrons     
@@ -99,10 +99,10 @@ ccd = ccd_source_follower(ccd); %%% Signal's Voltage amplification by Source Fol
 
 
 %%%%% <----- ### Start:: Correlated Double Sampling
-ccd = ccd_cds(ccd); %%% Signal's amplification and denoising by Correlated Double Sampling
+ccd = ccd_cds(ccd); %%% Signal's amplification and de-noising by Correlated Double Sampling
 %%%%% <----- ### END:: Correlated Double Sampling
 
 
 %%%%% <----- ### Start:: Analogue-To-Digital Converter
-ccd = ccd_adc(ccd); %% Quantizator ADC
+ccd = ccd_adc(ccd); %% Quantization ADC
 %%%%% <----- ### END:: Analogue-To-Digital Converter

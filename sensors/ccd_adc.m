@@ -10,7 +10,7 @@
 %> discrete values that can be produced over the range of analogue values and can
 %> be expressed as:
 %> 
-%> \f$ K_{ADC} = \frac{V_{ADC.REF} - V_\mathrm {min}}{N_{max}}\f$
+%> \f$ K_{ADC} = \frac{V_{ADC.REF} - V_\mathrm {min}}{N_{max}} \f$
 %> 
 %> where \f$V_\mathrm{ADC.REF}\f$ is the maximum voltage that can be quantified,
 %> \f$V_{min}\f$ is minimum quantifiable voltage, and \f$N_{max} = 2^N\f$ is the number of

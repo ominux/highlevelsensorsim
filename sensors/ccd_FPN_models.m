@@ -9,7 +9,6 @@
 %> while other models are more suitable for log-exposure modelling of dark current
 %> FPN.
 %> 
-%> 
 %> @subsection janesickfpn Gaussian model (Janesick-Gaussian)
 %> Fixed-pattern noise (FPN) arises from changes in dark currents due to variations
 %> in pixel geometry during fabrication of the sensor. FPN increases exponentially
@@ -25,8 +24,6 @@
 %> and 40\% for CCD and CMOS sensors\cite{photontransferbook}, and  \f$D = t_I D_R\f$ 
 %> that is described in detail in @ref darkshot. There are other models of
 %> dark FPN, for instance as a autoregressive process.
-%> 
-%> 
 %> 
 %> 
 %> @subsection elgamalfpn El Gamal model of FPN with Autoregressive process
@@ -53,7 +50,7 @@
 %> \f$Y_j = a(Y_{j-1}+Y_{j+1}) + U_j\f$ @n
 %> where the \f$U_j\f$ s are zero mean, uncorrelated random variables with the same
 %> variance \f$\sigma_U\f$ , and \f$0 \leq a \leq 1\f$ is a parameter that
-%> characterises the dependency of \f$Y_{j}\f$ on its two neighbours .
+%> characterises the dependency of \f$Y_{j}\f$ on its two neighbours.
 %> 
 %> The model assumes that the pixel FPN process \f$X_{i,j}\f$ is a two dimensional
 %> first order isotropic autoregressive process of the form:@n

@@ -27,7 +27,7 @@
 %> non-symmetric probability distribution to the reference voltage \f$V_{REF}\f$.
 %> However, the form of distribution depends on the sensor's architecture and the
 %> reset technique. An Inverse-Gaussian distribution can be
-%> used for the simulation of kTC noise which corresponds to a hard reset technique
+%> used for the simulation of kTC noise that corresponds to a hard reset technique
 %> in the CMOS sensor, and the Log-Normal distribution can be used for soft-reset
 %> technique. The sense node reset noise can be simulated for each \f$(i,j)\f$-th pixel
 %> for the soft-reset case as:

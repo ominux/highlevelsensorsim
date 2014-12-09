@@ -49,7 +49,7 @@
 %> distribution, however this is a minor effect. The V/\f$e^-\f$ non-linearity can
 %> also be thought as a sense node capacitor non-linearity: when a small signal is
 %> measured, \f$C_{SN}\f$ is fixed or changes negligible; on the other hand,
-%> \f$C_SN\f$ changes significantly and that can affect the the signal being
+%> \f$C_SN\f$ changes significantly and that can affect the signal being
 %> measured.
 %> 
 %> For the simulation purpose, the V/\f$e^-\f$ non-linearity can be expressed as: @n

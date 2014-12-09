@@ -6,7 +6,7 @@
 %> 
 %> @section secphoton2electron From Photon to Charge
 %> The input to the model of the photosensor is assumed to be a matrix \f$U_{in}\in \mathbb{C}^{N\times M} \f$ 
-%> that corresponds to the opical field.  Then the
+%> that corresponds to the optical field.  Then the
 %> sensor's irradiance \f$I_{irrad} = |U_{in}|^2\f$, which is in units of 
 %> [W/m\f$^2\f$], converted to the average number of photons \f$I_{ph}\f$ collected
 %> by each pixel during the integration (exposure) time:

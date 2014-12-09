@@ -48,7 +48,7 @@
 %> In our simulations we use the Log-Normal distribution for the simulation of dark
 %> current FPN in the case of short integration times, and superimposing other
 %> distributions for long integration times. The actual simulation code implements
-%> various models, including Log-Normal, Gaussian, and Wald distribution to elumate
+%> various models, including Log-Normal, Gaussian, and Wald distribution to emulate
 %> the dark current FPN noise for short- and long-term integration times.
 %> 
 %> The dark current FPN for each pixel of the matrix \f$I_{dc.shot.e^-}\f$ is computed as:
@@ -61,7 +61,7 @@
 %> matrix \f$ln \mathcal{N}\f$ is calculated once and then can be re-used similar to
 %> the PRNU simulations.
 %> 
-%> The experimental results  confirm
+%> The experimental results confirm
 %> that non-symmetric models, and in particular the Log-Normal distribution, 
 %> adequately  describe the dark current FPN in CMOS sensors, especially in the
 %> case of a long integration time (longer than 30-60 seconds).  For long-exposure case, one

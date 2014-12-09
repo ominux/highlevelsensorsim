@@ -5,7 +5,7 @@
 %> @date   17 January 2011, reworked on 5 December 2014.
 %> 
 %> @section readnoise Dark signal in solid-state photosensors
-%> The dark signal is calculated for all pixels in the  model. It is implemented using @b ones function in MATLAB as a matrix of the same size as the simulated photosensor. For each \f$(i,j)\f$-th pixel we have:
+%> The dark signal is calculated for all pixels in the model. It is implemented using @b ones function in MATLAB as a matrix of the same size as the simulated photosensor. For each \f$(i,j)\f$-th pixel we have:
 %> 
 %> \f$I_{dc.e^-} = t_I\cdot D_R, \f$
 %> 
@@ -16,12 +16,12 @@
 %> where:
 %>  - \f$P_A\f$ is the pixel's area [\f$cm^2\f$];
 %>  - \f$D_{FM}\f$ is the dark current figure-of-merit at 300K [nA/\f$cm^2\f$], varies significantly; with sensor manufacturer, and used in this simulations as 0.5 nA/\f$cm^2\f$;
-%>  -  \f$E_{gap}\f$ is the bandgap energy of the semiconductor wich also varies with temperature;
+%>  -  \f$E_{gap}\f$ is the bandgap energy of the semiconductor which also varies with temperature;
 %>  -  \f$k\f$ is Boltzman's constant that is \f$8.617\cdot10^{-5} [eV/K].\f$
 %> 
-%> The relationship between band gap energy and temperature can be described by Varshni's empirical expression,@n 
+%> The relationship between band gap energy and temperature can be described by Varshni's empirical expression, @n 
 %> \f$E_{gap}(T)=E_{gap}(0)-\frac{\alpha T^2}{T+\beta},\f$ @n
-%> where \f$E_{gap}(0)\f$, \f$\alpha\f$ and \f$\beta\f$ are material constants. The energy bandgap of semiconductors tends to decrease as the temperature is increased. This behaviour can be better understood if one considers that the interatomic spacing increases when the amplitude of the atomic vibrations increases due to the increased thermal energy. This effect is quantified by the linear expansion coefficient of a material.
+%> where \f$E_{gap}(0)\f$, \f$\alpha\f$ and \f$\beta\f$ are material constants. The energy bandgap of semiconductors tends to decrease as the temperature is increased. This behaviour can be better understood if one considers that the inter-atomic spacing increases when the amplitude of the atomic vibrations increases due to the increased thermal energy. This effect is quantified by the linear expansion coefficient of a material.
 %> 
 %> For the Silicon: @n
 %>  - \f$E_{gap}(0) = 1.1557 [eV]\f$ @n
