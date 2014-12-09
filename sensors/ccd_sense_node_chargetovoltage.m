@@ -2,8 +2,8 @@
 %> @brief The charge to voltage conversion occurs inside this routine, which simulates Sense Node. After that, a new matrix ccd.Signal_CCD_voltage is created and the raw voltage signal is stored.
 %>
 %> @author Mikhail V. Konnik
-%> @date   18 January 2011
-%> @todo add the Reset noise to sense node capacitor: to the Reset Voltage
+%> @date   18 January 2011, re-worked 9 December 2014.
+%> 
 %> @section sensenode Sense Node: Converting charge to voltage
 %> After the charge is generated in the pixel by photo-effect, it is moved row-by-row to the sense amplifier that is separated from the pixels in case of CCD. The packets of charge are being shifted to the output \textit{sense node}, where electrons are converted to voltage. The typical sense node region is presented on Fig.
 %>
