@@ -5,25 +5,59 @@
 %> @date   18 January 2011, re-worked 9 December 2014.
 %> 
 %> @section sensenode Sense Node: Converting charge to voltage
-%> After the charge is generated in the pixel by photo-effect, it is moved row-by-row to the sense amplifier that is separated from the pixels in case of CCD. The packets of charge are being shifted to the output \textit{sense node}, where electrons are converted to voltage. The typical sense node region is presented on Fig.
-%>
+%> After the charge is generated in the pixel by photo-effect, it is moved
+%> row-by-row to the sense amplifier that is separated from the pixels in case of
+%> CCD. The packets of charge are being shifted to the output @b sense @b node,
+%> where electrons are converted to voltage. The typical sense node region is
+%> presented on Figure below.
+%> 
 %> @image html CCD-sensenoderegion.png
-%>
-%> Sense node is the final collecting point at the end of the horizontal register of the CCD sensor. The CCD pixels are made with MOS devices used as reverse biased capacitors. The charge is readout by a MOSFET based charge to voltage amplifier. The output voltage is inversely proportional to the sense node capacitor. Typical example is that the sense node capacitor of the order \f$50fF\f$, which produces a gain of \f$3.2 \mu V/ e^-\f$. It is also important to minimize the noise of the output amplifier, \textbf{typically the largest noise source in the system}. Sense node converts charge to voltage with typical sensitivities \f$1\dots 4 \mu V/e^-\f$.@n
-%> The charge collected in each pixel of a sensor array is converted to voltage by \textbf{sense capacitor} and \textbf{source-follower amplifier}. \textbf{Reset noise} is induced during such conversion. Prior to the measurement of each pixel's charge, the CCD sense capacitor is reset to a reference level. Sense node converts charge to voltage with typical sensitivities \f$1\dots 4 \mu V/e^-\f$. The charge collected in each pixel of a sensor array is converted to voltage by \textbf{sense capacitor} and \textbf{source-follower amplifier}. @b Reset noise is induced during such conversion. Prior to the measurement of each pixel's charge, the CCD sense node capacitor is reset to a reference level.
-%>
+%> 
+%> Sense node is the final collecting point at the end of the horizontal
+%> register of the CCD sensor. The CCD pixels are made with MOS devices used as
+%> reverse biased capacitors. The charge is readout by a MOSFET based charge to
+%> voltage amplifier. The output voltage is inversely proportional to the sense
+%> node capacitor. Typical example is that the sense node capacitor of the order
+%> \f$50fF\f$, which produces a gain of \f$3.2 \mu V/ e^-\f$. It is also important
+%> to minimize the noise of the output amplifier, \textbf{typically the largest
+%> noise source in the system}. Sense node converts charge to voltage with typical
+%> sensitivities \f$1\dots 4 \mu V/e^-\f$.@n
+%> The charge collected in each pixel of a sensor array is converted to voltage
+%> by  sense capacitor  and  source-follower amplifier.
+%> 
+%> Reset noise is induced during such conversion. Prior to the measurement
+%> of each pixel's charge, the CCD sense capacitor is reset to a reference level.
+%> Sense node converts charge to voltage with typical sensitivities \f$1\dots 4 \mu V/e^-\f$. 
+%> The charge collected in each pixel of a sensor array is converted to
+%> voltage by sense capacitor and source-follower amplifier. 
+%> Reset noise is induced during such conversion. Prior to the measurement of each
+%> pixel's charge, the CCD sense node capacitor is reset to a reference level.
+%> 
 %> @subsection snnonlin Sense Node gain non-linearity, or V/e non-linearity
-%> The V/\f$e^-\f$ non-linearity affect both FPN and shot noise and can cause some shot-noise probability density compression. This type of non-linearity is due to sense node gain non-linearity. Then sense node sensitivity became non-linear\cite{photontransferbook}:@n
+%> The V/\f$e^-\f$ non-linearity affect both FPN and shot noise and can cause
+%> some shot-noise probability density compression. This type of non-linearity is
+%> due to sense node gain non-linearity. Then sense node sensitivity became
+%> non-linear\cite{photontransferbook}:@n
 %> \f$S_{SN} ( V_{SN}/e^- ) = \frac{S(V_{SN}) }{(k_1/q)  \ln( V_{REF}/[V_{REF} - S(V_{SN})] )}\f$
-%>
-%> The V/\f$e^-\f$ non-linearity can be expressed as  a non-linear dependency of signals in electron and a sense-node voltage:
+%> 
+%> The V/\f$e^-\f$ non-linearity can be expressed as  a non-linear dependency of
+%> signals in electron and a sense-node voltage:
+%> 
 %> \f$ S[e^-] = \frac{k1}{q} \ln \left[ \frac{V_{REF}}{ V_{REF} -  S(V_{SN}) } \right]\f$
-%> The V/\f$e^-\f$ non-linearity affects photon shot noise and skews the distribution, however this is a minor effect. The V/\f$e^-\f$ non-linearity can also be thought as a sense node capacitor non-linearity: when a small signal is measured, \f$C_{SN}\f$ is fixed or changes negligible; on the other hand, \f$C_SN\f$ changes significantly and that can affect the the signal being measured.
-%>
-%> For the simulation purpose, the V/\f$e^-\f$ non-linearity can be expressed from the Eq.\ref{eq:venonlinsignal} as: @n
+%> 
+%> The V/\f$e^-\f$ non-linearity affects photon shot noise and skews the
+%> distribution, however this is a minor effect. The V/\f$e^-\f$ non-linearity can
+%> also be thought as a sense node capacitor non-linearity: when a small signal is
+%> measured, \f$C_{SN}\f$ is fixed or changes negligible; on the other hand,
+%> \f$C_SN\f$ changes significantly and that can affect the the signal being
+%> measured.
+%> 
+%> For the simulation purpose, the V/\f$e^-\f$ non-linearity can be expressed as: @n
+%> 
 %> \f$V_{SN} = V_{REF} - S(V_{SN}) = V_{REF}\exp\left[ - \frac{\alpha\cdot S[e^-]\cdot q }{k1} \right]\f$
-%>
-%> where \f$k1=10.909*10^{-15}\f$ and \f$q\f$ is the charge of an electron, and \f$\alpha\f$ is the coefficient of non-linearity strength.
+%> 
+%> where \f$k1=10.909*10^{-15}\f$ and \f$q\f$ is the charge of an electron, and \f$\alpha\f$ is the coefficient of 
+%> non-linearity strength.
 %======================================================================
 %> @param ccd	= matrix [NxM] of signal in electrons [e-].
 %> @retval ccd 	= matrix [NxM] of signal in @b Volts [V].

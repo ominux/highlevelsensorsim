@@ -3,14 +3,49 @@
 %> 
 %> @author Mikhail V. Konnik
 %> @date   18 January 2011, reworked 8 December 2014.
-%> @section sourcefollow V/V gain source follower non-linearity
-%> The V/V non-linearity affect shot noise (but does not affect FPN curve) and can cause some shot-noise probability density compression. \textbf{The V/V non-linearity non-linearity is caused by non-linear response in ADC or source follower\cite{photontransferbook}}. 
 %> 
-%> The V/V non-linearity can be simulated as a change in source follower gain \f$A_{SF}\f$ as a linear function of signal:
-%> \f$A_{SF_{new}} = \alpha \cdot \frac{V_{REF} - S(V_{SF}) }{V_{REF} } + A_{SF},\f$ @n
-%> where \f$\alpha = A_{SF}\cdot\frac{\gamma_{nlr} -1}{ V_{FW} }\f$ and \f$\gamma_{nlr}\f$ is a non-linearity ratio of \f$A_{SF}\f$. In the simulation we assume \f$A_{SF} = 1\f$ and \f$\gamma_{nlr} = 1.05\f$ i.e. 5\% of non-linearity of \f$A_{SF}\f$. Then the voltage is multiplied on the new sense node gain \f$A_{SF_{new}}\f$:
-%>  \f$I_{V} = I_{V}\cdot A_{SF_{new}}\f$ @n
-%> After that, the voltage goes to ADC for quantisation to digital numbers.
+%> @section sourcefollowerdescr Source Follower
+%> Conventional sensor use a floating-diffusion sense node followed by a
+%> charge-to-voltage amplifier, such as a @b source @b follower.
+%> 
+%>  @image html source_follower.png
+%> 
+%> Source follower is one of basic single-stage field effect transistor (FET)
+%> amplifier topologies that is typically used as a voltage buffer. In such a
+%> circuit, the gate terminal of the transistor serves as the input, the source is
+%> the output, and the drain is common to both input and output. At low
+%> frequencies, the source follower has voltage gain:
+%> 
+%> \f$    {A_{\text{v}}} = \frac{v_{\text{out}}}{v_{\text{in}}} = \frac{g_m R_{\text{S}}}{g_m R_{\text{S}} + 1} \approx 1 \qquad (g_m R_{\text{S}} \gg 1) \f$
+%> 
+%> Source follower is a voltage follower, its gain is less than 1. Source followers
+%> are used to preserve the linear relationship between incident light, generated
+%> photoelectrons and the output voltage.
+%> 
+%> 
+%> @subsection sourcefollowernonlin V/V gain source follower non-linearity
+%> The V/V non-linearity affect shot noise (but does not affect FPN curve) and can
+%> cause some shot-noise probability density compression. The V/V
+%> non-linearity non-linearity is caused by non-linear response in ADC or source
+%> follower. 
+%> 
+%> The V/V non-linearity can be simulated as a change in source follower gain
+%> \f$A_{SF}\f$ as 
+%> a linear function of signal:
+%> 
+%>  \f$A_{SF_{new}} = \alpha \cdot \frac{V_{REF} - S(V_{SF}) }{V_{REF} } +
+%> A_{SF},\f$ @n
+%> 
+%> where \f$\alpha = A_{SF}\cdot\frac{\gamma_{nlr} -1}{ V_{FW} }\f$ and
+%> \f$\gamma_{nlr}\f$ is a non-linearity ratio of \f$A_{SF}\f$. In the simulation
+%> we assume \f$A_{SF} = 1\f$ and \f$\gamma_{nlr} = 1.05\f$ i.e. 5\% of
+%> non-linearity of \f$A_{SF}\f$. Then the voltage is multiplied on the new sense
+%> node gain \f$A_{SF_{new}}\f$:
+%> 
+%>   \f$I_{V} = I_{V}\cdot A_{SF_{new}}\f$ @n
+%> 
+%>  After that, the voltage goes to ADC for quantisation to digital numbers.
+%> 
 %======================================================================
 %> @param ccd	= matrix [NxM] of signal in Volts.
 %> @retval ccd 	= matrix [NxM] of signal in Volts after source follower [V].

@@ -1,10 +1,9 @@
 %> @file ccd_photosensor.m
-%> @brief This routine performs initial conversion of the light from the irradiance and photons to electrons.
+%> @brief This routine simulates the behaviour of a CCD/CMOS sensor, performing the conversion from irradiance to electrons, then volts, and then digital numbers.
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011, reworked on 4 December 2014.
 %> 
-%> @section ccdphotosensor Convesrion from photons to electrons.
-%> The process from incident photons to the digital numbers appeared on the image is outlined. 
+%> @section ccdphotosensor High-level photosensor mode 
 %> See @ref secphoton2electron "this page" about particular implementation.
 %>
 %======================================================================
