@@ -4,8 +4,46 @@
 %> @date   17 January 2011, reworked on 4 December 2014.
 %> 
 %> @section ccdphotosensor High-level photosensor mode 
-%> See @ref secphoton2electron "this page" about particular implementation.
+%> The process from incident photons to the digital numbers appeared on the image is outlined. 
+%> First of all, the radiometry is considered. Then, the process of conversion from photons to electrons is outlined. 
+%> Following that, conversion from electrons to voltage is described. 
+%> Finally, the ADC converts the voltage signal into digital numbers. The whole process is depicted on Figure below.
+%> 
+%> @image html camerascheme_horiz.png
+%> 
+%> Many noise sources contribute to the resulting noise image that is produced by
+%> photosensors. Noise sources can be broadly classified as either
+%> @b fixed-pattern (time-invariant) or @b temporal (time-variant)
+%> noise. Fixed-pattern noise refers to any spatial pattern that does not change
+%> significantly from frame to frame. Temporal noise, on the other hand, changes
+%> from one frame to the next. These noise sources will be described in detail in
+%> the following parts of the simulator:
+%> 
+%>  - @ref secphoton2electron "From Photon to Charge:" light noises
+%>    - @ref photonshotnoisesimulation "Photon Shot noise simulation", starting from @ccd.Signal_CCD_photons matrix
+%>    - Converting the signal from Photons to Electrons, getting @b ccd.light_signal matrix
+%>    - @ref prnusim "Simulation of photo response non-uniformity (PRNU)"
+%>    - Dark noises simulation:
+%>       - @ref readnoise "Dark signal generation", getting @b ccd.dark_signal matrix
+%>       - @ref darkshotnoisesim "Dark Shot Noise"
+%>       - @ref darkfpnsimulaiton "Simulation of dark current Fixed Pattern Noise"
+%>       - @ref sourcefollownoise "Source Follower Noise"
+%>  - From Charge to Voltage: 
+%>    - obtaining @b ccd.Signal_CCD_electrons matrix by adding @b ccd.light_signal and @b ccd.dark_signal
+%>    - @ref sensenode "Sense Node": Converting charge to voltage
+%>    - @ref sensenoderesetnoise "Sense node Reset noise" (kTC noise)
+%>    - obtaining @b ccd.Signal_CCD_voltage matrix 
+%>  - From Voltage to Digital Numbers: 
+%>    - @ref sourcefollowerdescr "Source Follower"
+%>    - @ref cds "Correlated Double Sampling"
+%>    - @ref adcdescribe "Analogue to Digital converter" (ADC)
 %>
+%> The order of noise can be altered if needed, the noise sources can be turned off/on.
+%> 
+%> I hope that this model will be useful for somebody, or at least save someone's time.
+%> The model can be (and should be) criticized, but this author would like to use a quote from
+%> George E. P. Box, who was famous statistician, and who used to say that 
+%> "essentially, all models are wrong, but some are useful".
 %======================================================================
 %> @param Uin		= light field incident on the photosensor [matrix NxM], [Watt/m2].
 %> @param ccd		= structure that contains parameters of the sensor (exposure time and so on).

@@ -1,4 +1,123 @@
-
+%> @section ccdphotosensor High-level photosensor mode 
+%> 
+%> Many noise sources contribute to the resulting noise image that is produced by
+%> photosensors. Noise sources can be broadly classified as either
+%> @b fixed-pattern (time-invariant) or @b temporal (time-variant)
+%> noise. Fixed-pattern noise refers to any spatial pattern that does not change
+%> significantly from frame to frame. Temporal noise, on the other hand, changes
+%> from one frame to the next. These noise sources will be described in detail in
+%> the following parts of the simulator.
+%> 
+%>  - @ref "" Model: From Photon to Charge
+%>    - sfdsdf
+%>  - @ref "Model: From Charge to Voltage:}{}{sec:chargevoltagesimulation}
+%>  - @ref "Model: From Voltage to Digital Numbers}{}{sec:fromvoltagetodn}
+%> 
+%> 
+%> 
+%> 
+%> See @ref secphoton2electron "this page" about particular implementation.
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
+%> 
 %> 
 %> 
 %> 
