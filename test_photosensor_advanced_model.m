@@ -3,8 +3,6 @@
 %>
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011, re-worked on 8 December 2014.
-%> 
-%> 
 
 clc
 clear all

@@ -3,7 +3,7 @@
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011, reworked on 4 December 2014.
 %> 
-%> @section ccdphotosensor High-level photosensor mode 
+%> @section ccdphotosensor High-level photosensor model
 %> The process from incident photons to the digital numbers appeared on the image is outlined. 
 %> First of all, the radiometry is considered. Then, the process of conversion from photons to electrons is outlined. 
 %> Following that, conversion from electrons to voltage is described. 
@@ -37,13 +37,9 @@
 %>    - @ref sourcefollowerdescr "Source Follower"
 %>    - @ref cds "Correlated Double Sampling"
 %>    - @ref adcdescribe "Analogue to Digital converter" (ADC)
-%>
-%> The order of noise can be altered if needed, the noise sources can be turned off/on.
+%>  - The final result is in the @b ccd.Signal_CCD_DN matrix, in digital numbers.
 %> 
-%> I hope that this model will be useful for somebody, or at least save someone's time.
-%> The model can be (and should be) criticized, but this author would like to use a quote from
-%> George E. P. Box, who was famous statistician, and who used to say that 
-%> "essentially, all models are wrong, but some are useful".
+%> The order of noise can be altered if needed, the noise sources can be turned off/on.
 %======================================================================
 %> @param Uin		= light field incident on the photosensor [matrix NxM], [Watt/m2].
 %> @param ccd		= structure that contains parameters of the sensor (exposure time and so on).

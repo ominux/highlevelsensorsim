@@ -69,6 +69,9 @@ if ( isfield(ccd.flag,'Venonlinearity') == 0 ) %% Just in case - if the field cc
     ccd.flag.Venonlinearity = 0;
 end
 
+if ( isfield(ccd.flag,'sensenoderesetnoise') == 0 )
+    ccd.flag.sensenoderesetnoise = 0;
+end
 
     
 %%%%%%%%%%%%% SN = Sense node, the capacitor area.

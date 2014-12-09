@@ -26,7 +26,7 @@ addpath('sensors');
 
 %%%%% <----- ### Start :: General parameters of the photosensor
 N  = 256;         % size of the input plane and sensor pixels, NxM pixels. 
-M  = 356;
+M  = 256;
 
 %% Select (uncomment) the type of a photo sensor
 ccd.SensorType        = 'CCD';
