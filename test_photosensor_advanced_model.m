@@ -3,6 +3,8 @@
 %>
 %> @author Mikhail V. Konnik
 %> @date   17 January 2011, re-worked on 8 December 2014.
+%> 
+%> 
 
 clc
 clear all
@@ -29,8 +31,8 @@ N  = 256;         % size of the input plane and sensor pixels, NxM pixels.
 M  = 256;
 
 %% Select (uncomment) the type of a photo sensor
-% ccd.SensorType        = 'CCD';
-ccd.SensorType      = 'CMOS';
+ccd.SensorType        = 'CCD';
+% ccd.SensorType      = 'CMOS';
  
     ccd.pixel_size = [5*mum, 5*mum] ;  %% pixels size, in [m], ROWxCOLUMN size
  
